@@ -1,0 +1,17 @@
+{
+  "user": [
+    {
+      "email": "",
+      "password": "",
+      "fullname": "",
+      "dob": "",
+      "gender": "",
+      "phone": "",
+      "address": "",
+      "img": "",
+      "status": "",
+      "roleId": 1,
+      "id": "55c1"
+    }
+  ]
+}
