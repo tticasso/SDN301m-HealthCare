@@ -1,8 +1,9 @@
 {
   "user": [
     {
-      "email": "",
-      "password": "",
+      "id": "k73stkcl2",
+      "email": "lahieu11@gmail.com",
+      "password": "123456yy",
       "fullname": "",
       "dob": "",
       "gender": "",
@@ -10,8 +11,40 @@
       "address": "",
       "img": "",
       "status": "",
-      "roleId": 1,
-      "id": "55c1"
+      "roleId": 1
+    },
+    {
+      "id": "9hx33cilc",
+      "email": "tungtk@gmail.com",
+      "password": "123456y",
+      "fullname": "",
+      "dob": "",
+      "gender": "",
+      "phone": "",
+      "address": "",
+      "img": "",
+      "status": "",
+      "roleId": 1
+    },
+    {
+      "id": "9wycbzus6",
+      "email": "trungggg@gmail.com",
+      "password": "123456yy",
+      "fullname": "",
+      "dob": "",
+      "gender": "",
+      "phone": "",
+      "address": "",
+      "img": "",
+      "status": "",
+      "roleId": 1
+    }
+  ],
+  "role": [
+    {
+      "id": "4",
+      "name": "",
+      "code": ""
     }
   ]
 }
