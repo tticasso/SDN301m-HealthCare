@@ -1,6 +1,6 @@
 const User = require('../models/UserModel')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
+const jwt = require('express-jwt');
 
 const registerUser = async (name, email, password) => {
     let user = await User.findOne({ email });
@@ -32,15 +32,15 @@ const loginUser = async (email, password) => {
 
 
 const createUser = async (user) => {
-    let user = await User.findOne({ email });
-    if (user) {
+    let newUser = await User.findOne({email: user.email});
+    if (newUser) {
         throw new Error('Email đã được sử dụng');
     }
-    user = new User({ name, email, password });
+    newUser = user;
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-    await user.save();
-    return user;
+    newUser.password = await bcrypt.hash(password, salt);
+    await newUser.save();
+    return newUser;
 };
 
 const getUser = async (id) => {
@@ -75,9 +75,7 @@ const getAllUsers = async () => {
 };
 
 
-
-
-module.exports = {
+const userService = {
     registerUser,
     loginUser,
     createUser,
@@ -85,4 +83,6 @@ module.exports = {
     updateUser,
     deleteUser,
     getAllUsers,
-};
+}
+
+module.exports = userService;

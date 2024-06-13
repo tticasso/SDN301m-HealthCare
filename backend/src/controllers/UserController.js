@@ -1,6 +1,7 @@
+//const userService = require('../services/UserService')
 const userService = require('../services/UserService')
 
-exports.registerUser = async (req, res) => {
+async function registerUser (req, res) {
     const { name, email, password } = req.body;
     try {
         const token = await userService.registerUser(name, email, password);
@@ -10,7 +11,7 @@ exports.registerUser = async (req, res) => {
     }
 };
 
-exports.loginUser = async (req, res) => {
+async function loginUser (req, res) {
     const { email, password } = req.body;
     try {
         const token = await userService.loginUser(email, password);
@@ -20,10 +21,10 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-exports.createUser = async (req, res) => {
+async function createUser (req, res) {
     const { name, email, password } = req.body;
     try {
-        const user = await userService.createUser(name, email, password);
+        const user = await userService.createUser(req.body);
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -31,7 +32,7 @@ exports.createUser = async (req, res) => {
 };
 
 // Đọc thông tin người dùng
-exports.getUser = async (req, res) => {
+async function getUser (req, res) {
     try {
         const user = await userService.getUser(req.params.id);
         res.status(200).json(user);
@@ -41,7 +42,7 @@ exports.getUser = async (req, res) => {
 };
 
 // Cập nhật thông tin người dùng
-exports.updateUser = async (req, res) => {
+async function updateUser (req, res) {
     try {
         const user = await userService.updateUser(req.params.id, req.body);
         res.status(200).json(user);
@@ -51,7 +52,7 @@ exports.updateUser = async (req, res) => {
 };
 
 // Xóa người dùng
-exports.deleteUser = async (req, res) => {
+async function deleteUser (req, res) {
     try {
         await userService.deleteUser(req.params.id);
         res.status(200).json({ message: 'Người dùng đã được xóa' });
@@ -60,8 +61,8 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-// Lấy tất cả người dùng (ví dụ thêm)
-exports.getAllUsers = async (req, res) => {
+// Lấy tất cả người dùng 
+async function getAllUsers (req, res) {
     try {
         const users = await userService.getAllUsers();
         res.status(200).json(users);
@@ -69,3 +70,15 @@ exports.getAllUsers = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+const userController = {
+    registerUser,
+    loginUser,
+    createUser,
+    getUser,
+    updateUser,
+    deleteUser,
+    getAllUsers,
+}
+
+module.exports = userController;
