@@ -22,7 +22,6 @@ async function loginUser (req, res) {
 };
 
 async function createUser (req, res) {
-    const { name, email, password } = req.body;
     try {
         const user = await userService.createUser(req.body);
         res.status(201).json(user);

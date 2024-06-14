@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 
 userRouter.use(bodyParser.json())
 
-router.post('/register', userController.registerUser);
-router.post('/login', userController.loginUser);
-router.post('/create', userController.createUser);
-router.get('/:id', userController.getUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-router.get('/', userController.getAllUsers);
+userRouter.post('/register', userController.registerUser);
+userRouter.post('/login', userController.loginUser);
+userRouter.post('/create', userController.createUser);
+userRouter.get('/:id', userController.getUser);
+userRouter.put('/:id', userController.updateUser);
+userRouter.delete('/:id', userController.deleteUser);
+userRouter.get('/', userController.getAllUsers);
 
 module.exports = userRouter;
