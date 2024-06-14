@@ -3,6 +3,7 @@ const DBconnect = require('./src/config/dbConfig')
 const bodyParser = require('body-parser')
 const httpErrors = require('http-errors')
 const morgan = require('morgan')
+const userRouter = require('./src/routes/UserRouter')
 
 require('dotenv').config()
 const app = express()
@@ -18,7 +19,7 @@ app.get("/", (req, res, next) => {
         message: "Welcome to HealthCare"
     })
 })
-
+app.use('/user', userRouter);
 
 DBconnect();
 

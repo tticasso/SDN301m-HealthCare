@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    id: {
-        type: integer,
-        required: []
-    },
     email:{
         type: String,
         required: [true, "Email is required"]
