@@ -3,10 +3,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import UserProfileMenu from "./pages/UserProfileMenu";
 import Signup from "./components/Signup";
-
-
-
-
+import BookingAppointment from "./pages/BookingAppointment";
 
 const App = () => {
   return (
@@ -14,8 +11,9 @@ const App = () => {
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/menu" element={<UserProfileMenu />} />
+        <Route path="/booking" element={<BookingAppointment />} />
       </Routes>
-      <DoctorDetail />
+
     </div>
   );
 };
