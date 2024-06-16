@@ -1,7 +1,11 @@
+import DoctorDetail from "./pages/DoctorDetail";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import UserProfileMenu from "./pages/UserProfileMenu";
 import Signup from "./components/Signup";
+
+
+
 
 
 const App = () => {
@@ -11,6 +15,7 @@ const App = () => {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/menu" element={<UserProfileMenu />} />
       </Routes>
+      <DoctorDetail />
     </div>
   );
 };
