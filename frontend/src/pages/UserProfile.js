@@ -253,7 +253,7 @@ export default function UserProfile() {
             </div>
             <div className="w-1/2 mb-[10px]">
               <i className="text-[#3499AF] text-black font-bold">
-                Phonenumber:
+                Phone number:
               </i>
               <div className="w-4/5 flex justify-center">
                 <input

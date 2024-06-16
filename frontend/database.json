@@ -1,40 +1,15 @@
 {
   "user": [
+    
     {
-      "id": "k73stkcl2",
-      "email": "lahieu11@gmail.com",
-      "password": "123456yy",
-      "fullname": "",
-      "dob": "",
-      "gender": "",
-      "phone": "",
-      "address": "",
-      "img": "",
-      "status": "",
-      "roleId": 1
-    },
-    {
-      "id": "9hx33cilc",
+      "id": "buyzeir9t",
       "email": "tungtk@gmail.com",
-      "password": "123456y",
-      "fullname": "",
+      "password": "123123123Ta",
+      "fullname": "Ta Khanh Tung",
       "dob": "",
       "gender": "",
-      "phone": "",
-      "address": "",
-      "img": "",
-      "status": "",
-      "roleId": 1
-    },
-    {
-      "id": "9wycbzus6",
-      "email": "trungggg@gmail.com",
-      "password": "123456yy",
-      "fullname": "",
-      "dob": "",
-      "gender": "",
-      "phone": "",
-      "address": "",
+      "phone": "0836740238",
+      "address": "Dai Phuc 30",
       "img": "",
       "status": "",
       "roleId": 1
