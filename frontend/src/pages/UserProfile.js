@@ -18,8 +18,13 @@ export default function UserProfile() {
     phone: "",
     fetch: "",
     update: "",
+    fullname: "",
+    address: "",
+    dob: "",
+    gender: "",
   });
 
+  const [success, setSuccess] = useState("");
   const [passwordInputEnabled, setPasswordInputEnabled] = useState(false);
 
   useEffect(() => {
@@ -46,7 +51,7 @@ export default function UserProfile() {
   };
 
   const validateGmail = (email) => {
-    const gmailRegex = /^[^\s@]+@gmail\.com$/;
+    const gmailRegex = /^[^\s@]+@gmail.com$/;
     return gmailRegex.test(email);
   };
 
@@ -61,8 +66,18 @@ export default function UserProfile() {
   };
 
   const handleSubmit = async () => {
-    const { email, password, phone } = user;
+    const { email, password, phone, fullname, address, dob, gender } = user;
     let valid = true;
+
+    if (!fullname) {
+      setError((prev) => ({
+        ...prev,
+        fullname: "Full name is required",
+      }));
+      valid = false;
+    } else {
+      setError((prev) => ({ ...prev, fullname: "" }));
+    }
 
     if (!validateEmail(email)) {
       setError((prev) => ({
@@ -84,7 +99,7 @@ export default function UserProfile() {
       setError((prev) => ({ ...prev, email: "" }));
     }
 
-    if (!validatePhoneNumber(phone)) {
+    if (!phone || !validatePhoneNumber(phone)) {
       setError((prev) => ({
         ...prev,
         phone: "Phone number must be 10 digits and start with 0",
@@ -94,17 +109,45 @@ export default function UserProfile() {
       setError((prev) => ({ ...prev, phone: "" }));
     }
 
-    if (!validatePassword(password)) {
+    if (!address) {
+      setError((prev) => ({
+        ...prev,
+        address: "Address is required",
+      }));
+      valid = false;
+    } else {
+      setError((prev) => ({ ...prev, address: "" }));
+    }
+
+    if (!dob) {
+      setError((prev) => ({
+        ...prev,
+        dob: "Date of birth is required",
+      }));
+      valid = false;
+    } else {
+      setError((prev) => ({ ...prev, dob: "" }));
+    }
+
+    if (passwordInputEnabled && !validatePassword(password)) {
       setError((prev) => ({
         ...prev,
         password: "At least 6 characters including letters and numbers.",
       }));
       valid = false;
-    } else {
+    } else if (passwordInputEnabled) {
       setError((prev) => ({ ...prev, password: "" }));
     }
-    
 
+    if (!gender) {
+      setError((prev) => ({
+        ...prev,
+        gender: "Gender is required",
+      }));
+      valid = false;
+    } else {
+      setError((prev) => ({ ...prev, gender: "" }));
+    }
 
     if (!valid) {
       return;
@@ -124,6 +167,7 @@ export default function UserProfile() {
         throw new Error("Failed to update user.");
       }
 
+      setSuccess("User updated successfully!");
     } catch (error) {
       setError((prev) => ({ ...prev, update: "Failed to update user." }));
     }
@@ -183,8 +227,12 @@ export default function UserProfile() {
                   value={user.fullname}
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 />
               </p>
+              {error.fullname && (
+                <p className="text-red-500">{error.fullname}</p>
+              )}
             </div>
             <p className="w-3/5 mb-[10px]">
               <i className="text-[#3499AF] text-black font-bold">Email:</i>
@@ -195,6 +243,7 @@ export default function UserProfile() {
                   value={user.email}
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 />
               </div>
               {error.email && <p className="text-red-500">{error.email}</p>}
@@ -210,8 +259,12 @@ export default function UserProfile() {
                   value={user.address}
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 />
               </p>
+              {error.address && (
+                <p className="text-red-500">{error.address}</p>
+              )}
             </div>
             <p className="w-3/5 mb-[10px]">
               <i className="text-[#3499AF] text-black font-bold">Password:</i>
@@ -223,6 +276,7 @@ export default function UserProfile() {
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
                   disabled={!passwordInputEnabled}
+                  required={passwordInputEnabled}
                 />
                 <div className="w-full h-full">
                   <button
@@ -248,8 +302,10 @@ export default function UserProfile() {
                   value={user.dob}
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 />
               </p>
+              {error.dob && <p className="text-red-500">{error.dob}</p>}
             </div>
             <div className="w-1/2 mb-[10px]">
               <i className="text-[#3499AF] text-black font-bold">
@@ -262,6 +318,7 @@ export default function UserProfile() {
                   value={user.phone}
                   onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 />
               </div>
               {error.phone && <p className="text-red-500">{error.phone}</p>}
@@ -275,15 +332,18 @@ export default function UserProfile() {
                   value={user.gender}
                   onChange={handleChange}
                   className="w-full h-[36px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  required
                 >
-                  <option value="Male">Male</option>
+                  <option >Select gender</option>
+                  <option value="Male" >Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
+              {error.gender && <p className="text-red-500">{error.gender}</p>}
             </div>
           </div>
-          <div className="w-full flex justify-center pb-[30px]">
+          <div className="w-full flex justify-center pb-[10px]">
             <button
               onClick={handleSubmit}
               className="text-white font-bold italic text-[15px] rounded-[30px] bg-[#3499AF] w-[150px] h-[50px]"
@@ -291,6 +351,7 @@ export default function UserProfile() {
               Update
             </button>
           </div>
+          {success && <p className="text-green-500 text-center pb-  [10px]">{success}</p>}
           {error.update && (
             <p className="text-red-500 text-center">{error.update}</p>
           )}
