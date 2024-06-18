@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const {Schema} = mongoose;
 
 const userSchema = new mongoose.Schema({
     email:{
@@ -11,10 +12,14 @@ const userSchema = new mongoose.Schema({
     },
     fullname:{
         type: String,
-        required: [true]
+        required: [true, "Fullname is required"]
     },
     dob: {
         type: Date,
+    },
+    role: {
+        type: String,
+        enum: ["ADMIN", "MANAGER", "DOCTOR", "PAITENT"]
     }
 })
 

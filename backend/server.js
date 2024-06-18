@@ -3,14 +3,22 @@ const DBconnect = require('./src/config/dbConfig')
 const bodyParser = require('body-parser')
 const httpErrors = require('http-errors')
 const morgan = require('morgan')
+const router = require('./src/routes/routerIndex')
 const userRouter = require('./src/routes/UserRouter')
 const bannerRouter = require('./src/routes/BannerRouter')
+const prescriptionRouter = require('./src/routes/PrescriptionRouter')
+const cors = require('cors')
+const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
+const MedicalRecordController = require('./src/controllers/MedicalRecordController')
 
 require('dotenv').config()
 const app = express()
-
+var corsOptions = {
+    origin: "http://localhost:9999"
+  };
 app.use(bodyParser.json())
 app.use(morgan('dev'))
+app.use(cors(corsOptions))
 
 //router
 
@@ -21,7 +29,12 @@ app.get("/", (req, res, next) => {
     })
 })
 app.use('/user', userRouter);
+app.use('/user/medical-record', medicalRecordRouter)
+app.use('/doctor/medical-record', medicalRecordRouter)
 app.use('/banner', bannerRouter)
+router();
+app.use('/user', userRouter)
+app.use('/prescription', prescriptionRouter)
 DBconnect();
 
 app.use(async (req, res, next) => {
