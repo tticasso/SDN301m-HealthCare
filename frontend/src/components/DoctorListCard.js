@@ -21,9 +21,12 @@ export default function DoctorListCard({ image, name, specialties, address }) {
                     {address}
                 </p>
             </div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Đặt khám
-            </button>
+            <a href="/booking/:id">
+                <button className="bg-[#3499AF] text-white px-4 py-2 rounded-md">
+                    Đặt khám
+                </button>
+            </a>
+
         </div>
     );
 }
