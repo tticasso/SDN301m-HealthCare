@@ -12,6 +12,7 @@ const registerUser = async (user) => {
         email: user.email,
         password: hashed,
         fullname: user.fullname,
+        role: user.role
     })
     newUser.save();
     return newUser;
@@ -31,50 +32,29 @@ const loginUser = async (email, password) => {
             id: user.id
         },
         process.env.JWT_SECRET, { expiresIn : '1h'})
-        return {user, token};
+        const {id, role} = user
+        const login = {id, role};
+        return {login, token};
     }
 }
 
-// const registerUser = async (name, email, password) => {
-//     let user = await User.findOne({ email });
-//     if (user) {
-//         throw new Error('Email đã được sử dụng');
-//     }
-//     user = new User({ name, email, password });
-//     const salt = await bcrypt.genSalt(10);
-//     user.password = await bcrypt.hash(password, salt);
-//     await user.save();
-//     const payload = { userId: user._id };
-//     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-//     return token;
-// };
 
-// const loginUser = async (email, password) => {
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//         throw new Error('Email hoặc mật khẩu không đúng');
-//     }
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//         throw new Error('Email hoặc mật khẩu không đúng');
-//     }
-//     const payload = { userId: user._id };
-//     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-//     return token;
-// };
+const createUser = async (user) => {
+    if (await User.findOne({ email: user.email })) {
+        throw new Error('Email đã được sử dụng');
+    }
+    const salt = await bcrypt.genSalt(10)
+    const hashed = await bcrypt.hash(user.password, salt)
+    const newUser = new User({
+        email: user.email,
+        password: hashed,
+        fullname: user.fullname,
+        role: user.role
+    })
+    newUser.save();
+    return newUser;
+}
 
-
-// // const createUser = async (user) => {
-// //     let newUser = await User.findOne({email: user.email});
-// //     if (newUser) {
-// //         throw new Error('Email đã được sử dụng');
-// //     }
-// //     newUser = user;
-// //     const salt = await bcrypt.genSalt(10);
-// //     newUser.password = await bcrypt.hash(password, salt);
-// //     await newUser.save();
-// //     return newUser;
-// // };
 
 const getUser = async (id) => {
     const user = await User.findById(id);
@@ -111,7 +91,7 @@ const getAllUsers = async () => {
 const userService = {
     registerUser,
     loginUser,
-    // createUser,
+    createUser,
     getUser,
     updateUser,
     deleteUser,
