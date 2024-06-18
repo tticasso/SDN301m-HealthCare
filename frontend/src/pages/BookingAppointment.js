@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import BookingSlot from "../components/BookingSlot";
 import Header from "../components/Header";
 
-export default function BookingAppointment() {
+export default function BookingAppointment({id}) {
     const dates = [
         {
             day: 'Th 6, 31-05',
-            slots: ['17:30-17:45', '17:45-18:00', '18:00-18:15', '18:15-18:30', '18:30-18:45', '18:45-19:00']
+            slots: ['17:30-17:45', '17:45-18:00', '18:00-18:15', '18:15-18:30', '18:30-18:45', '18:45-19:00',"19:30-19:45", "19:45-20:00", "20:00-20:15", "20:15-20:30", "20:30-20:45", "20:45-21:00"]
         },
         {
             day: 'Th 2, 03-06',
@@ -22,20 +23,34 @@ export default function BookingAppointment() {
         {
             day: 'Th 2, 10-06',
             slots: ['16:00-16:15', '16:15-16:30', '16:30-16:45', '16:45-17:00', '17:00-17:15', '17:15-17:30']
-        },
-        {
-            day: 'Th 4, 12-06',
-            slots: ['18:00-18:15', '18:15-18:30', '18:30-18:45', '18:45-19:00', '19:00-19:15', '19:15-19:30']
-        },
-
+        }
     ];
+
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedSlot, setSelectedSlot] = useState(null);
+
+    const handleSlotSelection = (date, slot) => {
+        setSelectedDate(date);
+        setSelectedSlot(slot);
+    };
+
+    const handleBooking = () => {
+        if (selectedDate && selectedSlot) {
+            // Perform booking action here, e.g., call API
+            console.log(`Booking for ${selectedDate} at ${selectedSlot}`);
+            alert(`Đặt lịch thành công cho ngày ${selectedDate} vào lúc ${selectedSlot}`);
+        } else {
+            alert('Vui lòng chọn ngày và giờ');
+        }
+    };
+
     return (
         <div className="w-screen h-screen bg-[#F1F5F9]">
             <Header />
             <div className="w-full flex justify-center">
                 <div className="w-4/5 flex gap-[30px] mt-[20px]">
                     <div className="w-3/5">
-                        <BookingSlot dates={dates} />
+                        <BookingSlot dates={dates} onSlotSelect={handleSlotSelection} />
                         <div className="border bg-white rounded-md shadow-md p-4 w-full max-w-4xl mt-[20px]">
                             <p className="text-xl font-bold mb-4">Hồ sơ bệnh nhân</p>
                             <div className="w-full px-[30px] flex justify-between my-[10px]">
@@ -85,18 +100,18 @@ export default function BookingAppointment() {
                             <div className="w-full flex my-[20px]">
                                 <div className="w-1/2">
                                     <p className="text-[14px] text-slate-500">Ngày khám</p>
-                                    <p className="text-[18px]">Th 6, 31-05</p>
+                                    <p className="text-[18px]">{selectedDate || "Chưa chọn"}</p>
                                 </div>
                                 <div className="w-1/2">
                                     <p className="text-[14px] text-slate-500">Giờ khám</p>
-                                    <p className="text-[18px]">17:30-17:45</p>
+                                    <p className="text-[18px]">{selectedSlot || "Chưa chọn"}</p>
                                 </div>
                                 <div className="w-1/2">
                                     <p className="text-[14px] text-slate-500">Bệnh nhân</p>
                                     <p className="text-[18px]">Nguyễn Văn B</p>
                                 </div>
                             </div>
-                            <button className="w-full bg-[#3499AF] text-white rounded-md py-2">Đặt lịch</button>
+                            <button onClick={handleBooking} className="w-full bg-[#3499AF] text-white rounded-md py-2">Đặt lịch</button>
                         </div>
                     </div>
                 </div>
