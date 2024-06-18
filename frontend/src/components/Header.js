@@ -26,8 +26,8 @@ export default function Header() {
                         <a href='/' className="py-2 lg:py-0">
                             <i className="text-[20px] lg:text-[25px] font-semibold">Home</i>
                         </a>
-                        <a href='/' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
+                        <a href='/doctor-list' className="py-2 lg:py-0">
+                            <i className="text-[20px] lg:text-[25px] font-semibold">Doctor</i>
                         </a>
                         <a href='/' className="py-2 lg:py-0">
                             <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
