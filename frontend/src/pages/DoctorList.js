@@ -1,65 +1,47 @@
-import Header from "../components/Header";
-import { UilSearchAlt } from '@iconscout/react-unicons'
-import React, { useState } from 'react';
-import DoctorListCard from "../components/DoctorListCard";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Header from '../components/Header';
+import { UilSearchAlt } from '@iconscout/react-unicons';
+import DoctorListCard from '../components/DoctorListCard';
 
 export default function DoctorList() {
-    const specialties = [
-        "Tất cả",
-        "Nhi khoa",
-        "Sản phụ khoa",
-        "Da liễu",
-        "Tiêu hoá",
-        "Cơ xương khớp",
-        "Dị ứng - miễn dịch",
-        "Gây mê hồi sức",
-        "Tai - mũi - họng",
-        "Ung bướu",
-    ];
-    const doctors = [
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Đào Bùi Quý Quyền',
-            specialties: ['Nội thận', 'Ngoại tiết niệu'],
-            address: '242 Nguyễn Chí Thanh, Phường 2, Quận 10, Hồ Chí Minh',
-        },
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Nguyễn Văn A',
-            specialties: ['Tim mạch', 'Hô hấp'],
-            address: '123 Trần Hưng Đạo, Quận 1, Hồ Chí Minh',
-        },
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Lê Thị B',
-            specialties: ['Nhi khoa'],
-            address: '456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh',
-        },
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Lê Thị B',
-            specialties: ['Nhi khoa'],
-            address: '456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh',
-        },
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Lê Thị B',
-            specialties: ['Nhi khoa'],
-            address: '456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh',
-        },
-        {
-            image: 'https://via.placeholder.com/100', // Thay bằng đường dẫn ảnh thật
-            name: 'TS. BS Lê Thị B',
-            specialties: ['Nhi khoa'],
-            address: '456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh',
-        },
-        // Thêm nhiều bác sĩ khác ở đây
-    ];
-    const [searchTerm, setSearchTerm] = useState("");
+    const [doctors, setDoctors] = useState([]);
+    const [specializedData, setSpecializedData] = useState({});
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredSpecialties = specialties.filter(specialty =>
-        specialty.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [doctorResponse, specializedResponse] = await Promise.all([
+                    axios.get('http://localhost:9999/doctor'),
+                    axios.get('http://localhost:9999/specialized'),
+                ]);
+
+                const doctorsData = doctorResponse.data || [];
+                const specializedData = specializedResponse.data.reduce((acc, specialty) => {
+                    acc[specialty.id] = specialty.specializedName;
+                    return acc;
+                }, {});
+
+                setDoctors(doctorsData);
+                setSpecializedData(specializedData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const filteredDoctors = doctors.filter((doctor) => {
+        const fullName = doctor.fullname.toLowerCase();
+        const address = doctor.place.toLowerCase();
+        const specialties = doctor.specialized.map(id => specializedData[id]).join(' ').toLowerCase();
+        const searchTermLower = searchTerm.toLowerCase();
+
+        return fullName.includes(searchTermLower) || address.includes(searchTermLower) || specialties.includes(searchTermLower);
+    });
+
     return (
         <div className="w-screen h-screen">
             <Header />
@@ -69,6 +51,8 @@ export default function DoctorList() {
                         type="text"
                         placeholder="Search for doctors, clinics, hospitals, etc."
                         className="w-5/6 h-[50px] pl-[20px] text-[20px] rounded-l-[30px] outline-none"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <button className="w-1/6 bg-white rounded-r-[30px] pr-[30px] flex items-center justify-end">
                         <UilSearchAlt size="30" color="#3499AF" />
@@ -80,27 +64,20 @@ export default function DoctorList() {
                     <div className="w-1/4">
                         <p className="font-semibold text-[20px]">Chuyên khoa</p>
                         <div className="rounded-md w-full mt-[10px]">
-                            <div className="flex items-center mb-4">
-                                <UilSearchAlt size="20" className="mr-2" />
-                                <input
-                                    type="text"
-                                    placeholder="Tìm nhanh chuyên khoa"
-                                    className="w-full p-2 border rounded-md outline-none"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
                             <div className="overflow-y-auto max-h-64">
-                                {filteredSpecialties.map((specialty, index) => (
-                                    <div key={index} className="flex items-center mb-2">
+                                {Object.keys(specializedData).map((id) => (
+                                    <div key={id} className="flex items-center mb-2">
                                         <input
                                             type="radio"
-                                            id={`specialty-${index}`}
+                                            id={`specialty-${id}`}
                                             name="specialty"
                                             className="mr-2"
+                                            onChange={() => {
+                                                setSearchTerm(specializedData[id]);
+                                            }}
                                         />
-                                        <label htmlFor={`specialty-${index}`} className="cursor-pointer">
-                                            {specialty}
+                                        <label htmlFor={`specialty-${id}`} className="cursor-pointer">
+                                            {specializedData[id]}
                                         </label>
                                     </div>
                                 ))}
@@ -108,12 +85,12 @@ export default function DoctorList() {
                         </div>
                     </div>
                     <div className="w-3/4">
-                        {doctors.map((doctor, index) => (
+                        {filteredDoctors.map((doctor) => (
                             <DoctorListCard
-                                key={index}
-                                image={doctor.image}
-                                name={doctor.name}
-                                specialties={doctor.specialties}
+                                key={doctor.id}
+                                image={doctor.avatar}
+                                name={doctor.fullname}
+                                specialties={doctor.specialized.map(id => specializedData[id])}
                                 address={doctor.address}
                             />
                         ))}
