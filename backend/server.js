@@ -9,7 +9,7 @@ const bannerRouter = require('./src/routes/BannerRouter')
 const prescriptionRouter = require('./src/routes/PrescriptionRouter')
 const cors = require('cors')
 const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
-const MedicalRecordController = require('./src/controllers/MedicalRecordController')
+const hospitalRouter = require('./src/routes/HospitalRouter')
 
 require('dotenv').config()
 const app = express()
@@ -32,6 +32,7 @@ app.use('/user', userRouter);
 app.use('/user/medical-record', medicalRecordRouter)
 app.use('/doctor/medical-record', medicalRecordRouter)
 app.use('/banner', bannerRouter)
+app.use('/hospital', hospitalRouter)
 router();
 app.use('/user', userRouter)
 app.use('/prescription', prescriptionRouter)
