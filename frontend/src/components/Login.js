@@ -68,7 +68,7 @@ export default function Login() {
                 </div>
                 <div className="w-full flex justify-center items-center mt-[5px]">
                     <i>Do not have an account?</i>
-                    <a href="/" className="font-bold italic ml-[2px]">Signup here!</a>
+                    <a href="/signup" className="font-bold italic ml-[2px]">Signup here!</a>
                 </div>
             </div>
         </div>

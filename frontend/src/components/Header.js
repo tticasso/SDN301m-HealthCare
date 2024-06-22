@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Login from './Login';
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,10 +11,13 @@ export default function Header() {
     return (
         <div className="w-screen h-[60px] flex justify-center bg-white shadow-md">
             <div className="w-11/12 lg:w-4/5 h-full flex items-center justify-between">
-                <div className="flex items-center">
-                    <p className="font-bold text-[28px] lg:text-[35px]">Health</p>
-                    <p className="font-bold text-[28px] lg:text-[35px] text-[#3499AF]">Care</p>
-                </div>
+                <a href='/'>
+                    <div className="flex items-center">
+                        <p className="font-bold text-[28px] lg:text-[35px]">Health</p>
+                        <p className="font-bold text-[28px] lg:text-[35px] text-[#3499AF]">Care</p>
+                    </div>
+                </a>
+
                 <div className="flex lg:hidden">
                     <button onClick={toggleMenu} className="text-[#3499AF] focus:outline-none">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -26,16 +30,18 @@ export default function Header() {
                         <a href='/' className="py-2 lg:py-0">
                             <i className="text-[20px] lg:text-[25px] font-semibold">Home</i>
                         </a>
-                        <a href='/' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
+                        <a href='/doctor-list' className="py-2 lg:py-0">
+                            <i className="text-[20px] lg:text-[25px] font-semibold">Doctor</i>
+                        </a>
+                        <a href='/hospital' className="py-2 lg:py-0">
+                            <i className="text-[20px] lg:text-[25px] font-semibold">Hospital</i>
                         </a>
                         <a href='/' className="py-2 lg:py-0">
                             <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
                         </a>
-                        <a href='/' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
+                        <a href='/login'>
+                            <button className="w-[80px] lg:w-[100px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">Login</button>
                         </a>
-                        <button className="w-[80px] lg:w-[100px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">Login</button>
                     </div>
                 </div>
             </div>

@@ -3,12 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 
 const SliderTemplate = ({ SlideComponent, slideCount, slidesPerView}) => {
-    const slides = Array.from({ length: slideCount }, (_, index) => (
-        <SwiperSlide key={index}>
-            <SlideComponent />
-        </SwiperSlide>
-    ));
-
     return (
         <div className='w-full mt-[20px]'>
             <Swiper
@@ -30,7 +24,11 @@ const SliderTemplate = ({ SlideComponent, slideCount, slidesPerView}) => {
                     },
                 }}
             >
-                {slides}
+                {Array.from({ length: slideCount }, (_, index) => (
+                    <SwiperSlide key={index}>
+                        {SlideComponent(index)}
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </div>
     );

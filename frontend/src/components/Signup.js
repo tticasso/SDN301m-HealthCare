@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { UilLock, UilEnvelopeAlt } from "@iconscout/react-unicons";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const validateForm = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+$/;
@@ -41,19 +43,32 @@ export default function Signup() {
             address: "",
             img: "",
             status: "",
-            roleId: 1,  // Default role ID
+            roleId: 1,
             id: Math.random().toString(36).substr(2, 9)
         };
 
-        await fetch('http://localhost:9999/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user),
-        });
+        try {
+            const response = await fetch('http://localhost:9999/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
 
-        setError("User created successfully!");
+            if (!response.ok) {
+                throw new Error('Failed to create user.');
+            }
+
+            const responseData = await response.json();
+            const userId = responseData.id || user.id;
+
+            localStorage.setItem('userId', userId);
+
+            navigate('/menu', { state: { selectedTab: 'taiKhoan' } });
+        } catch (error) {
+            setError("Failed to create user.");
+        }
     };
 
     return (
@@ -91,7 +106,7 @@ export default function Signup() {
                 </div>
                 <div className="w-full flex justify-center items-center mt-[5px]">
                     <i>Already have an account?</i>
-                    <a href="/" className="font-bold italic ml-[2px]">Login here!</a>
+                    <a href="/login" className="font-bold italic ml-[2px]">Login here!</a>
                 </div>
             </div>
         </div>
