@@ -10,6 +10,7 @@ import {
 import { Layout, Menu } from "antd";
 import { useLocation } from "react-router-dom";
 import UserProfile from './UserProfile';
+import BookingHistory from '../components/BookingHistory';
 
 
 const { Content, Sider } = Layout;
@@ -35,7 +36,7 @@ const UserProfileMenu: React.FC = () => {
   const renderContent = () => {
     switch (selectedMenu) {
       case "lichKham":
-        return <div>lich kham</div>;
+        return <BookingHistory />;
       case "lichSuThanhToan":
         return <div>lich su thanh toan</div>;
       case "hoSo":
@@ -52,7 +53,7 @@ const UserProfileMenu: React.FC = () => {
   return (
     <div className="w-screen h-screen">
       <Headers />
-      <Content style={{ padding: "0 48px", marginTop: "20px" }}>
+      <Content style={{ padding: "0 48px", marginTop: "20px"}}>
         <Layout
           style={{
             padding: "24px 0",
@@ -70,7 +71,7 @@ const UserProfileMenu: React.FC = () => {
               onClick={(e) => setSelectedMenu(e.key)}
             />
           </Sider>
-          <Content style={{ padding: "0 24px", minHeight: 280 }}>
+          <Content style={{ minHeight: 280 }}>
             {renderContent()}
           </Content>
         </Layout>
