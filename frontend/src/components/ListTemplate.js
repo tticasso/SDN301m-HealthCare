@@ -14,14 +14,14 @@ export default function ListTemplate({ Title, Subtitle, SlideComponent, slideCou
         <div className="w-full">
             <div className="flex justify-between">
                 <div>
-                    <p className="text-[20px] italic font-bold">{Title}</p>
-                    <p className="text-[14px] italic font-thin">{Subtitle}</p>
+                    <p className="text-[20px] font-bold">{Title}</p>
+                    <p className="text-[14px] font-thin">{Subtitle}</p>
                 </div>
                 <button 
                     className="bg-[#3499AF] text-white flex justify-center items-center font-bold text-[16px] w-1/6 h-[40px] rounded-[30px]" 
                     onClick={handleViewAll}
                 >
-                    View all <UilArrowRight />
+                    Xem tất cả <UilArrowRight />
                 </button>
             </div>
             <div className='w-full mt-[20px]'>
