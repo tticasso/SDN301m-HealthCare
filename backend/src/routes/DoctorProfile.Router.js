@@ -9,5 +9,6 @@ docProfileRouter.post('/create', docProfileController.createDocProfile);
 docProfileRouter.get('/:id', docProfileController.getDocProfile);
 docProfileRouter.put('/:id', docProfileController.updateDocProfile);
 docProfileRouter.delete('/:id', docProfileController.deleteDocProfile);
+docProfileRouter.get('/', docProfileController.getAllDoctor);
 
 module.exports = docProfileRouter;
