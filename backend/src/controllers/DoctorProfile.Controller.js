@@ -1,4 +1,5 @@
 const docProfileService = require('../services/DoctorProfile.Service')
+const userService = require('../services/UserService')
 
 //tạo đơn thuốc (only role doctor)
 async function createDocProfile (req, res) {
@@ -40,6 +41,15 @@ async function deleteDocProfile (req, res) {
     }
 };
 
+async function getAllDoctor (req ,res) {
+    try {
+        const doctors = await userService.getAllDoctor();
+        res.status(200).json(doctors);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
 
 
 const docProfileController = {
@@ -47,6 +57,7 @@ const docProfileController = {
     updateDocProfile,
     getDocProfile,
     deleteDocProfile,
+    getAllDoctor,
 }
 
 module.exports = docProfileController;

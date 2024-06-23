@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose;
 
 const docProfileSchema = new mongoose.Schema({
-    user: {
-        _id: {type: Schema.Types.ObjectId, ref: 'User'}
-    },
     // bằng cấp
     level:{
         type: String,
@@ -15,10 +12,7 @@ const docProfileSchema = new mongoose.Schema({
         type: String,
         required: [true, "Place is required"]
     },
-    // ????
-    shift:{
-        type: Date
-    }
+    
 })
 
 const DocProfile = mongoose.model('DocProfile', docProfileSchema);
