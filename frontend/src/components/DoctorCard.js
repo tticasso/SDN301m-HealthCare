@@ -14,26 +14,26 @@ export default function DoctorCard({ doctor, specialties }) {
         </div>
       </div>
       <div className="w-full mt-[5px]">
-        <p className="text-[15px] font-bold italic text-center">
+        <p className="text-[15px] font-bold text-center">
           {doctor.fullname}
         </p>
         <div className="flex flex-wrap justify-center">
           {specialties.map((specialty, index) => (
             <p
               key={index}
-              className="text-[13px] font-light italic text-center mr-2"
+              className="text-[13px] font-light text-center mr-2"
             >
               {specialty}.
             </p>
           ))}
         </div>
-        <p className="text-[13px] font-light italic text-center">
+        <p className="text-[13px] font-light text-center">
           {doctor.place}
         </p>
       </div>
       <div className="w-full h-[1px] bg-[#EEEBEE] mt-[10px]"></div>
       <div className='flex justify-between items-center px-[10px] mt-[10px]'>
-        <p className='text-[15] italic font-bold'>Book an appointment</p>
+        <p className='text-[15] font-bold'>Đặt lịch khám</p>
         <UilArrowRight />
       </div>
     </div>

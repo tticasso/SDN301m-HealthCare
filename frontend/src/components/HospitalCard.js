@@ -10,9 +10,9 @@ const HospitalCard = ({ hospital }) => {
                 </div>
             </div>
             <div className="bg-white pt-8 pb-4 px-5 text-left mt-[20px]">
-                <p className="text-[14px] font-extrabold italic">{hospital.name}</p>
-                <p className="text-gray-600 text-[12px] italic mt-[10px]">{hospital.address}</p>
-                <p className="text-gray-600 text-[12px] italic mt-[5px]">
+                <p className="text-[14px] font-extrabold">{hospital.name}</p>
+                <p className="text-gray-600 text-[12px] mt-[10px]">{hospital.address}</p>
+                <p className="text-gray-600 text-[12px] mt-[5px]">
                     {hospital.startTime}<br />
                     {hospital.endTime}
                 </p>
