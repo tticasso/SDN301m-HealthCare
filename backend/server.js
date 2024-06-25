@@ -11,6 +11,8 @@ const cors = require('cors')
 const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
 const hospitalRouter = require('./src/routes/HospitalRouter')
 const appointmentRouter = require('./src/routes/AppointmentRouter')
+const chatRouter = require('./src/routes/ChatRouter')
+const conversationRouter = require('./src/routes/ConversationRouter')
 
 require('dotenv').config()
 const app = express()
@@ -32,6 +34,8 @@ app.get("/", (req, res, next) => {
 app.use('/user', userRouter);
 app.use('/user/medical-record', medicalRecordRouter)
 app.use('/doctor/medical-record', medicalRecordRouter)
+app.use('/chat', chatRouter)
+app.use('/conversation', conversationRouter)
 app.use('/banner', bannerRouter)
 app.use('/hospital', hospitalRouter)
 app.use('/appointment', appointmentRouter)
@@ -56,5 +60,5 @@ app.use((err, req, res, next) => {
 
 
 app.listen(process.env.PORT, process.env.HOST_NAME, () => {
-    console.log(`Serser is running port: http://${process.env.HOST_NAME}:${process.env.PORT}`);
+    console.log(`Server is running port: http://${process.env.HOST_NAME}:${process.env.PORT}`);
 })

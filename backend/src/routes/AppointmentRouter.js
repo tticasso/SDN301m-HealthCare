@@ -5,8 +5,9 @@ const appointmentRouter = express.Router()
 
 appointmentRouter.use(bodyParser.json())
 appointmentRouter.post('/create', appointmentController.create),
-// appointmentRouter.get('/appointment/:id', appointmentController),
-// appointmentRouter.post('/edit/:id', appointmentController),
+appointmentRouter.get('/list', appointmentController.getAppointmentById),
+appointmentRouter.put('/edit/:id', appointmentController.editAppointment),
+appointmentRouter.put('/edit/confirm/:id', appointmentController.editAppointmentStatusAndSendEmail),
 // appointmentRouter.post('/delete/:id', appointmentController),
 
 module.exports = appointmentRouter

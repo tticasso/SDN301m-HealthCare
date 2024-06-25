@@ -5,7 +5,7 @@ const medicalRecordRouter = express.Router()
 
 medicalRecordRouter.use(bodyParser.json())
 medicalRecordRouter.post('/create', MedicalRecordController.create)
-medicalRecordRouter.get('/all', MedicalRecordController.getAllRecord)
+medicalRecordRouter.get('/list', MedicalRecordController.getAllRecord)
 medicalRecordRouter.put('/edit/:id', MedicalRecordController.editRecord)
 
 module.exports = medicalRecordRouter

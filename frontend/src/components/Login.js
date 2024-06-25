@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UilLock, UilEnvelopeAlt } from "@iconscout/react-unicons";
-
+import { Link } from "react-router-dom";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -68,7 +68,7 @@ export default function Login() {
                 </div>
                 <div className="w-full flex justify-center items-center mt-[5px]">
                     <i>Do not have an account?</i>
-                    <a href="/" className="font-bold italic ml-[2px]">Signup here!</a>
+                    <Link to="/signup" className="font-bold italic ml-[2px]">Signup here!</Link>
                 </div>
             </div>
         </div>

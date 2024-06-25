@@ -5,7 +5,7 @@ const bannerRouter = express.Router()
 
 bannerRouter.use(bodyParser.json())
 bannerRouter.post('/create', bannerController.createBanner)
-bannerRouter.get('/all', bannerController.getAllBanner)
+bannerRouter.get('/list', bannerController.getAllBanner)
 bannerRouter.put('/edit/:id', bannerController.editBanner)
 bannerRouter.delete('/delete/:id', bannerController.deleteBanner)
 

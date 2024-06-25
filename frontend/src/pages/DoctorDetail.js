@@ -58,7 +58,7 @@ export default function DoctorDetail() {
                             <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
                         </div>
                         <div className="w-full flex justify-center mt-[30px]">
-                            <a href="#" className="w-full flex justify-center">
+                            <a href="/booking" className="w-full flex justify-center">
                                 <button className="w-2/3 bg-[#3499AF] text-white rounded-[10px] py-[10px] mt-[20px] text-[24px] font-bold italic">Đặt lịch hẹn</button>
                             </a>
 
