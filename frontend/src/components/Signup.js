@@ -43,12 +43,11 @@ export default function Signup() {
       address: "",
       img: "",
       status: "",
-      roleId: 1,
-      id: Math.random().toString(36).substr(2, 9),
+      role: "PAITENT"
     };
 
     try {
-      const response = await fetch("http://localhost:9999/user", {
+      const response = await fetch("http://localhost:9999/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +60,7 @@ export default function Signup() {
       }
 
       const responseData = await response.json();
-      const userId = responseData.id || user.id;
+      const userId = responseData.token._id;
 
       localStorage.setItem("userId", userId);
 

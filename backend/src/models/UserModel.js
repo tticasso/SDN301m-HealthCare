@@ -11,8 +11,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"]
     },
     fullname:{
-        type: String,
-        required: [true, "Fullname is required"]
+        type: String
     },
     dob: {
         type: Date,
@@ -34,8 +33,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["ADMIN", "MANAGER", "DOCTOR", "PAITENT"],
-        required: [true, "Role is required"]
+        enum: ["ADMIN", "MANAGER", "DOCTOR", "PAITENT"]
     },
     doctorProfile: {
         
