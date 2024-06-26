@@ -18,9 +18,7 @@ const { Content, Sider } = Layout;
 const items2 = [
   { key: "lichKham", icon: <EyeOutlined />, label: "Lịch khám" },
   { key: "lichSuThanhToan", icon: <PayCircleOutlined />, label: "Lịch sử thanh toán" },
-  { key: "hoSo", icon: <UserOutlined />, label: "Hồ sơ" },
   { key: "taiKhoan", icon: <ProfileOutlined />, label: "Tài khoản" },
-  { key: "dangXuat", icon: <LogoutOutlined />, label: "Đăng xuất" },
 ];
 
 const UserProfileMenu: React.FC = () => {
@@ -39,12 +37,8 @@ const UserProfileMenu: React.FC = () => {
         return <BookingHistory />;
       case "lichSuThanhToan":
         return <div>lich su thanh toan</div>;
-      case "hoSo":
-        return <div>ho so</div>;
       case "taiKhoan":
         return <UserProfile />;
-      case "dangXuat":
-        return <div>Đăng xuất</div>;
       default:
         return <div>Default</div>;
     }

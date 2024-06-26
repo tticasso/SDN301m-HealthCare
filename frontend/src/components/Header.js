@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UilUser } from "@iconscout/react-unicons";
+import { UilUser, UilSignOutAlt } from "@iconscout/react-unicons";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +9,11 @@ export default function Header() {
   };
 
   const token = localStorage.getItem("token");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    window.location.href = "/";
+  }
 
   return (
     <div className="w-screen h-[60px] flex justify-center bg-white shadow-md">
@@ -78,6 +83,11 @@ export default function Header() {
                   <UilUser size={30} />
                 </button>
               </a>
+            )}
+            {token && (
+              <button className="w-[50px] h-[50px] flex justify-center items-center border border-[#000000] rounded-full py-[5px]" onClick={handleLogout}>
+                <UilSignOutAlt size={30} />
+              </button>
             )}
           </div>
         </div>
