@@ -3,6 +3,7 @@ const DBconnect = require('./src/config/dbConfig')
 const bodyParser = require('body-parser')
 const httpErrors = require('http-errors')
 const morgan = require('morgan')
+
 const router = require('./src/routes/routerIndex')
 const userRouter = require('./src/routes/UserRouter')
 const bannerRouter = require('./src/routes/BannerRouter')
@@ -18,7 +19,7 @@ require('dotenv').config()
 const app = express()
 var corsOptions = {
     origin: "http://localhost:9999"
-  };
+};
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors(corsOptions))
@@ -42,6 +43,51 @@ app.use('/appointment', appointmentRouter)
 router();
 app.use('/user', userRouter)
 app.use('/prescription', prescriptionRouter)
+
+const portSocket = 3000
+const { createServer } = require('http')
+const { Server } = require('socket.io')
+const ChatController = require('./src/controllers/ChatController')
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin: "*",
+    },
+});
+
+io.on("connection", (socket) => {
+    console.log("A user connected");
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected");
+    });
+
+    socket.on("newConversation", (conversation) => {
+        console.log("newConversation");
+        io.emit("newConversation", conversation);
+    });
+
+    socket.on("message", async (data) => {
+        const { roomId, message } = data;
+        console.log("Message", {
+            roomId,
+            message,
+        });
+
+        const newChat = await ChatController.createChat(message);
+        // Handle incoming chat messages
+        io.to(roomId).emit("message", newChat); // Broadcast the message to all connected clients
+    });
+
+    socket.on("joinRoom", (roomId) => {
+        console.log("roomId", roomId);
+        socket.join(roomId);
+    });
+});
+
+// httpServer.listen(portSocket);
+
 DBconnect();
 
 app.use(async (req, res, next) => {

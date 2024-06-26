@@ -44,11 +44,12 @@ async function create({ patientId, doctorId, appointment_date, appointment_time,
 
 async function getAppointmentById() {
     try {
-        const appointment = await Appointment.find({}).populate('patient_id')
+        const appointment = await Appointment.find({}).populate('patient_id').populate('doctor_id')
         const newAppointment = appointment?.map(a => {
             return {
                 _id: a.id,
-                patient_id: a.patient_id?.map(p => [p.fullname, p.email]),
+                patient_id: a.patient_id?.map(p => [p._id, p.fullname, p.email]),
+                doctor_id: a.doctor_id?.map(d => [d._id, d.fullname, d.email]),
                 appointment_date: a.appointment_date,
                 appointment_time: a.appointment_time,
                 status: a.status

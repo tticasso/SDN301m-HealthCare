@@ -8,8 +8,14 @@ const conversationSchema = new mongoose.Schema({
     default: [],
     required: true,
   },
-},{
-    timestamps: true
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Define the Conversation model
