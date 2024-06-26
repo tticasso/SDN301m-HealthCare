@@ -49,7 +49,7 @@ export default function DoctorList() {
                 <div className="w-3/5 flex">
                     <input
                         type="text"
-                        placeholder="Search for doctors, clinics, hospitals, etc."
+                        placeholder="Tìm kiếm bác sĩ, bệnh viện, phòng khám..."
                         className="w-5/6 h-[50px] pl-[20px] text-[20px] rounded-l-[30px] outline-none"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

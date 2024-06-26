@@ -28,20 +28,18 @@ export default function Header() {
                 <div className={`lg:flex items-center ${isOpen ? 'block' : 'hidden'} lg:block`}>
                     <div className="flex flex-col lg:flex-row gap-[20px] lg:gap-[40px] items-center">
                         <a href='/' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Home</i>
+                            <i className="text-[20px] lg:text-[25px] font-semibold not-italic">Trang chủ</i>
                         </a>
                         <a href='/doctor-list' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Doctor</i>
-                        </a>
-                        <a href='/hospital' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Hospital</i>
+                            <i className="text-[20px] lg:text-[25px] font-semibold not-italic">Bác sĩ</i>
                         </a>
                         <a href='/' className="py-2 lg:py-0">
-                            <i className="text-[20px] lg:text-[25px] font-semibold">Function</i>
+                            <i className="text-[20px] lg:text-[25px] font-semibold not-italic">Function</i>
                         </a>
-                        <a href='/login'>
-                            <button className="w-[80px] lg:w-[100px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">Login</button>
+                        <a href='/' className="py-2 lg:py-0">
+                            <i className="text-[20px] lg:text-[25px] font-semibold not-italic">Function</i>
                         </a>
+                        <button className="w-[80px] lg:w-[150px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">Đăng nhập</button>
                     </div>
                 </div>
             </div>

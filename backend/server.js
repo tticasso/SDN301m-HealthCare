@@ -9,6 +9,7 @@ const userRouter = require('./src/routes/UserRouter')
 const bannerRouter = require('./src/routes/BannerRouter')
 const prescriptionRouter = require('./src/routes/PrescriptionRouter')
 const cors = require('cors')
+const docProfileRouter = require('./src/routes/DoctorProfile.Router')
 const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
 const hospitalRouter = require('./src/routes/HospitalRouter')
 const appointmentRouter = require('./src/routes/AppointmentRouter')
@@ -86,8 +87,9 @@ io.on("connection", (socket) => {
     });
 });
 
-// httpServer.listen(portSocket);
+//httpServer.listen(portSocket);
 
+app.use('/doctor', docProfileRouter)
 DBconnect();
 
 app.use(async (req, res, next) => {

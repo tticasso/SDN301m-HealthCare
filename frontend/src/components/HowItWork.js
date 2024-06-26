@@ -2,11 +2,7 @@ import { UilUserMd, UilMedkit, UilSchedule } from '@iconscout/react-unicons'
 export default function HowItWork() {
     return (
         <div className="w-full">
-            <p className="text-[40px] font-bold text-center">How It Works?</p>
-            <p className="text-center font-light text-[20px]">
-                Discover, book, and experience personalized healthcare effortlessly <br />
-                with our userfriendly Doctor Appoinment Website
-            </p>
+            <p className="text-[40px] font-bold text-center">Làm sao để đặt khám?</p>
             <div className="w-full flex justify-center items-center">
                 <div className="w-2/5 flex justify-between mt-[20px]">
                     <div className='w-auto'>
@@ -18,7 +14,7 @@ export default function HowItWork() {
                                 <UilUserMd size="40" color="black" />
                             </div>
                         </div>
-                        <p className='font-bold text-[14px] text-center'>Find A Doctor</p>
+                        <p className='font-bold text-[14px] text-center'>Tìm bác sĩ</p>
                     </div>
                     <div className='mt-[30px]'>
                         <svg width="102" height="10" viewBox="0 0 102 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +34,7 @@ export default function HowItWork() {
                                 <UilSchedule size="40" color="black" />
                             </div>
                         </div>
-                        <p className='font-bold text-[14px] text-center'>Book Appointment</p>
+                        <p className='font-bold text-[14px] text-center'>Đặt lịch khám</p>
                     </div>
                     <div className='mt-[30px]'>
                         <svg width="102" height="10" viewBox="0 0 102 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +54,7 @@ export default function HowItWork() {
                                 <UilMedkit size="40" color="black" />
                             </div>
                         </div>
-                        <p className='font-bold text-[14px] text-center'>Get Service</p>
+                        <p className='font-bold text-[14px] text-center'>Khám bệnh</p>
                     </div>
                 </div>
             </div>
