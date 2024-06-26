@@ -7,10 +7,11 @@ import Login from "./components/Login";
 import Homepage from "./pages/Homepage";
 import DoctorList from "./pages/DoctorList";
 import BookingAppointment from "./pages/BookingAppointment";
+import HospitalDetail from "./pages/HospitalDetail";
 
 const App = () => {
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-screen h-auto flex justify-center items-center">
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Login/>}/>
@@ -18,6 +19,8 @@ const App = () => {
         <Route path="/booking/:id" element={<BookingAppointment />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/doctor-list" element={<DoctorList />} />
+        <Route path="/hospital" element={<HospitalDetail />} />
+
       </Routes>
     </div>
   );
