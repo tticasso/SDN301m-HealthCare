@@ -40,11 +40,11 @@ export default function Login() {
       body: JSON.stringify(user),
     });
     const responseData = await userResponse.json();
-    const token = responseData.token;
-    console.log("token: ", token);
-    localStorage.setItem("token", token)
-
-    window.location.href = "/"
+    const token = responseData.token.token;
+    const userId = responseData.token.login.id;
+    localStorage.setItem("userId", userId)
+    localStorage.setItem("token", token);
+    window.location.href = "/";
   };
 
   return (
@@ -94,7 +94,7 @@ export default function Login() {
         </div>
         <div className="w-full flex justify-center items-center mt-[5px]">
           <i>Do not have an account?</i>
-          <a href="/" className="font-bold italic ml-[2px]">
+          <a href="/signup" className="font-bold italic ml-[2px]">
             Signup here!
           </a>
         </div>

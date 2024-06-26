@@ -60,7 +60,7 @@ export default function Signup() {
       }
 
       const responseData = await response.json();
-      const userId = responseData.token._id;
+      const userId = responseData.token.login.id;
 
       localStorage.setItem("userId", userId);
 
