@@ -28,7 +28,7 @@ async function sendEmailBookingNew(appointment) {
         console.error('Error sending email:', error);
     }
 }
-async function create({patientId, doctorId, appointment_date, appointment_time, status}) {
+async function create({ patientId, doctorId, appointment_date, appointment_time, status }) {
     const appointment = new Appointment({
         patientId, doctorId, appointment_date, appointment_time, status
     })
@@ -40,6 +40,7 @@ async function create({patientId, doctorId, appointment_date, appointment_time, 
         throw error;
     }
 }
+
 
 async function getAppointmentById() {
     try {
@@ -63,11 +64,7 @@ async function editAppointment(id, updateData) {
     try {
         await Appointment.findByIdAndUpdate(id, updateData);
         const appointment = await Appointment.findById(id);
-        // if (updateData.status === "Success") {
-        //     // Send email notification
-        //     await sendSuccessEmail(appointment);
-        //   }
-        return appointment  
+        return appointment
     } catch (error) {
         throw error;
     }
@@ -76,21 +73,21 @@ async function editAppointment(id, updateData) {
 // Hàm để cập nhật status thành Success và gửi email
 async function editAppointmentStatusAndSendEmail(id) {
     try {
-      const updateData = { status: "Success" };
-  
-      await Appointment.findByIdAndUpdate(id, updateData);
-      const appointment = await Appointment.findById(id);
-  
-      if (appointment.status === "Success") {
-        await sendSuccessEmail(appointment);
-      }
-  
-      return appointment;
+        const updateData = { status: "Success" };
+
+        await Appointment.findByIdAndUpdate(id, updateData);
+        const appointment = await Appointment.findById(id);
+
+        if (appointment.status === "Success") {
+            await sendSuccessEmail(appointment);
+        }
+
+        return appointment;
     } catch (error) {
-      throw error;
+        throw error;
     }
-  }
-  
+}
+
 async function sendSuccessEmail(appointment) {
     const mailOptions = {
         from: 'rotatoby23@gmail.com',
@@ -112,10 +109,39 @@ async function sendSuccessEmail(appointment) {
     }
 }
 
+function generateAppointmentTimes() {
+    const times = [];
+    const startHour = 7;
+    const endHour = 16;
+    const startMinute = 30; // Start at 30 minutes past the hour
+    const intervalMinutes = 30;
+    
+    for (let hour = startHour; hour <= endHour; hour++) {
+        let startMinutes = (hour === startHour) ? startMinute : 0;
+
+        for (let minutes = startMinutes; minutes < 60; minutes += intervalMinutes) {
+            const timeString = `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            times.push({
+                time: timeString,
+                available: true // Assume all times are initially available
+            });
+        }
+    }
+    return times;
+}
+
+function getAvailableTimeSlots() {
+    const appointmentTimes = generateAppointmentTimes();
+    const availableSlots = appointmentTimes.filter(slot => slot.available);
+    return availableSlots.map(slot => slot.time);
+}
+
 const appointmentService = {
     create,
     getAppointmentById,
     editAppointment,
-    editAppointmentStatusAndSendEmail
+    editAppointmentStatusAndSendEmail,
+    generateAppointmentTimes,
+    getAvailableTimeSlots
 }
 module.exports = appointmentService

@@ -13,6 +13,14 @@ async function create({name, doctor_id, phone, address, slogan, info, image, sta
     }
 }
 
+async function getHospitalById(id){
+    try {
+        return await Hospital.findById(id)
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getAllHospital(){
     try {
         return await Hospital.find();
@@ -21,8 +29,12 @@ async function getAllHospital(){
     }
 }
 
-async function deleteHospital(){
-
+async function deleteHospital(id){
+    try {
+        await Hospital.findByIdAndDelete(id);
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function editHospital(id, updateData){
@@ -37,6 +49,7 @@ const hospitalService = {
     create,
     getAllHospital,
     deleteHospital,
-    editHospital
+    editHospital,
+    getHospitalById
 }
 module.exports = hospitalService

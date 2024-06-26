@@ -41,12 +41,23 @@ async function editAppointmentStatusAndSendEmail(req, res, next) {
     }
 }
 
+async function generateAppointmentTimes(req, res, next) {
+    const times = appointmentService.generateAppointmentTimes();
+    res.json(times);
+}
+
+async function getAvailableTimeSlots(req, res, next){
+    const availableSlots = appointmentService.getAvailableTimeSlots()
+    res.json(availableSlots)
+}
 
 const appointmentController = {
     create,
     getAppointmentById,
     editAppointment,
-    editAppointmentStatusAndSendEmail
+    editAppointmentStatusAndSendEmail,
+    generateAppointmentTimes,
+    getAvailableTimeSlots
 }
 
 

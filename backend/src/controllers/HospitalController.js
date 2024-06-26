@@ -19,8 +19,28 @@ async function getAllHospital(req, res, next){
     }
 }
 
-async function deleteHospital(req, res, next){
+async function getHospitalById(req, res, next){
+    try {
+        if(req.params.id){
+            const hospital = await hospitalService.getHospitalById(req.params.id)
+            res.json(hospital)
+        }
+    } catch (error) {
+        next(error)
+    }
+}
 
+async function deleteHospital(req, res, next){
+    try {
+        if (req.params.id) {
+            await hospitalService.deleteHospital(req.params.id);
+            res.status(200).json({
+                "message": `Delete hospital with id: ${req.params.id} successful`
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
 async function editHospital(req, res, next){
@@ -37,7 +57,8 @@ const hospitalController = {
     create,
     getAllHospital,
     deleteHospital,
-    editHospital
+    editHospital,
+    getHospitalById
 }
 
 
