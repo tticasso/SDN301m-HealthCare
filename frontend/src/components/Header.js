@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UilUser } from "@iconscout/react-unicons";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,6 +7,8 @@ export default function Header() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const token = localStorage.getItem("token");
 
   return (
     <div className="w-screen h-[60px] flex justify-center bg-white shadow-md">
@@ -38,9 +41,8 @@ export default function Header() {
           </button>
         </div>
         <div
-          className={`lg:flex items-center ${
-            isOpen ? "block" : "hidden"
-          } lg:block`}
+          className={`lg:flex items-center ${isOpen ? "block" : "hidden"
+            } lg:block`}
         >
           <div className="flex flex-col lg:flex-row gap-[20px] lg:gap-[40px] items-center">
             <a href="/" className="py-2 lg:py-0">
@@ -63,11 +65,20 @@ export default function Header() {
                 Function
               </i>
             </a>
-            <a href="/login">
-              <button className="w-[80px] lg:w-[150px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">
-                Đăng nhập
-              </button>
-            </a>
+            {!token && (
+              <a href="/login" className="">
+                <button className="w-[80px] lg:w-[150px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[16px] lg:text-[20px] text-white mt-2 lg:mt-0">
+                  Đăng nhập
+                </button>
+              </a>
+            )}
+            {token && (
+              <a href="/menu" className="">
+                <button className="w-[50px] h-[50px] flex justify-center items-center border border-[#000000] rounded-full py-[5px]">
+                  <UilUser size={30} />
+                </button>
+              </a>
+            )}
           </div>
         </div>
       </div>
