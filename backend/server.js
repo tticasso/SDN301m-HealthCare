@@ -15,6 +15,8 @@ const hospitalRouter = require('./src/routes/HospitalRouter')
 const appointmentRouter = require('./src/routes/AppointmentRouter')
 const chatRouter = require('./src/routes/ChatRouter')
 const conversationRouter = require('./src/routes/ConversationRouter')
+const answerRouter = require('./src/routes/AnswerRouter')
+const questionRouter = require('./src/routes/QuestionRouter')
 
 require('dotenv').config()
 const app = express()
@@ -43,12 +45,15 @@ app.use('/hospital', hospitalRouter)
 app.use('/appointment', appointmentRouter)
 router();
 app.use('/user', userRouter)
+app.use('/question', questionRouter)
+app.use('/answer', answerRouter)
 app.use('/prescription', prescriptionRouter)
 
 const portSocket = 3000
 const { createServer } = require('http')
 const { Server } = require('socket.io')
 const ChatController = require('./src/controllers/ChatController')
+
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

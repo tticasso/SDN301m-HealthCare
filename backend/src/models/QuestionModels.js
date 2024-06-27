@@ -7,12 +7,12 @@ const questionSchema = new Schema({
         require: [true, 'Title is required']
     },
     body: String,
-    user_id: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     status: String,
-    created_at: Date.now()
+    created_at: Date
 })
 
 const Question = mongoose.model('Question', questionSchema)
