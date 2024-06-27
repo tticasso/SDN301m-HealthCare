@@ -88,7 +88,7 @@ const getAllUsers = async () => {
 };
 
 const getAllDoctor = async () => {
-    const doctors = await User.find({role: "doctor"})
+    const doctors = await User.find({role: "DOCTOR"})
     return doctors;
 }
 
