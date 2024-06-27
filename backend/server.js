@@ -8,7 +8,7 @@ const userRouter = require('./src/routes/UserRouter')
 const bannerRouter = require('./src/routes/BannerRouter')
 const prescriptionRouter = require('./src/routes/PrescriptionRouter')
 const cors = require('cors')
-const docProfileRouter = require('./src/routes/DoctorProfile.Router')
+const doctorRouter = require('./src/routes/Doctor.Router')
 const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
 const hospitalRouter = require('./src/routes/HospitalRouter')
 const appointmentRouter = require('./src/routes/AppointmentRouter')
@@ -39,7 +39,7 @@ app.use('/appointment', appointmentRouter)
 router();
 app.use('/user', userRouter)
 app.use('/prescription', prescriptionRouter)
-app.use('/doctor', docProfileRouter)
+app.use('/doctor', doctorRouter)
 DBconnect();
 
 app.use(async (req, res, next) => {
