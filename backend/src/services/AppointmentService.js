@@ -96,7 +96,8 @@ async function sendSuccessEmail(appointment) {
         subject: 'Email notification of booking progress at Doctors Care',
         html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
                <h4>Information for booked appointment:</h4>
-               <div>Patient's name and email: ${appointment.patient_id}</div>
+               <div>Patient's id: ${appointment.patient_id}</div>
+               <div>Doctor's id: ${appointment.doctor_id}</div>
                <div>Time: ${appointment.appointment_time}</div>
                <div>Date: ${appointment.appointment_date}</div>
                <div>Status: <b>${appointment.status}</b></div>
@@ -116,7 +117,7 @@ function generateAppointmentTimes() {
     const endHour = 16;
     const startMinute = 30; // Start at 30 minutes past the hour
     const intervalMinutes = 30;
-    
+
     for (let hour = startHour; hour <= endHour; hour++) {
         let startMinutes = (hour === startHour) ? startMinute : 0;
 
