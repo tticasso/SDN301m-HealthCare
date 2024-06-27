@@ -1,4 +1,5 @@
 const DocProfile = require('../models/DoctorProfile.Model')
+const User = require('../models/UserModel')
 
 
 //tạo profile 
@@ -7,18 +8,19 @@ const createDocProfile = async (docProfile) => {
     if (newProfile) {
         throw new Error('Profile không tồn tại');
     }
-    newProfile = docProfile;
+    newProfile = new DocProfile(docProfile);
     await newProfile.save();
     return newProfile;
 };
 
 // Lấy 1 profile
 const getDocProfile = async (id) => {
-    const docProfile = await DocProfile.findById(id);
+    const doctor = await User.findById(id)
+    const docProfile = await DocProfile.findOne({doctor: id});
     if (!docProfile) {
         throw new Error('Profile không tồn tại');
     }
-    return docProfile;
+    return {docProfile, doctor};
 };
 
 // Cập nhật profile (nhan vien)

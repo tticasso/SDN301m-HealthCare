@@ -35,9 +35,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["ADMIN", "MANAGER", "DOCTOR", "PAITENT"]
     },
-    doctorProfile: {
-        
-    }
 })
 
 const User = mongoose.model('User', userSchema);
