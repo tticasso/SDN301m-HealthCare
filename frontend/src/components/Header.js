@@ -60,9 +60,9 @@ export default function Header() {
                 Bác sĩ
               </i>
             </a>
-            <a href="/" className="py-2 lg:py-0">
+            <a href="/hospital-list" className="py-2 lg:py-0">
               <i className="text-[20px] lg:text-[25px] font-semibold not-italic">
-                Function
+                Bệnh viện
               </i>
             </a>
             <a href="/" className="py-2 lg:py-0">

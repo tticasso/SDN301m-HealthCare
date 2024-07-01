@@ -84,14 +84,14 @@ export default function Signup() {
         <div className="w-full mb-[10px]">
           <i className="text-[#3499AF]">Email address</i>
           <div className="w-full flex justify-center">
-            <div className="flex items-center border-2 border-[#3499AF] rounded-md w-full h-[36px]">
-              <UilEnvelopeAlt size={20} color="#3499AF" className="ml-2" />
+            <div className="w-full flex justify-center">
+              <UilEnvelopeAlt size={35} color="#3499AF" />
               <input
                 type="text"
                 placeholder="example@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-full pl-2 border-none outline-none"
+                className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
               />
             </div>
           </div>
