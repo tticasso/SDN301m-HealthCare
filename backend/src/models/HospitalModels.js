@@ -4,7 +4,7 @@ const {Schema} = mongoose
 const hospitalSchema = new Schema({
     name: {
         type: String,
-        require: [true, 'Hospital name is require!']
+        require: [true, 'Hospital name is required!']
     },
     doctor: [{
         type: Schema.Types.ObjectId,

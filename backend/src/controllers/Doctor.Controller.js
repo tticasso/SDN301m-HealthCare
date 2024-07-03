@@ -46,7 +46,12 @@ async function deleteDocProfile (req, res) {
 async function getAllDoctor (req ,res) {
     try {
         const doctors = await userService.getAllDoctor();
-        res.status(200).json(doctors);
+        const list = [];
+        for (const doctor of doctors) {
+            const profile = await docProfileService.getDocProfile(doctor.id);
+            list.push(profile);
+        }
+        res.status(200).json(list);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

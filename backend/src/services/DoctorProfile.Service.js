@@ -1,5 +1,7 @@
 const DocProfile = require('../models/DoctorProfile.Model')
 const User = require('../models/UserModel')
+const Specify = require('../models/Specify.model')
+const Hospital = require('../models/HospitalModels')
 
 
 //tạo profile 
@@ -40,13 +42,62 @@ const deleteDocProfile = async (id) => {
     }
 };
 
+const getAllDoctorBySpecify = async(specifyName) => {
+    const specifyDoc = Specify.findOne({name: specifyName})
+    const docProfiles = await DocProfile.find({specify: specifyDoc._id})
+    const doctors = [];
+    docProfiles.map( async (element) => {
+        const user = await User.findById(element.doctor)
+        const doctor = {
+            _id: user._id,
+            fullname : user.fullname,
+            email: user.email,
+            phone: user.phone,
+            gender: user.gender,
+            image: user.img,
+            level: element.level,
+            place: element.place,
+            specify: element.specify,
+            schedule: element.schedule
+        }
+        doctors.push(doctor);
+    })
 
+    return doctors
+}
+
+const getAllDoctorBySpecifyAndHospital = async(specifyName, hospitalName) => {
+    const specifyDoc = Specify.findOne({name: specifyName})
+    const hospital = Hospital.findOne({name: hospitalName})
+    const docProfiles = await DocProfile.find({specify: specifyDoc._id, place: hospital._id})
+    const doctors = [];
+    docProfiles.map( async (element) => {
+        const user = await User.findById(element.doctor)
+        const doctor = {
+            _id: user._id,
+            fullname : user.fullname,
+            email: user.email,
+            phone: user.phone,
+            gender: user.gender,
+            image: user.img,
+            level: element.level,
+            place: element.place,
+            specify: element.specify,
+            schedule: element.schedule
+        }
+        doctors.push(doctor);
+    })
+
+    return doctors
+}
 
 const docProfileService = {
     createDocProfile,
     getDocProfile,
     updateDocProfile,
-    deleteDocProfile
+    deleteDocProfile,
+    getAllDoctorBySpecify,
+    getAllDoctorBySpecifyAndHospital
 }
 
 module.exports = docProfileService;
