@@ -6,7 +6,6 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Homepage from "./pages/Homepage";
 import DoctorList from "./pages/DoctorList";
-import Login from "./components/Login";
 import BookingAppointment from "./pages/BookingAppointment";
 import Profile from "./pages/UserProfileMenu";
 
