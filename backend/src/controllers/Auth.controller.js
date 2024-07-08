@@ -1,5 +1,25 @@
 const authService = require('../services/Auth.service');
+const userService = require('../services/UserService')
 
+
+async function registerUser (req, res) {
+    try {
+        const token = await userService.registerUser(req.body);
+        res.status(201).json({ token });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+async function loginUser (req, res) {
+    const { email, password } = req.body;
+    try {
+        const token = await userService.loginUser(email, password);
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
 const createActivationToken = async (req, res) => {
     try {
@@ -22,6 +42,8 @@ const activateAccount = async (req, res) => {
 };
 
 const AuthController = {
+    registerUser,
+    loginUser,
     createActivationToken,
     activateAccount,
 }

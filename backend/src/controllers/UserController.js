@@ -1,25 +1,6 @@
 const userService = require('../services/UserService')
 
 
-async function registerUser (req, res) {
-    try {
-        const token = await userService.registerUser(req.body);
-        res.status(201).json({ token });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
-async function loginUser (req, res) {
-    const { email, password } = req.body;
-    try {
-        const token = await userService.loginUser(email, password);
-        res.status(200).json({ token });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
 async function createUser (req, res) {
     try {
         const user = await userService.createUser(req.body);
@@ -70,8 +51,6 @@ async function getAllUsers (req, res) {
 };
 
 const userController = {
-    registerUser,
-    loginUser,
     createUser,
     getUser,
     updateUser,
