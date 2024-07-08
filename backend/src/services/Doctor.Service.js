@@ -42,6 +42,11 @@ const deleteDocProfile = async (id) => {
     }
 };
 
+const getAllDoctor = async () => {
+    const doctors = await User.find({role: "DOCTOR"})
+    return doctors;
+}
+
 const getAllDoctorBySpecify = async(specifyName) => {
     const specifyDoc = Specify.findOne({name: specifyName})
     const docProfiles = await DocProfile.find({specify: specifyDoc._id})
@@ -97,7 +102,8 @@ const docProfileService = {
     updateDocProfile,
     deleteDocProfile,
     getAllDoctorBySpecify,
-    getAllDoctorBySpecifyAndHospital
+    getAllDoctorBySpecifyAndHospital,
+    getAllDoctor
 }
 
 module.exports = docProfileService;

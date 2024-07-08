@@ -4,19 +4,33 @@ const {Schema} = mongoose
 const hospitalSchema = new Schema({
     name: {
         type: String,
-        require: [true, 'Hospital name is require!']
+        require: [true, 'Hospital name is required!']
     },
     doctor: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    phone: Number,
-    address: String,
-    slogan: String,
-    info: String,
-    image: String,
-    startTime: String,
-    endTime: String,
+    phone: {
+        type:String 
+    },
+    address: {
+        type: String,
+    },
+    slogan: {
+        type: String
+    },
+    info: {
+        type: String,
+    },
+    image:  {
+        type: String,
+    },
+    startTime: {
+        type: String,
+    },
+    endTime: {
+        type: String,
+    },
     specify: [{
         type: Schema.Types.ObjectId,
         ref: 'Specify'

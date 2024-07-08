@@ -1,11 +1,10 @@
-const docProfileService = require('../services/DoctorProfile.Service')
-const userService = require('../services/UserService')
+const doctorService = require('../services/Doctor.Service')
 const docScheduleService = require('../services/DoctorSchedule.Service')
 
 //tạo đơn thuốc (only role doctor)
 async function createDocProfile (req, res) {
     try {
-        const docProfile = await docProfileService.createDocProfile(req.body);
+        const docProfile = await doctorService.createDocProfile(req.body);
         res.status(201).json(docProfile);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -15,7 +14,7 @@ async function createDocProfile (req, res) {
 // Lấy 1 đơn thuốc bệnh nhân 
 async function getDocProfile (req, res) {
     try {
-        const docProfile = await docProfileService.getDocProfile(req.params.id);
+        const docProfile = await doctorService.getDocProfile(req.params.id);
         res.status(200).json(docProfile);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -25,7 +24,7 @@ async function getDocProfile (req, res) {
 // Cập nhật thông tin đơn thuốc (only role doctor)
 async function updateDocProfile (req, res) {
     try {
-        const docProfile = await docProfileService.updateDocProfile(req.params.id, req.body);
+        const docProfile = await doctorService.updateDocProfile(req.params.id, req.body);
         res.status(200).json(docProfile);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -35,7 +34,7 @@ async function updateDocProfile (req, res) {
 // Cập nhật thông đơn thuốc (only role doctor)
 async function deleteDocProfile (req, res) {
     try {
-        await docProfileService.deleteDocProfile(req.params.id);
+        await doctorService.deleteDocProfile(req.params.id);
         res.status(200).json({ message: 'Đơn thuốc đã được xóa' });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -45,8 +44,20 @@ async function deleteDocProfile (req, res) {
 // lay list bac si
 async function getAllDoctor (req ,res) {
     try {
+<<<<<<< HEAD
+        const doctors = await doctorService.getAllDoctor();
+        const list = [];
+        for (const doctor of doctors) {
+            const profile = await doctorService.getDocProfile(doctor.id);
+=======
         const doctors = await userService.getAllDoctor();
-        res.status(200).json(doctors);
+        const list = [];
+        for (const doctor of doctors) {
+            const profile = await docProfileService.getDocProfile(doctor.id);
+>>>>>>> b8d1927eddd35b33b6a4c0348d27f0d0c99fdc24
+            list.push(profile);
+        }
+        res.status(200).json(list);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

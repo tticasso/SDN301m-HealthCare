@@ -87,11 +87,6 @@ const getAllUsers = async () => {
     return users;
 };
 
-const getAllDoctor = async () => {
-    const doctors = await User.find({role: "DOCTOR"})
-    return doctors;
-}
-
 
 const userService = {
     registerUser,
@@ -101,7 +96,6 @@ const userService = {
     updateUser,
     deleteUser,
     getAllUsers,
-    getAllDoctor,
 }
 
 module.exports = userService;
