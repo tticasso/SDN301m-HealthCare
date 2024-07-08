@@ -21,7 +21,6 @@ async function getDocProfile (req, res) {
     }
 };
 
-// Cập nhật thông tin đơn thuốc (only role doctor)
 async function updateDocProfile (req, res) {
     try {
         const docProfile = await doctorService.updateDocProfile(req.params.id, req.body);

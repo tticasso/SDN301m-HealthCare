@@ -1,6 +1,8 @@
 const User = require('../models/UserModel')
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
+const DoctorProfile = require('../models/DoctorProfile.Model')
+const DocProfile = require('../models/DoctorProfile.Model')
 
 const registerUser = async (user) => {
     if (await User.findOne({ email: user.email })) {
@@ -12,7 +14,13 @@ const registerUser = async (user) => {
         email: user.email,
         password: hashed,
         fullname: user.fullname,
-        role: user.role
+        dob: user.dob,
+        gender: user.gender,
+        phone: user.phone,
+        address: user.address,
+        img: user.img,
+        role: user.role,
+        status: false,
     })
     newUser.save();
     return newUser;
@@ -45,15 +53,34 @@ const createUser = async (user) => {
     }
     const salt = await bcrypt.genSalt(10)
     const hashed = await bcrypt.hash(user.password, salt)
+    if (user.role == "DOCTOR"){
+        user.status = false;
+    } 
+    if (user.role == "PAITENT"){
+        user.status = true;
+    }
     const newUser = new User({
         email: user.email,
         password: hashed,
         fullname: user.fullname,
+        dob: user.dob,
+        gender: user.gender,
+        phone: user.phone,
+        address: user.address,
+        img: user.img,
         role: user.role,
         status: user.status,
-
     })
-    newUser.save();
+    if (user.role == "DOCTOR"){
+        const doctor = await newUser.save();
+        const doctorProfile = new DocProfile({
+            doctor: doctor._id,
+            level: "!",
+        })
+        doctorProfile.save();
+    } else {
+        newUser.save();
+    }
     return newUser;
 }
 

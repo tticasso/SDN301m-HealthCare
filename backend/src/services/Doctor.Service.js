@@ -28,6 +28,9 @@ const getDocProfile = async (id) => {
 // Cập nhật profile (nhan vien)
 const updateDocProfile = async (id, data) => {
     const docProfile = await DocProfile.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+    if(docProfile.level != "!") {
+        await User.findByIdAndUpdate(docProfile.doctor, {status: true})
+    }
     if (!docProfile) {
         throw new Error('Profile không tồn tại');
     }

@@ -6,8 +6,6 @@ const authMiddleware = require('../middlewares/authMiddleware')
 
 userRouter.use(bodyParser.json())
 
-userRouter.post('/register', userController.registerUser);
-userRouter.post('/login', userController.loginUser);
 userRouter.post('/create', userController.createUser);
 userRouter.get('/:id', userController.getUser);
 userRouter.put('/:id', userController.updateUser);
