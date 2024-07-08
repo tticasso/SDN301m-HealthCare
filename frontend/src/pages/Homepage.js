@@ -25,7 +25,7 @@ export default function Homepage() {
         ]);
 
         setDoctors(doctorResponse.data || []);
-        
+
         const specializedData = specializedResponse.data.reduce((acc, specialty) => {
           acc[specialty.id] = specialty.specializedName;
           return acc;
@@ -63,32 +63,32 @@ export default function Homepage() {
     <div className="w-screen h-screen">
       <Header />
       <div className="w-full h-[400px]">
-                <img src="https://mimanihospital.com/wp-content/uploads/2017/03/abt-banner.jpg" alt="banner" className="w-full h-full object-fit" />
+        <img src="https://mimanihospital.com/wp-content/uploads/2017/03/abt-banner.jpg" alt="banner" className="w-full h-full object-fit" />
       </div>
       <div className="w-full flex justify-center mt-[20px]">
         <div className="w-[600px] flex">
           <input
             type="text"
-            placeholder="Search for doctors, clinics, hospitals, etc."
+            placeholder="Tìm kiếm bác sĩ, bệnh viện, phòng khám..."
             className="w-3/4 h-[50px] pl-[20px] text-[20px] border-2 border-[#3499AF] rounded-l-[30px] box-border"
           />
           <button
-           className="w-1/4 h-[50px] bg-[#3499AF] rounded-r-[30px] text-white border-2 border-[#3499AF] box-border font-bold text-[20px] flex items-center justify-center"
-           >
-            Search
+            className="w-1/4 h-[50px] bg-[#3499AF] rounded-r-[30px] text-white border-2 border-[#3499AF] box-border font-bold text-[20px] flex items-center justify-center"
+          >
+            Tìm kiếm
           </button>
         </div>
       </div>
       <div className="w-full mt-[20px]">
         <HowItWork />
       </div>
-      <p className="italic font-bold text-[40px] text-center mt-[20px]">Schedule an online appointment</p>
-      <p className="italic font-thin text-[24px] text-center">Find the exact Doctor - Make an appointment easily</p>
+      <p className="font-bold text-[40px] text-center mt-[20px]">Đặt lịch khám trực tuyến</p>
+      <p className="font-thin text-[24px] text-center">Tìm bác sĩ - Đặt lịch khám dễ dàng</p>
       <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
-            Title="Book a doctor's appointment"
-            Subtitle="Your examination form with your order number and time is confirmed."
+            Title="Đặt lịch khám với bác sĩ"
+            Subtitle="Lịch khám của bạn với mã khám bệnh và thời gian đã được xác nhận."
             SlideComponent={renderDoctorCard}
             slideCount={doctors.length}
             slidesPerView={3}
@@ -99,8 +99,8 @@ export default function Homepage() {
       <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
-            Title="Book a hospital's appointment"
-            Subtitle="Your examination form with your order number and time is confirmed."
+            Title="Đặt lịch khám với bệnh viện"
+            Subtitle="Lịch khám của bạn với mã khám bệnh và thời gian đã được xác nhận."
             SlideComponent={(index) => (
               <HospitalCard key={index} hospital={hospitals[index]} />
             )}
@@ -113,8 +113,8 @@ export default function Homepage() {
       <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
-            Title="Schedule an appointment by Specialty"
-            Subtitle="Your examination form with your order number and time is confirmed."
+            Title="Đặt lịch khám theo chuyên khoa"
+            Subtitle="Lịch khám của bạn với mã khám bệnh và thời gian đã được xác nhận."
             SlideComponent={renderSpecialistCard}
             slideCount={specialties.length}
             slidesPerView={5}

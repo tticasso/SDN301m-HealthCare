@@ -11,15 +11,29 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"]
     },
     fullname:{
-        type: String,
-        required: [true, "Fullname is required"]
+        type: String
     },
     dob: {
         type: Date,
     },
+    gender: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    img: {
+        type: String,
+    },
+    status: {
+        type: Boolean,
+    },
     role: {
         type: String,
-        enum: ["ADMIN", "MANAGER", "DOCTOR", "PAITENT"],
+        enum: ["ADMIN", "MANAGER", "DOCTOR", "PATIENT"],
         required: [true, "Role is required"]
     }
 })

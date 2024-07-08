@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose;
 
 const docProfileSchema = new mongoose.Schema({
-    user: {
-        _id: {type: Schema.Types.ObjectId, ref: 'User'}
+    doctor: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     },
     // bằng cấp
     level:{
@@ -13,12 +14,13 @@ const docProfileSchema = new mongoose.Schema({
     // nơi công tác
     place:{
         type: String,
-        required: [true, "Place is required"]
+        // required: [true, "Place is required"]
     },
-    // ????
-    shift:{
-        type: Date
-    }
+    schedule: [{
+        type:Schema.Types.ObjectId,
+        ref:"DocSchedule"
+    }],
+    
 })
 
 const DocProfile = mongoose.model('DocProfile', docProfileSchema);
