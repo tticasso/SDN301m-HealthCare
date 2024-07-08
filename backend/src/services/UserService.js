@@ -49,7 +49,9 @@ const createUser = async (user) => {
         email: user.email,
         password: hashed,
         fullname: user.fullname,
-        role: user.role
+        role: user.role,
+        status: user.status,
+
     })
     newUser.save();
     return newUser;

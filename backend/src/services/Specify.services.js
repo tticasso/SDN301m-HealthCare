@@ -40,6 +40,7 @@ const getAllSpecify = async () => {
     if(!specifies) {
         throw new Error('Không có chuyên ngành');
     }
+    return specifies;
 }
 
 
