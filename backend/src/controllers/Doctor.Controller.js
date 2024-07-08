@@ -44,10 +44,17 @@ async function deleteDocProfile (req, res) {
 // lay list bac si
 async function getAllDoctor (req ,res) {
     try {
+<<<<<<< HEAD
         const doctors = await doctorService.getAllDoctor();
         const list = [];
         for (const doctor of doctors) {
             const profile = await doctorService.getDocProfile(doctor.id);
+=======
+        const doctors = await userService.getAllDoctor();
+        const list = [];
+        for (const doctor of doctors) {
+            const profile = await docProfileService.getDocProfile(doctor.id);
+>>>>>>> b8d1927eddd35b33b6a4c0348d27f0d0c99fdc24
             list.push(profile);
         }
         res.status(200).json(list);
