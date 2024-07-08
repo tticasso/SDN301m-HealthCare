@@ -7,7 +7,7 @@ const activationTokenSchema = new mongoose.Schema({
 });
 
 // Tự động xóa tài liệu khi hết hạn
-activationTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+activationTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 120 });
 
 const ActivationToken = mongoose.model('ActivationToken', activationTokenSchema);
 

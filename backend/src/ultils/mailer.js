@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 
-const sendActivationEmail = async (userEmail, token) => {
+const sendActivationEmail = async (userEmail, token, fullname) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -32,7 +32,7 @@ const sendActivationEmail = async (userEmail, token) => {
                 </style>
             </head>
             <body>
-                <p>Chào [User],</p>
+                <p>Chào ${fullname},</p>
                 <p>Vui lòng kích hoạt tài khoản của bạn bằng cách nhấn vào nút bên dưới:</p>
                 <a href="http://localhost:9999/auth/activate?token=${token}" class="button">Kích Hoạt Tài Khoản</a>
                 <p>Trân trọng,<br/>Đội ngũ hỗ trợ của chúng tôi</p>

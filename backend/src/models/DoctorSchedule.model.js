@@ -7,25 +7,28 @@ const docScheduleSchema = new mongoose.Schema({
         ref: "User"
     },
     // ca làm việc
-    time: [{
+    shift: [{
         day: {
             type: String,
         },
         slots: [{
-            type: String,
-            required: [true, "Slots is required"],
-            validate: function (v) {
-                return /^\d{2}:\d{2}-\d{2}:\d{2}$/.test(v);
+            time: {
+                type: String,
+                required: [true, "Slots is required"],
+                validate: function (v) {
+                    return /^\d{2}:\d{2}-\d{2}:\d{2}$/.test(v);
+                },
+                message: props => `${props.value} is not a valid time format!`
             },
-            message: props => `${props.value} is not a valid time format!`
+            // trạng thái: đã book, chưa book
+            status: {
+                type: Boolean,
+                required: [true, "Status is required"],
+                default: true,
+            }, 
         }],
 
     }],
-    // trạng thái: đã book, chưa book
-    status: {
-        type: Boolean,
-        required: [true, "Status is required"]
-    },
     // ghi chú
     note: {
         type: String
