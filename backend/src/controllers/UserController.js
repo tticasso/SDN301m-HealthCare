@@ -2,7 +2,6 @@ const userService = require('../services/UserService')
 
 
 async function registerUser (req, res) {
-    const { name, email, password } = req.body;
     try {
         const token = await userService.registerUser(req.body);
         res.status(201).json({ token });

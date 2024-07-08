@@ -13,9 +13,13 @@ const docProfileSchema = new mongoose.Schema({
     },
     // nơi công tác
     place:{
-        type: String,
-        // required: [true, "Place is required"]
+        type: Schema.Types.ObjectId,
+        ref: "Hospital"
     },
+    specify:[{
+        type: Schema.Types.ObjectId,
+        ref:"Specify"
+    }],
     schedule: [{
         type:Schema.Types.ObjectId,
         ref:"DocSchedule"

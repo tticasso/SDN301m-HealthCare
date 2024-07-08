@@ -1,42 +1,53 @@
-const Hospital = require("../models/HospitalModels");
+const Hospital = require('../models/HospitalModels')
 
 
-async function create({name, doctor_id, phone, address, slogan, info, image, startTime, endTime}) {
-    const hospital = new Hospital({
-        name, doctor_id, phone, address, slogan, info, image, startTime, endTime
-    })
-    try {
-        const newDoc = await hospital.save();
-        return newDoc;
-    } catch (error) {
-        throw error;
+
+const createHospital = async (hospital) => {
+    if (await Hospital.findOne({name: hospital.name})) {
+        throw new Error('Bệnh viện đã tồn tại');
     }
-}
+    const newHospital = new Hospital(hospital)
+    await newHospital.save();
+    return newHospital;
+};
 
-async function getAllHospital(){
-    try {
-        return await Hospital.find();
-    } catch (error) {
-        throw error;
+const updateHospital = async (id, data) => {
+    const hospital = await Hospital.findByIdAndUpdate(id, data)
+    if (!hospital) {
+        throw new Error('Bệnh viện không tồn tại');
     }
-}
+    return hospital;
+};
 
-async function deleteHospital(){
-
-}
-
-async function editHospital(id, updateData){
-    try {
-        await Hospital.findByIdAndUpdate(id, updateData);
-        return await Hospital.findById(id);
-    } catch (error) {
-        throw error;
+const deleteHospital = async (id) => {
+    const hospital = await Hospital.findByIdAndDelete(id)
+    if (!hospital) {
+        throw new Error('Bệnh viện không tồn tại');
     }
+};
+
+const getHospital = async (id) => {
+    const hospital = await Hospital.findById(id);
+    if (!hospital) {
+        throw new Error('Bệnh viện không tồn tại');
+    }
+    return hospital;
+};
+
+const getAllHospital = async() => {
+    const hospitals = await Hospital.find();
+    if (!hospitals) {
+        throw new Error('Không có bệnh viện nào');
+    }
+    return hospitals;
 }
+
 const hospitalService = {
-    create,
-    getAllHospital,
+    createHospital,
+    updateHospital,
     deleteHospital,
-    editHospital
+    getHospital,
+    getAllHospital,
 }
-module.exports = hospitalService
+
+module.exports = hospitalService;
