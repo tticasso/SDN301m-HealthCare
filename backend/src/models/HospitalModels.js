@@ -15,6 +15,7 @@ const hospitalSchema = new Schema({
     slogan: String,
     info: String,
     image: String,
+    avatar: String,
     startTime: String,
     endTime: String,
     specify: [{

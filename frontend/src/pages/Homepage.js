@@ -2,38 +2,38 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import ListTemplate from "../components/ListTemplate";
-import DoctorCard from "../components/DoctorCard";
+// import DoctorCard from "../components/DoctorCard";
 import HospitalCard from "../components/HospitalCard";
-import HowItWork from "../components/HowItWork";
-import SpecialistCard from "../components/SpecialistCard";
+// import HowItWork from "../components/HowItWork";
+// import SpecialistCard from "../components/SpecialistCard";
 import Footer from "../components/Footer";
 
 export default function Homepage() {
-  const [doctors, setDoctors] = useState([]);
-  const [specialized, setSpecialized] = useState({});
+  // const [doctors, setDoctors] = useState([]);
+  // const [specialized, setSpecialized] = useState({});
   const [hospitals, setHospitals] = useState([]);
-  const [specialties, setSpecialties] = useState([]);
+  // const [specialties, setSpecialties] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [doctorResponse, specializedResponse, hospitalsResponse, specialtiesResponse] = await Promise.all([
-          axios.get("http://localhost:9999/doctor"),
-          axios.get("http://localhost:9999/specialized"),
-          axios.get("http://localhost:9999/hospitals"),
-          axios.get("http://localhost:9999/specialties"),
+        const [/*doctorResponse, specializedResponse,*/ hospitalsResponse/*, specialtiesResponse*/] = await Promise.all([
+          // axios.get("http://localhost:9999/doctor"),
+          // axios.get("http://localhost:9999/specialized"),
+          axios.get("http://localhost:9999/hospital/list"),
+          // axios.get("http://localhost:9999/specialties"),
         ]);
 
-        setDoctors(doctorResponse.data || []);
+        // setDoctors(doctorResponse.data || []);
 
-        const specializedData = specializedResponse.data.reduce((acc, specialty) => {
-          acc[specialty.id] = specialty.specializedName;
-          return acc;
-        }, {});
-        setSpecialized(specializedData || {});
+        // const specializedData = specializedResponse.data.reduce((acc, specialty) => {
+        //   acc[specialty.id] = specialty.specializedName;
+        //   return acc;
+        // }, {});
+        // setSpecialized(specializedData || {});
 
         setHospitals(hospitalsResponse.data || []);
-        setSpecialties(specialtiesResponse.data || []);
+        // setSpecialties(specialtiesResponse.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -42,22 +42,22 @@ export default function Homepage() {
     fetchData();
   }, []);
 
-  const renderDoctorCard = (index) => {
-    const doctor = doctors[index];
-    if (!doctor) return null;
+  // const renderDoctorCard = (index) => {
+  //   const doctor = doctors[index];
+  //   if (!doctor) return null;
 
-    const specialtiesForDoctor = doctor.specialized.map(id => specialized[id]);
+  //   const specialtiesForDoctor = doctor.specialized.map(id => specialized[id]);
 
-    return (
-      <DoctorCard key={doctor.id} doctor={doctor} specialties={specialtiesForDoctor} />
-    );
-  };
+  //   return (
+  //     <DoctorCard key={doctor.id} doctor={doctor} specialties={specialtiesForDoctor} />
+  //   );
+  // };
 
-  const renderSpecialistCard = (index) => {
-    const specialty = specialties[index];
-    if (!specialty) return null;
-    return <SpecialistCard key={specialty.id} specialty={specialty} />;
-  };
+  // const renderSpecialistCard = (index) => {
+  //   const specialty = specialties[index];
+  //   if (!specialty) return null;
+  //   return <SpecialistCard key={specialty.id} specialty={specialty} />;
+  // };
 
   return (
     <div className="w-screen h-screen">
@@ -79,12 +79,12 @@ export default function Homepage() {
           </button>
         </div>
       </div>
-      <div className="w-full mt-[20px]">
+      {/* <div className="w-full mt-[20px]">
         <HowItWork />
-      </div>
-      <p className="font-bold text-[40px] text-center mt-[20px]">Đặt lịch khám trực tuyến</p>
-      <p className="font-thin text-[24px] text-center">Tìm bác sĩ - Đặt lịch khám dễ dàng</p>
-      <div className="w-full flex justify-center items-center mt-[20px]">
+      </div> */}
+      {/* <p className="font-bold text-[40px] text-center mt-[20px]">Đặt lịch khám trực tuyến</p>
+      <p className="font-thin text-[24px] text-center">Tìm bác sĩ - Đặt lịch khám dễ dàng</p> */}
+      {/* <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
             Title="Đặt lịch khám với bác sĩ"
@@ -95,7 +95,7 @@ export default function Homepage() {
             viewAllUrl="/doctor-list"
           />
         </div>
-      </div>
+      </div> */}
       <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
@@ -110,7 +110,7 @@ export default function Homepage() {
           />
         </div>
       </div>
-      <div className="w-full flex justify-center items-center mt-[20px]">
+      {/* <div className="w-full flex justify-center items-center mt-[20px]">
         <div className="w-4/5">
           <ListTemplate
             Title="Đặt lịch khám theo chuyên khoa"
@@ -121,7 +121,7 @@ export default function Homepage() {
             viewAllUrl="/speciality-list"
           />
         </div>
-      </div>
+      </div> */}
       <Footer />
     </div>
   );

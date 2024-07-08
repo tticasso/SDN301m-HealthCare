@@ -5,7 +5,7 @@ const hospitalRouter = express.Router()
 
 hospitalRouter.use(bodyParser.json())
 hospitalRouter.post('/create', hospitalController.create),
-hospitalRouter.get('/hospital-list', hospitalController.getAllHospital),
+hospitalRouter.get('/list', hospitalController.getAllHospital),
 hospitalRouter.post('/edit/:id', hospitalController.editHospital),
 hospitalRouter.post('/delete/:id', hospitalController.deleteHospital),
 
