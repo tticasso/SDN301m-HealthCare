@@ -13,10 +13,9 @@ const createActivationToken = async (req, res) => {
 
 const activateAccount = async (req, res) => {
     try {
-        const { token } = req.body;
-        const test = await authService.activateAccount(token);
-        //res.status(200).send('Tài khoản đã được kích hoạt thành công.');
-        res.status(200).json(test)
+        const { token } = req.query;
+        await authService.activateAccount(token);
+        res.status(200).send('Tài khoản đã được kích hoạt thành công.');
     } catch (error) {
         res.status(500).send(error.message);
     }
