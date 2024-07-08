@@ -43,7 +43,7 @@ async function getAllSpecify (req, res) {
 // lay list bac si
 async function getAllDoctorBySpecify (req ,res) {
     try {
-        const doctors = await doctorService.getAllDoctorBySpecify(req.body.specifyName);
+        const doctors = await doctorService.getAllDoctorBySpecify(req.body.specifyid);
         res.status(200).json(doctors);
     } catch (error) {
         res.status(400).json({ message: error.message });

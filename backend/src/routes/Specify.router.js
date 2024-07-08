@@ -12,6 +12,6 @@ specifyRouter.delete('/:id', specifyController.deleteSpecify);
 
 // list doctor
 specifyRouter.get('/', specifyController.getAllSpecify);
-specifyRouter.get('/:specifyName/doctors', specifyController.getAllDoctorBySpecify);
+specifyRouter.get('/:specifyid/doctors', specifyController.getAllDoctorBySpecify);
 
 module.exports = specifyRouter;
