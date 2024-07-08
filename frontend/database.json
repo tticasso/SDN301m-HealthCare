@@ -1,6 +1,5 @@
 {
   "user": [
-    
     {
       "id": "buyzeir9t",
       "email": "tungtk@gmail.com",
@@ -13,6 +12,32 @@
       "img": "",
       "status": "",
       "roleId": 1
+    },
+    {
+      "id": "5yq75mjyc",
+      "email": "hieuhihi@gmail.com",
+      "password": "123456yyy",
+      "fullname": "Lã Văn Hiếu",
+      "dob": "2003-01-01",
+      "gender": "Female",
+      "phone": "0966768150",
+      "address": "Thanh Sơn, Ba Chẽ, Quảng Ninh",
+      "img": "",
+      "status": "",
+      "roleId": 1
+    },
+    {
+      "id": "2xlrf2pwt",
+      "email": "lahieutx123@gmail.com",
+      "password": "123456yy",
+      "fullname": "",
+      "dob": "",
+      "gender": "",
+      "phone": "",
+      "address": "",
+      "img": "",
+      "status": "",
+      "roleId": 1
     }
   ],
   "doctor": [
@@ -22,7 +47,10 @@
       "place": "Benh vien trung uong bach mai",
       "shift": "20-12-2020",
       "fullname": "Nguyen Van A",
-      "specialized": ["1", "3"],
+      "specialized": [
+        "1",
+        "3"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7_dRxlSj2yi0l2xejhKC0yZiaW7yWb91NLw&s",
       "address": "242 Nguyễn Chí Thanh, Phường 2, Quận 10, Hồ Chí Minh"
     },
@@ -32,7 +60,10 @@
       "place": "Benh vien Cho Ray",
       "shift": "22-8-2020",
       "fullname": "Nguyen Van B",
-      "specialized": ["1", "4"],
+      "specialized": [
+        "1",
+        "4"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDj1_LpknYdKRE1kzpVXHxDCPvTgwcmAeX2g&s",
       "address": "123 Trần Hưng Đạo, Quận 1, Hồ Chí Minh"
     },
@@ -42,7 +73,10 @@
       "place": "Benh vien Quang Ninh",
       "shift": "21-12-2020",
       "fullname": "La Van Hieu",
-      "specialized": ["1", "2"],
+      "specialized": [
+        "1",
+        "2"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuSrhESglrI1OvIf55s2_RO9CR8oklgfKvtw&s",
       "address": "456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh"
     },
@@ -52,7 +86,10 @@
       "place": "Benh vien Phu Tho",
       "shift": "23-12-2020",
       "fullname": "Nguyen Cong Hieu",
-      "specialized": ["1", "2"],
+      "specialized": [
+        "1",
+        "2"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEVcpF0OGbYOuoqLGxy0mlLLxlhjGS83puzw&s",
       "address": "456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh"
     },
@@ -62,7 +99,10 @@
       "place": "Benh vien Lang Son",
       "shift": "18-12-2020",
       "fullname": "Vu Duc Trung",
-      "specialized": ["1", "2"],
+      "specialized": [
+        "1",
+        "2"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTvxDh56rbodFo1Ny8XalPwecWKcAgV0_nfQ&s",
       "address": "456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh"
     },
@@ -72,98 +112,269 @@
       "place": "Benh vien Bac Ninh",
       "shift": "19-12-2020",
       "fullname": "Ta Khanh Tung",
-      "specialized": ["1", "2"],
+      "specialized": [
+        "1",
+        "2"
+      ],
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "address": "456 Nguyễn Tri Phương, Quận 10, Hồ Chí Minh"
+    }
+  ],
+  "doctorSchedule": [
+    {
+      "id": "1",
+      "doctorId": "1",
+      "doctorProfileId": "1",
+      "time": [
+        {
+          "day": "Th 6, 31-05",
+          "slots": [
+            "17:30-17:45",
+            "17:45-18:00",
+            "18:00-18:15",
+            "18:15-18:30",
+            "18:30-18:45",
+            "18:45-19:00",
+            "19:30-19:45",
+            "19:45-20:00",
+            "20:00-20:15",
+            "20:15-20:30",
+            "20:30-20:45",
+            "20:45-21:00"
+          ]
+        },
+        {
+          "day": "Th 2, 03-06",
+          "slots": [
+            "08:00-08:15",
+            "08:15-08:30",
+            "08:30-08:45",
+            "08:45-09:00",
+            "09:00-09:15",
+            "09:15-09:30"
+          ]
+        },
+        {
+          "day": "Th 4, 05-06",
+          "slots": [
+            "10:00-10:15",
+            "10:15-10:30",
+            "10:30-10:45",
+            "10:45-11:00",
+            "11:00-11:15",
+            "11:15-11:30"
+          ]
+        },
+        {
+          "day": "Th 6, 07-06",
+          "slots": [
+            "14:00-14:15",
+            "14:15-14:30",
+            "14:30-14:45",
+            "14:45-15:00",
+            "15:00-15:15",
+            "15:15-15:30"
+          ]
+        },
+        {
+          "day": "Th 2, 10-06",
+          "slots": [
+            "16:00-16:15",
+            "16:15-16:30",
+            "16:30-16:45",
+            "16:45-17:00",
+            "17:00-17:15",
+            "17:15-17:30"
+          ]
+        }
+      ],
+      "status": "true",
+      "note": ""
+    },
+    {
+      "id": "2",
+      "doctorId": "2",
+      "doctorProfileId": "2",
+      "time": [
+        {
+          "day": "Th 6, 31-05",
+          "slots": [
+            "17:30-17:45",
+            "17:45-18:00",
+            "18:00-18:15",
+            "18:15-18:30",
+            "18:30-18:45",
+            "18:45-19:00",
+            "19:30-19:45",
+            "19:45-20:00",
+            "20:00-20:15",
+            "20:15-20:30",
+            "20:30-20:45",
+            "20:45-21:00"
+          ]
+        },
+        {
+          "day": "Th 2, 03-06",
+          "slots": [
+            "08:00-08:15",
+            "08:15-08:30",
+            "08:30-08:45",
+            "08:45-09:00",
+            "09:00-09:15",
+            "09:15-09:30"
+          ]
+        },
+        {
+          "day": "Th 4, 05-06",
+          "slots": [
+            "10:00-10:15",
+            "10:15-10:30",
+            "10:30-10:45",
+            "10:45-11:00",
+            "11:00-11:15",
+            "11:15-11:30"
+          ]
+        },
+        {
+          "day": "Th 6, 07-06",
+          "slots": [
+            "14:00-14:15",
+            "14:15-14:30",
+            "14:30-14:45",
+            "14:45-15:00",
+            "15:00-15:15",
+            "15:15-15:30"
+          ]
+        },
+        {
+          "day": "Th 2, 10-06",
+          "slots": [
+            "16:00-16:15",
+            "16:15-16:30",
+            "16:30-16:45",
+            "16:45-17:00",
+            "17:00-17:15",
+            "17:15-17:30"
+          ]
+        }
+      ],
+      "status": "true",
+      "note": ""
+    }
+  ],
+  "appointment": [
+    {
+      "id": "d197",
+      "patientId": "5yq75mjyc",
+      "doctorId": "1",
+      "appointmentTime": "Th 2, 03-06 08:15-08:30",
+      "status": "true",
+      "note": "đẹp trai số 1"
+    },
+    {
+      "id": "2848",
+      "patientId": "5yq75mjyc",
+      "doctorId": "2",
+      "appointmentTime": "Th 6, 07-06 15:15-15:30",
+      "status": "true",
+      "note": "note 2"
+    },
+    {
+      "id": "2de6",
+      "patientId": "5yq75mjyc",
+      "doctorId": "2",
+      "appointmentTime": "Th 2, 03-06 09:00-09:15",
+      "status": "true",
+      "note": ""
     }
   ],
   "specialized": [
     {
       "id": "1",
-      "specializedName":"Pediatrics Department"
+      "specializedName": "Pediatrics Department"
     },
     {
       "id": "2",
-      "specializedName":"Specialization in Obstetrics"
+      "specializedName": "Specialization in Obstetrics"
     },
     {
       "id": "3",
-      "specializedName":"Eye Specialist"
+      "specializedName": "Eye Specialist"
     },
     {
       "id": "4",
-      "specializedName":"ENT specialist"
+      "specializedName": "ENT specialist"
     },
     {
       "id": "5",
-      "specializedName":"Specialized in Dermatology"
+      "specializedName": "Specialized in Dermatology"
     },
     {
       "id": "6",
-      "specializedName":"Specialization in Traditional Medicine"
+      "specializedName": "Specialization in Traditional Medicine"
     },
     {
       "id": "7",
-      "specializedName":"Rehabilitation Specialist"
+      "specializedName": "Rehabilitation Specialist"
     }
   ],
-  "hospitals":[
+  "hospitals": [
     {
-      "id":"1",
+      "id": "1",
       "name": "Bệnh viện cám cò",
       "address": "23 Đình thôn, Mỹ Đình",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     },
     {
-      "id":"1",
+      "id": "1",
       "name": "Benh vien ba che",
       "address": "723 Ba che thanh pho ha long",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     },
     {
-      "id":"1",
+      "id": "1",
       "name": "Benh vien trung uong",
       "address": "23 duong tran phu Ha Dong",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     },
     {
-      "id":"1",
+      "id": "1",
       "name": "Benh vien quang ninh",
       "address": "123 duong gigig",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     },
     {
-      "id":"1",
+      "id": "1",
       "name": "Benh vien hihi",
       "address": "346 ooppaosd",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     },
     {
-      "id":"1",
+      "id": "1",
       "name": "Benh vien haha",
       "address": "35 nguyen duy tuat, ha dong",
       "startTime": "Thứ 2-6, 7:30am - 5pm",
       "endTime": "Thứ 7 - CN, 8am - 5hpm",
-      "hospitalAvatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
+      "hospitalAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s",
       "doctorAvatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnEaTaBpwpdATOGGMRtoepiI1BUbDq04Q1Zg&s"
     }
   ],
-  "specialties":[
+  "specialties": [
     {
       "id": "1",
       "specialtyName": "Nursing",

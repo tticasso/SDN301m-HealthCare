@@ -29,6 +29,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    console.log("userId: ", userId);
     fetch(`http://localhost:9999/user/${userId}`)
       .then((response) => response.json())
       .then((data) => setUser(data))
@@ -168,6 +169,7 @@ export default function UserProfile() {
       }
 
       setSuccess("User updated successfully!");
+      window.location.href = "/";
     } catch (error) {
       setError((prev) => ({ ...prev, update: "Failed to update user." }));
     }
@@ -176,7 +178,7 @@ export default function UserProfile() {
   const handlePasswordChange = () => {
     setPasswordInputEnabled(true);
   };
-
+  const userId = localStorage.getItem("userId");
   return (
     <div className="w-full">
       <div className="flex border-solid border-l-2 border-b-2 rounded-[8px]">

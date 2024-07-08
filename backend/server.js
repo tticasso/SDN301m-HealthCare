@@ -16,7 +16,7 @@ const appointmentRouter = require('./src/routes/AppointmentRouter')
 require('dotenv').config()
 const app = express()
 var corsOptions = {
-    origin: "http://localhost:9999"
+    origin: "http://localhost:3000"
   };
 app.use(bodyParser.json())
 app.use(morgan('dev'))
