@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {Schema} = mongoose
+const { Schema } = mongoose
 
 const appointmentSchema = new Schema({
     patient_id: [{
@@ -17,6 +17,8 @@ const appointmentSchema = new Schema({
         type: String,
     },
     status: String
+}, {
+    timestamps: true
 })
 
 const Appointment = mongoose.model('Appointment', appointmentSchema)
