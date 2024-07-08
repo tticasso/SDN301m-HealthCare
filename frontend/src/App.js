@@ -10,6 +10,10 @@ import BookingAppointment from "./pages/BookingAppointment";
 import Profile from "./pages/UserProfileMenu";
 
 import HospitalDetail from "./pages/HospitalDetail";
+import UserManagement from "./components/UserManage";
+import LayoutPage from "./components/Dashboard";
+import HospitalManage from "./components/HospitalManage";
+import SpecifyManage from "./components/SpecifyManage";
 
 const App = () => {
   return (
@@ -22,7 +26,12 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/doctor-list" element={<DoctorList />} />
         <Route path="/hospital" element={<HospitalDetail />} />
-
+        
+        <Route path="/admin" element={<LayoutPage />}>
+          <Route path="user-manage" element={<UserManagement />} />
+          <Route path="hospital-manage" element={<HospitalManage />} />
+          <Route path="specify-manage" element={<SpecifyManage />} />
+        </Route>
       </Routes>
     </div>
   );
