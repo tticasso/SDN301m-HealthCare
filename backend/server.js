@@ -13,6 +13,7 @@ const medicalRecordRouter = require('./src/routes/MedicalRecordRouter')
 const hospitalRouter = require('./src/routes/HospitalRouter')
 const appointmentRouter = require('./src/routes/AppointmentRouter')
 const specifyRouter = require('./src/routes/Specify.router')
+const authRouter = require('./src/routes/Auth.router')
 
 require('dotenv').config()
 const app = express()
@@ -40,6 +41,7 @@ app.use('/appointment', appointmentRouter)
 app.use('/prescription', prescriptionRouter)
 app.use('/doctor', doctorRouter)
 app.use('/specify', specifyRouter)
+app.use('/auth', authRouter)
 DBconnect();
 
 app.use(async (req, res, next) => {
