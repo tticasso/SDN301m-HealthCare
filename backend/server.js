@@ -21,7 +21,7 @@ const questionRouter = require('./src/routes/QuestionRouter')
 require('dotenv').config()
 const app = express()
 var corsOptions = {
-    origin: "http://localhost:9999"
+    origin: "http://localhost:3000"
 };
 app.use(bodyParser.json())
 app.use(morgan('dev'))
@@ -94,7 +94,7 @@ io.on("connection", (socket) => {
 
 //httpServer.listen(portSocket);
 
-app.use('/doctor', docProfileRouter)
+// app.use('/doctor', docProfileRouter)
 DBconnect();
 
 app.use(async (req, res, next) => {

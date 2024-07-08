@@ -10,7 +10,7 @@ const hospitalSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    phone: Number,
+    phone: String,
     address: String,
     slogan: String,
     info: String,
