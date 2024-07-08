@@ -8,7 +8,14 @@ import Homepage from "./pages/Homepage";
 import DoctorList from "./pages/DoctorList";
 import BookingAppointment from "./pages/BookingAppointment";
 import HospitalDetail from "./pages/HospitalDetail";
+<<<<<<< Updated upstream
 import HospitalList from "./pages/HospitalList";
+=======
+import UserManagement from "./components/UserManage";
+import LayoutPage from "./components/Dashboard";
+import HospitalManage from "./components/HospitalManage";
+import SpecifyManage from "./components/SpecifyManage";
+>>>>>>> Stashed changes
 
 const App = () => {
   return (
@@ -21,8 +28,17 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/doctor-list" element={<DoctorList />} />
         <Route path="/hospital" element={<HospitalDetail />} />
+<<<<<<< Updated upstream
         <Route path="/hospital-list" element={<HospitalList />} />
 
+=======
+        
+        <Route path="/admin" element={<LayoutPage />}>
+          <Route path="user-manage" element={<UserManagement />} />
+          <Route path="hospital-manage" element={<HospitalManage />} />
+          <Route path="specify-manage" element={<SpecifyManage />} />
+        </Route>
+>>>>>>> Stashed changes
       </Routes>
     </div>
   );
