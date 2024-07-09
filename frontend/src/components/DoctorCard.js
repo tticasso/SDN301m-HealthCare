@@ -2,11 +2,18 @@ import React from "react";
 import { UilArrowRight } from "@iconscout/react-unicons";
 import { useNavigate } from "react-router-dom";
 
-export default function DoctorCard({ doctor, specialties }) {
+export default function DoctorCard({ doctor, user, specialties, hospital }) {
   const navigate = useNavigate();
 
   const handleBookingClick = () => {
-    navigate(`/booking/${doctor.id}`);
+    navigate(`/booking/${doctor.docProfile.doctor}`);
+  };
+
+  const getSpecialtyNames = () => {
+    return doctor.docProfile?.specify.map((specId) => {
+      const specialty = specialties.find((spec) => spec._id === specId);
+      return specialty ? specialty.name : "";
+    }).join(", ");
   };
 
   return (
@@ -14,37 +21,31 @@ export default function DoctorCard({ doctor, specialties }) {
       <div className="flex justify-center items-center w-full mt-[10px]">
         <div className="w-[120px] h-[120px] border-[3px] rounded-[100px]">
           <img
-            src={doctor.avatar}
+            src={user?.image}
             alt="doctor"
-            className="w-full h-full object-fit rounded-[100px]"
+            className="w-full h-full object-cover rounded-[100px]"
           />
         </div>
       </div>
       <div className="w-full mt-[5px]">
         <p className="text-[15px] font-bold text-center">
-          {doctor.fullname}
+          {user?.fullname}
         </p>
         <div className="flex flex-wrap justify-center">
-          {specialties.map((specialty, index) => (
-            <p
-              key={index}
-              className="text-[13px] font-light text-center mr-2"
-            >
-              {specialty}.
-            </p>
-          ))}
+          <p className="text-[13px] font-light text-center mr-2">
+            {getSpecialtyNames()}
+          </p>
         </div>
         <p className="text-[13px] font-light text-center">
-          {doctor.place}
+          {hospital?.name}
         </p>
       </div>
       <div className="w-full h-[1px] bg-[#EEEBEE] mt-[10px]"></div>
-      <div className='flex justify-between items-center px-[10px] mt-[10px]'  >
+      <div className='flex justify-between items-center px-[10px] mt-[10px]'>
         <div className="w-full flex justify-between items-center cursor-pointer" onClick={handleBookingClick}>
-        <p className='text-[15px] font-bold pl-[20px]'>Đặt lịch khám</p>
-        <UilArrowRight/>
+          <p className='text-[15px] font-bold pl-[20px]'>Đặt lịch khám</p>
+          <UilArrowRight />
         </div>
-        
       </div>
     </div>
   );

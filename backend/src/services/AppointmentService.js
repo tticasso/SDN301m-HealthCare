@@ -1,5 +1,6 @@
 const Appointment = require("../models/AppointmentModels");
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const User = require("../models/UserModel");
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -8,20 +9,28 @@ const transporter = nodemailer.createTransport({
     }
 });
 async function sendEmailBookingNew(appointment) {
-    const mailOptions = {
-        from: 'rotatoby23@gmail.com',
-        to: 'lahieutx@gmail.com',
-        subject: 'New Appointment Created',
-        html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
-               <h4>Information for booked appointment:</h4>
-               <div>Patient's name and email: ${appointment.patient_id}</div>
-               <div>Time: ${appointment.appointment_time}</div>
-               <div>Date: ${appointment.appointment_date}</div>
-               <div>Status: <b>${appointment.status}</b></div>
-               <h4>Health Care system will automatically send email notification when confirmed appointment is complete. Thank you!</h4>`
-    };
-
     try {
+        const patient = await User.findById(appointment.patient_id);
+        const doctor = await User.findById(appointment.doctor_id);
+
+        if (!patient) {
+            throw new Error('Patient not found');
+        }
+
+        const mailOptions = {
+            from: 'rotatoby23@gmail.com',
+            to: patient.email,
+            subject: 'New Appointment Created',
+            html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
+                   <h4>Information for booked appointment:</h4>
+                   <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
+                   <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Time: ${appointment.appointment_time}</div>
+                   <div>Date: ${appointment.appointment_date}</div>
+                   <div>Status: <b>${appointment.status}</b></div>
+                   <h4>Health Care system will automatically send email notification when confirmed appointment is complete. Thank you!</h4>`
+        };
+
         await transporter.sendMail(mailOptions);
         console.log('Email sent successfully');
     } catch (error) {
@@ -90,26 +99,34 @@ async function editAppointmentStatusAndSendEmail(id) {
 }
 
 async function sendSuccessEmail(appointment) {
-    const mailOptions = {
-        from: 'rotatoby23@gmail.com',
-        to: 'lahieutx@gmail.com',
-        subject: 'Email notification of booking progress at Doctors Care',
-        html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
-               <h4>Information for booked appointment:</h4>
-               <div>Patient's id: ${appointment.patient_id}</div>
-               <div>Doctor's id: ${appointment.doctor_id}</div>
-               <div>Time: ${appointment.appointment_time}</div>
-               <div>Date: ${appointment.appointment_date}</div>
-               <div>Status: <b>${appointment.status}</b></div>
-               <h4>Thank you very much !</h4>`
-    };
     try {
+        const patient = await User.findById(appointment.patient_id);
+        const doctor = await User.findById(appointment.doctor_id);
+        if (!patient) {
+            throw new Error('Patient not found');
+        }
+
+        const mailOptions = {
+            from: 'rotatoby23@gmail.com',
+            to: patient.email,
+            subject: 'Email notification of booking progress at Doctors Care',
+            html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
+                   <h4>Information for booked appointment:</h4>
+                   <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
+                   <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Time: ${appointment.appointment_time}</div>
+                   <div>Date: ${appointment.appointment_date}</div>
+                   <div>Status: <b>${appointment.status}</b></div>
+                   <h4>Thank you very much!</h4>`
+        };
+
         await transporter.sendMail(mailOptions);
         console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error);
     }
 }
+
 
 function generateAppointmentTimes() {
     const times = [];

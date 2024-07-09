@@ -1,6 +1,27 @@
-import Header from "../components/Header";
-import { UilHeart, UilUser, UilGlobe, UilLocationPinAlt, UilPhone } from '@iconscout/react-unicons'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Header from '../components/Header';
+import { UilHeart, UilGlobe, UilLocationPinAlt, UilPhone } from '@iconscout/react-unicons';
+import axios from 'axios';
+
 export default function HospitalDetail() {
+    const { id } = useParams();
+    const [hospital, setHospital] = useState(null);
+
+    useEffect(() => {
+        axios.get(`http://localhost:9999/hospital/${id}`)
+            .then(response => {
+                setHospital(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching hospital:', error);
+            });
+    }, [id]);
+
+    if (!hospital) {
+        return null; // or loading indicator
+    }
+
     return (
         <div className="w-screen h-screen">
             <Header />
@@ -8,28 +29,28 @@ export default function HospitalDetail() {
                 <div className="w-2/3 my-[10px]">
                     <p className="font-medium italic text-[20px] py-[20px]">Trang chủ / Bệnh viện</p>
                     <div className="w-full bg-white rounded-[10px] py-[30px] px-[20px]">
-                        <div className="w-full flex justify-between ">
+                        <div className="w-full flex justify-between">
                             <div className=" flex">
-                                <img className="w-[150px] h-[150px] rounded-[150px]" src="https://cdn.thuvienphapluat.vn/uploads/Hoidapphapluat/2023/DKV/thang8/benh-vien.jpg" alt="logo" />
+                                <img className="w-[150px] h-[150px] rounded-[150px]" src={hospital.image} alt="hospital-logo" />
                                 <div className="h-[150px] pl-[10px]">
-                                    <p className="text-[24px] font-semibold">Bệnh viện Bạch Mai</p>
-                                    <p className="text-[16px] font-light">Hãy nói theo cách của bạn</p>
+                                    <p className="text-[24px] font-semibold">{hospital.name}</p>
+                                    <p className="text-[16px] font-light">{hospital.slogan}</p>
                                     <div className="flex gap-5 mt-[10px]">
                                         <div className="flex p-[5px] gap-[5px] border rounded-full">
                                             <UilGlobe size={24} color="#000000" />
-                                            <p>abcd.com.vn</p>
+                                            <p>{hospital.website}</p>
                                         </div>
                                         <div className="flex p-[5px] gap-[5px] border rounded-full">
                                             <UilLocationPinAlt size={24} color="#000000" />
-                                            <p>Ha Noi, Viet Nam</p>
+                                            <p>{hospital.address}</p>
                                         </div>
                                         <div className="flex p-[5px] gap-[5px] border rounded-full">
                                             <UilPhone size={24} color="#000000" />
-                                            <p>0966768150</p>
+                                            <p>{hospital.phone}</p>
                                         </div>
                                     </div>
                                     <p className="text-[16px] font-semibold">Giờ làm việc:</p>
-                                    <p>6:00 - 17:00</p>
+                                    <p>{hospital.startTime} - {hospital.endTime}</p>
                                 </div>
                             </div>
                             <div className="">
@@ -41,9 +62,7 @@ export default function HospitalDetail() {
                         </div>
                         <div className="mt-[20px] px-[30px]">
                             <p className="text-[20px] font-semibold">Giới thiệu</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
+                            <p className="font-light text-[16] mt-[10px]">{hospital.info}</p>
                         </div>
                     </div>
                 </div>
