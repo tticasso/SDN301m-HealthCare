@@ -9,6 +9,7 @@ import {
     Input,
     Select,
     DatePicker,
+    Tooltip,
     notification,
     Space,
     Popconfirm,
@@ -32,7 +33,7 @@ const HospitalManage = () => {
 
     const fetchHospitals = async () => {
         try {
-            const response = await axios.get('http://localhost:9999/hospital/list');
+            const response = await axios.get('http://localhost:9999/hospital');
             setHospital(response.data);
         } catch (error) {
             console.error('Error fetching hospitals:', error);
@@ -42,7 +43,7 @@ const HospitalManage = () => {
     const handleFormSubmit = async (values) => {
         try {
             if (editingHospital) {
-                await axios.put(`http://localhost:9999/hospital/edit/${editingHospital._id}`, values);
+                await axios.put(`http://localhost:9999/hospital/${editingHospital._id}`, values);
                 notification.success({ message: 'Hospital updated successfully' });
             } else {
                 await axios.post('http://localhost:9999/hospital/create', values);
@@ -60,7 +61,7 @@ const HospitalManage = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:9999/hospital/delete/${id}`);
+            await axios.delete(`http://localhost:9999/hospital/${id}`);
             fetchHospitals();
             notification.success({ message: 'Hospital deleted successfully' });
         } catch (error) {
@@ -101,7 +102,7 @@ const HospitalManage = () => {
         },
         {
             title: 'Địa chỉ',
-            width: 150,
+            width: 200,
             dataIndex: 'address',
             key: 'address',
         },
@@ -116,6 +117,17 @@ const HospitalManage = () => {
             width: 150,
             dataIndex: 'info',
             key: 'info',
+            ellipsis: true,
+            render: (text) => {
+                const limit = 27; // Giới hạn số ký tự
+                if (text.length <= limit) return text;
+                const truncatedText = text.slice(0, limit) + '...';
+                return (
+                    <Tooltip title={text}>
+                        {truncatedText}
+                    </Tooltip>
+                );
+            },
         },
         {
             title: 'Giờ làm việc',

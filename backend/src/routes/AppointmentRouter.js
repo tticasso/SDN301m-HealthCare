@@ -11,6 +11,6 @@ appointmentRouter.get('/time-slots', appointmentController.generateAppointmentTi
 appointmentRouter.get('/available-time-slots', appointmentController.getAvailableTimeSlots);
 appointmentRouter.put('/edit/:id', appointmentController.editAppointment),
 appointmentRouter.put('/edit/confirm/:id', appointmentController.editAppointmentStatusAndSendEmail),
-// appointmentRouter.post('/delete/:id', appointmentController),
+appointmentRouter.delete('/delete/:id', appointmentController.deleteAppointmentById),
 
 module.exports = appointmentRouter

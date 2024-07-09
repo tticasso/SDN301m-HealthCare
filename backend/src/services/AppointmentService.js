@@ -1,11 +1,14 @@
 const Appointment = require("../models/AppointmentModels");
 const nodemailer = require('nodemailer');
 const User = require("../models/UserModel");
+const nodemailer = require('nodemailer');
+const User = require("../models/UserModel");
+const dayjs = require('dayjs')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'rotatoby23@gmail.com',
-        pass: 'gmbluywuqnapjccx'
+        user: 'medicalcare404@gmail.com',
+        pass: 'guor ffdo boki bzen'
     }
 });
 async function sendEmailBookingNew(appointment) {
@@ -17,8 +20,18 @@ async function sendEmailBookingNew(appointment) {
             throw new Error('Patient not found');
         }
 
+        const appointmentDate = new Date(appointment.appointment_date);
+        const formattedDate = appointmentDate.toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone: 'Asia/Bangkok',
+        });
+        const timeZoneString = 'GMT+0700 (Indochina Time)';
+
         const mailOptions = {
-            from: 'rotatoby23@gmail.com',
+            from: 'medicalcare404@gmail.com',
             to: patient.email,
             subject: 'New Appointment Created',
             html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
@@ -26,9 +39,48 @@ async function sendEmailBookingNew(appointment) {
                    <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
                    <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
                    <div>Time: ${appointment.appointment_time}</div>
-                   <div>Date: ${appointment.appointment_date}</div>
+                   <div>Date: ${formattedDate} ${timeZoneString}</div>
                    <div>Status: <b>${appointment.status}</b></div>
                    <h4>Health Care system will automatically send email notification when confirmed appointment is complete. Thank you!</h4>`
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
+
+async function sendSuccessEmail(appointment) {
+    try {
+        const patient = await User.findById(appointment.patient_id);
+        const doctor = await User.findById(appointment.doctor_id);
+        if (!patient) {
+            throw new Error('Patient not found');
+        }
+
+        const appointmentDate = new Date(appointment.appointment_date);
+        const formattedDate = appointmentDate.toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone: 'Asia/Bangkok',
+        });
+        const timeZoneString = 'GMT+0700 (Indochina Time)';
+
+        const mailOptions = {
+            from: 'medicalcare404@gmail.com',
+            to: patient.email,
+            subject: 'Email notification of booking progress at Doctors Care',
+            html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
+                   <h4>Information for booked appointment:</h4>
+                   <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
+                   <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Time: ${appointment.appointment_time}</div>
+                   <div>Date: ${formattedDate} ${timeZoneString}</div>
+                   <div>Status: <b>${appointment.status}</b></div>
+                   <h4>Thank you very much!</h4>`
         };
 
         await transporter.sendMail(mailOptions);
@@ -128,6 +180,8 @@ async function sendSuccessEmail(appointment) {
 }
 
 
+
+
 function generateAppointmentTimes() {
     const times = [];
     const startHour = 7;
@@ -155,12 +209,21 @@ function getAvailableTimeSlots() {
     return availableSlots.map(slot => slot.time);
 }
 
+async function deleteAppointmentById(id) {
+    try {
+        await Appointment.findByIdAndDelete(id);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const appointmentService = {
     create,
     getAppointmentById,
     editAppointment,
     editAppointmentStatusAndSendEmail,
     generateAppointmentTimes,
-    getAvailableTimeSlots
+    getAvailableTimeSlots,
+    deleteAppointmentById
 }
 module.exports = appointmentService

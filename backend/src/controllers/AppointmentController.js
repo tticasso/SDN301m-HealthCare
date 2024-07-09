@@ -51,13 +51,27 @@ async function getAvailableTimeSlots(req, res, next) {
     res.json(availableSlots)
 }
 
+async function deleteAppointmentById(req, res, next) {
+    try {
+        if (req.params.id) {
+            await appointmentService.deleteAppointmentById(req.params.id);
+            res.status(200).json({
+                "message": `Delete appointment with id: ${req.params.id} successful`
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 const appointmentController = {
     create,
     getAppointmentById,
     editAppointment,
     editAppointmentStatusAndSendEmail,
     generateAppointmentTimes,
-    getAvailableTimeSlots
+    getAvailableTimeSlots,
+    deleteAppointmentById
 }
 
 
