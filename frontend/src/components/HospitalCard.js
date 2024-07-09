@@ -1,10 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HospitalCard = ({ hospital }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/hospital/${hospital._id}`);
+    };
+
     return (
-        <div className="h-[300px] rounded-lg overflow-hidden shadow-lg border-[2px]">
+        <div className="h-[300px] rounded-lg overflow-hidden shadow-lg border-[2px] cursor-pointer" onClick={handleClick}>
             <div className="relative bg-blue-400 text-white text-center h-[132px]">
-                <img src={hospital.hospitalAvatar} alt="hospital-avatar" className="w-full h-full object-fit" />
+                <img src={hospital.image} alt="hospital-avatar" className="w-full h-full object-fit" />
                 <div className="absolute bottom-0 left-1/4 transform -translate-x-1/2 translate-y-1/2 w-[100px] h-[100px] bg-white rounded-full">
                     <img src={hospital.doctorAvatar} alt="doctor-avatar" className="w-full h-full object-fit rounded-[100px]" />
                 </div>
