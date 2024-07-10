@@ -26,28 +26,43 @@ export default function Login() {
       setError(validationError);
       return;
     }
-
+  
     const user = {
       email,
       password,
     };
-
-    const userResponse = await fetch("http://localhost:9999/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    const responseData = await userResponse.json();
-    const token = responseData.token.token;
-    const userId = responseData.token.login.id;
-    const role = responseData.token.login.role;
-    localStorage.setItem("role", role);
-    localStorage.setItem("userId", userId);
-    localStorage.setItem("token", token);
-    window.location.href = "/";
+  
+    try {
+      const userResponse = await fetch("http://localhost:9999/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+  
+      if (!userResponse.ok) {
+        const errorData = await userResponse.json();
+        const errorMessage = errorData.message || "Login failed. Please try again.";
+        setError(errorMessage);
+        return;
+      }
+  
+      const responseData = await userResponse.json();
+      console.log("responseData: ", responseData);
+      const token = responseData.token.token;
+      const userId = responseData.token.login.id;
+      const role = responseData.token.login.role;
+      localStorage.setItem("role", role);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("token", token);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("An error occurred. Please try again later.");
+    }
   };
+  
 
   return (
     <div className="w-[420px] h-[600px] bg-white rounded-[30px] flex items-center justify-center">

@@ -4,8 +4,8 @@ const User = require("../models/UserModel");
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'rotatoby23@gmail.com',
-        pass: 'gmbluywuqnapjccx'
+        user: 'healthcaresystem31@gmail.com',
+        pass: 'wmcd pufy wvlu xqkh'
     }
 });
 async function sendEmailBookingNew(appointment) {
@@ -18,20 +18,35 @@ async function sendEmailBookingNew(appointment) {
         }
 
         const mailOptions = {
-            from: 'rotatoby23@gmail.com',
+            from: 'healthcaresystem31@gmail.com',
             to: patient.email,
-            subject: 'New Appointment Created',
-            html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
-                   <h4>Information for booked appointment:</h4>
-                   <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
-                   <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
-                   <div>Time: ${appointment.appointment_time}</div>
-                   <div>Date: ${appointment.appointment_date}</div>
-                   <div>Status: <b>${appointment.status}</b></div>
-                   <h4>Health Care system will automatically send email notification when confirmed appointment is complete. Thank you!</h4>`
+            subject: 'Lịch khám mới đã được tạo',
+            html: `<h3>Cảm ơn bạn đã đặt lịch khám tại hệ thống Health Care</h3>
+                   <h4>Thông tin đặt khám:</h4>
+                   <div>Tên bệnh nhân và email: ${patient.fullname} (${patient.email})</div>
+                   <div>Tên bác sĩ và email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Thời gian: ${appointment.appointment_time}</div>
+                   <div>Ngày khám: ${appointment.appointment_date}</div>
+                   <div>Trạng thái: <b>Chờ xác nhận</b></div>
+                   <h4>Health Care sẽ tự động gửi thông báo qua email khi cuộc hẹn được xác nhận hoàn tất. Cảm ơn!</h4>`
+        };
+        const mailOptions2 = {
+            from: 'healthcaresystem31@gmail.com',
+            to: doctor.email,
+            subject: 'Lịch khám mới đã được tạo',
+            html: `<h3>Bạn có lịch khám mới tại Health Care</h3>
+                   <h4>Thông tin đặt khám:</h4>
+                   <div>Tên bệnh nhân và email:: ${patient.fullname} (${patient.email})</div>
+                   <div>Tên bác sĩ và email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Thời gian: ${appointment.appointment_time}</div>
+                   <div>Ngày khám: ${appointment.appointment_date}</div>
+                   <div>Trạng thái: <b>Chờ xác nhận</b></div>
+                   <h4>Kiểm tra lịch khám của bạn để xác nhận. Cảm ơn!</h4>`
         };
 
         await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions2);
+
         console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error);
@@ -107,20 +122,35 @@ async function sendSuccessEmail(appointment) {
         }
 
         const mailOptions = {
-            from: 'rotatoby23@gmail.com',
+            from: 'healthcaresystem31@gmail.com',
             to: patient.email,
-            subject: 'Email notification of booking progress at Doctors Care',
-            html: `<h3>Thank you for booking an appointment at Health Care's system</h3>
-                   <h4>Information for booked appointment:</h4>
-                   <div>Patient's name and email: ${patient.fullname} (${patient.email})</div>
-                   <div>Doctor name and email: ${doctor.fullname} (${doctor.email})</div>
+            subject: 'Thông báo về trạng thái đặt khám tại HealthCare',
+            html: `<h3>Bác sĩ đã xác nhận phiếu khám của bạn! Cảm ơn bạn đã đặt khám tại hệ thống HealthCare</h3>
+                   <h4>Thông tin đặt khám:</h4>
+                   <div>Tên bệnh nhân và email: ${patient.fullname} (${patient.email})</div>
+                   <div>Tên bác sĩ và email: ${doctor.fullname} (${doctor.email})</div>
+                   <div>Thời gian: ${appointment.appointment_time}</div>
+                   <div>Ngày khám: ${appointment.appointment_date}</div>
+                   <div>Trạng thái: <b>Đã xác nhận</b></div>
+                   <h4>Xin chân thành cảm ơn!</h4>`
+        };
+        const mailOptions2 = {
+            from: 'healthcaresystem31@gmail.com',
+            to: doctor.email,
+            subject: 'Thông báo về trạng thái đặt khám tại HealthCare',
+            html: `<h3>Phiếu khám đã được xác nhận:</h3>
+                   <h4>Thông tin đặt khám:</h4>
+                   <div>Tên bệnh nhân và email: ${patient.fullname} (${patient.email})</div>
+                   <div>Tên bác sĩ và email: ${doctor.fullname} (${doctor.email})</div>
                    <div>Time: ${appointment.appointment_time}</div>
                    <div>Date: ${appointment.appointment_date}</div>
-                   <div>Status: <b>${appointment.status}</b></div>
+                   <div>Trạng thái: <b>Đã xác nhận</b></div>
                    <h4>Thank you very much!</h4>`
         };
 
         await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions2);
+
         console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error);

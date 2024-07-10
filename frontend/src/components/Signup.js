@@ -54,34 +54,25 @@ export default function Signup() {
         },
         body: JSON.stringify(user),
       });
-
-      console.log('Response status:', response.status);
-      console.log('Response OK:', response.ok);
-
+    
       if (!response.ok) {
-        console.log("Lỗi ở đây");
-        throw new Error("Failed to create user.");
+        throw new Error("Failed to create user1.");
       }
-
+    
+      // Xử lý khi đăng ký thành công
       const responseData = await response.json();
-      console.log('Response data:', responseData);
-
-      if (!responseData.token || !responseData.token._id) {
-        throw new Error("Response data is missing expected fields.");
-      }
-
       const userId = responseData.token._id;
-
       localStorage.setItem("userId", userId);
-
+      localStorage.setItem("status", responseData.token.status)
+      // Hiển thị thông báo thành công hoặc chuyển hướng đến trang khác
+      console.log("User registered successfully:", responseData);
       navigate("/menu", { state: { selectedTab: "taiKhoan" } });
     } catch (error) {
-      console.log("Lỗi ở đây 2", error);
+      console.error("Error during registration:", error);
       setError("Failed to create user.");
     }
-
-
-
+    
+    
   };
 
   return (
