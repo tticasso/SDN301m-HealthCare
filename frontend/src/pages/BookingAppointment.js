@@ -81,8 +81,9 @@ export default function BookingAppointment() {
     const handleSlotSelection = (date, slot) => {
         setSelectedDate(date);
         setSelectedSlot(slot);
+        console.log(date, slot);
     };
-
+    console.log(selectedDate, selectedSlot);
     const handleBooking = async () => {
         try {
             if (!selectedDate || !selectedSlot) {
@@ -120,7 +121,7 @@ export default function BookingAppointment() {
             alert(`Đặt lịch thành công cho ngày ${selectedDate} vào lúc ${selectedSlot}`);
     
             // Có thể thực hiện các hành động tiếp theo sau khi đặt lịch thành công, ví dụ như làm sạch state hoặc điều hướng đến trang khác.
-    
+            window.location.href = "/menu"
         } catch (error) {
             console.error('Lỗi khi đặt lịch:', error);
             alert('Đã xảy ra lỗi khi đặt lịch. Vui lòng thử lại sau.');

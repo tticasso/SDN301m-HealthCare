@@ -7,7 +7,7 @@ async function createDocProfile (req, res) {
         const docProfile = await doctorService.createDocProfile(req.body);
         res.status(201).json(docProfile);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message }); 
     }
 };
 

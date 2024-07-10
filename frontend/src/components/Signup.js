@@ -47,27 +47,32 @@ export default function Signup() {
     };
 
     try {
-      const response = await fetch("http://localhost:9999/user/register", {
+      const response = await fetch("http://localhost:9999/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
       });
-
+    
       if (!response.ok) {
-        throw new Error("Failed to create user.");
+        throw new Error("Failed to create user1.");
       }
-
+    
+      // Xử lý khi đăng ký thành công
       const responseData = await response.json();
-      const userId = responseData.token.login.id;
-
+      const userId = responseData.token._id;
       localStorage.setItem("userId", userId);
-
+      localStorage.setItem("status", responseData.token.status)
+      // Hiển thị thông báo thành công hoặc chuyển hướng đến trang khác
+      console.log("User registered successfully:", responseData);
       navigate("/menu", { state: { selectedTab: "taiKhoan" } });
     } catch (error) {
+      console.error("Error during registration:", error);
       setError("Failed to create user.");
     }
+    
+    
   };
 
   return (
