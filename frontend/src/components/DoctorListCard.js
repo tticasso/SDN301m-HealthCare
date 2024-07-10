@@ -1,4 +1,13 @@
-export default function DoctorListCard({ image, name, specialties, address }) {
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export default function DoctorListCard({ image, name, specialties, address, doctorId }) {
+    const navigate = useNavigate();
+
+    const handleBooking = () => {
+        navigate(`/booking/${doctorId}`); // Verify doctorId is correctly accessed
+    };
+
     return (
         <div className="flex items-center p-4 border w-full max-w-4xl">
             <img
@@ -21,7 +30,10 @@ export default function DoctorListCard({ image, name, specialties, address }) {
                     Địa chỉ: {address}
                 </p>
             </div>
-            <button className="bg-[#3499AF] text-white px-4 py-2 rounded-md">
+            <button
+                onClick={handleBooking}
+                className="bg-[#3499AF] text-white px-4 py-2 rounded-md"
+            >
                 Đặt khám
             </button>
         </div>

@@ -5,8 +5,13 @@ import { useNavigate } from "react-router-dom";
 export default function DoctorCard({ doctor, user, specialties, hospital }) {
   const navigate = useNavigate();
 
-  const handleBookingClick = () => {
+  const handleBookingClick = (e) => {
+    e.stopPropagation();
     navigate(`/booking/${doctor.docProfile.doctor}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/doctor-detail/${doctor.docProfile.doctor}`);
   };
 
   const getSpecialtyNames = () => {
@@ -17,7 +22,7 @@ export default function DoctorCard({ doctor, user, specialties, hospital }) {
   };
 
   return (
-    <div className="h-[260px] border-[3px] rounded-[20px]">
+    <div className="h-[260px] border-[3px] rounded-[20px] cursor-pointer" onClick={handleCardClick}>
       <div className="flex justify-center items-center w-full mt-[10px]">
         <div className="w-[120px] h-[120px] border-[3px] rounded-[100px]">
           <img

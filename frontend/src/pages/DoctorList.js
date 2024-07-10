@@ -15,11 +15,9 @@ export default function DoctorList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch all doctors
                 const doctorResponse = await axios.get('http://localhost:9999/doctor');
                 const doctorData = doctorResponse.data || [];
 
-                // Fetch user data for each doctor
                 const userPromises = doctorData.map((doc) =>
                     axios.get(`http://localhost:9999/user/${doc.docProfile.doctor}`)
                 );
@@ -30,12 +28,10 @@ export default function DoctorList() {
                 }, {});
                 setUsers(usersData);
 
-                // Fetch specialties data
                 const specialtyResponse = await axios.get('http://localhost:9999/specify');
                 const specialtiesData = specialtyResponse.data || [];
                 setSpecialties(specialtiesData);
 
-                // Fetch hospital data for each doctor
                 const hospitalPromises = doctorData.map((doc) =>
                     axios.get(`http://localhost:9999/hospital/${doc.docProfile.place}`)
                 );
@@ -128,6 +124,7 @@ export default function DoctorList() {
                                 name={users[doctor.docProfile.doctor]?.fullname}
                                 specialties={doctor.docProfile.specify.map(id => specialties.find(specialty => specialty._id === id)?.name)}
                                 address={hospitals.find(hospital => hospital._id === doctor.docProfile.place)?.address}
+                                doctorId={doctor.docProfile.doctor}
                             />
                         ))}
                     </div>

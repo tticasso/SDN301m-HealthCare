@@ -3,17 +3,18 @@ import axios from 'axios';
 import Header from '../components/Header';
 import { UilSearchAlt } from '@iconscout/react-unicons';
 import HospitalListCard from '../components/HospitalListCard';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 export default function HospitalList() {
     const [hospitals, setHospitals] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const hospitalResponse = await axios.get('http://localhost:9999/hospitals');
+                const hospitalResponse = await axios.get('http://localhost:9999/hospital');
                 const hospitalsData = hospitalResponse.data;
-                console.log(hospitalsData);
                 setHospitals(hospitalsData);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -30,6 +31,10 @@ export default function HospitalList() {
 
         return name.includes(searchTermLower) || address.includes(searchTermLower);
     });
+
+    const handleHospitalDetail = (hospitalId) => {
+        navigate(`/hospital/${hospitalId}`); // Navigate to hospital detail page
+    };
 
     return (
         <div className="w-screen h-screen">
@@ -53,12 +58,13 @@ export default function HospitalList() {
                     <div className="w-3/4">
                         {filteredHospitals.map((hospital) => (
                             <HospitalListCard
-                                key={hospital.id}
-                                image={hospital.hospitalAvatar}
+                                key={hospital._id} // Use hospital._id as key
+                                image={hospital.image}
                                 name={hospital.name}
                                 address={hospital.address}
                                 startTime={hospital.startTime}
                                 endTime={hospital.endTime}
+                                onClickDetail={() => handleHospitalDetail(hospital._id)} // Pass hospitalId to onClickDetail
                             />
                         ))}
                     </div>
