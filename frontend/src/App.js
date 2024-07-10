@@ -26,11 +26,11 @@ const App = () => {
         <Route path="/doctor-list" element={<DoctorList />} />
         <Route path="/hospital/:id" element={<HospitalDetail />} />
         <Route path="/hospital-list" element={<HospitalList />} />
-        <Route path="/admin" element={<LayoutPage />}>
-        <Route path="user-manage" element={<UserManagement />} />
-        <Route path="hospital-manage" element={<HospitalManage />} />
-        <Route path="specify-manage" element={<SpecifyManage />} />
-        </Route>
+        <Route path="/admin" element={<LayoutPage />}/>
+        <Route path="/user-manage" element={<UserManagement />} />
+        <Route path="/hospital-manage" element={<HospitalManage />} />
+        <Route path="/specify-manage" element={<SpecifyManage />} />
+        <Route path="/doctor-detail/:id" element={<DoctorDetail />} />
       </Routes>
     </div>
   );

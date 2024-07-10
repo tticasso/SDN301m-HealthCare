@@ -15,12 +15,13 @@ export default function BookingAppointment() {
         // Fetch thông tin bác sĩ dựa trên id
         const fetchDoctorInfo = async () => {
             try {
-                const response = await fetch(`http://localhost:9999/user/${id}`);
+                const response = await fetch(`http://localhost:9999/doctor/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch doctor info');
                 }
                 const data = await response.json();
                 setDoctorInfo(data); // Cập nhật state với thông tin bác sĩ
+                console.log("doctorInf: ", doctorInfo);
             } catch (error) {
                 console.error('Error fetching doctor info:', error);
             }
@@ -59,14 +60,12 @@ export default function BookingAppointment() {
                 }
                 const data = await response.json();
                 const scheduleIds = data.docProfile.schedule;
-                console.log("scheduleIds:", scheduleIds);
                 const schedules = await Promise.all(scheduleIds.map(async (scheduleId) => {
                     const scheduleResponse = await fetch(`http://localhost:9999/doctor/schedule/${scheduleId}`);
                     if (!scheduleResponse.ok) {
                         throw new Error(`Failed to fetch schedule ${scheduleId}`);
                     }
                     const scheduleData = await scheduleResponse.json();
-                    console.log("scheduleData: ", scheduleData);
                     return scheduleData;
                 }));
 
@@ -104,6 +103,7 @@ export default function BookingAppointment() {
                 appointment_time: selectedSlot,
                 note: note // Thêm trường note vào dữ liệu đặt lịch
             };
+
     
             const response = await fetch('http://localhost:9999/appointment/create', {
                 method: 'POST',
@@ -172,11 +172,11 @@ export default function BookingAppointment() {
                             <div className="w-full h-[1px] bg-slate-500"></div>
                             <div className="w-full flex px-[20px] gap-[20px] my-[20px]">
                                 <div className="bg-slate-500 w-[50px] h-[50px] rounded-[40px]">
-                                    <img src={doctorInfo?.image} alt="doctor" className="rounded-full" />
+                                    <img src={doctorInfo?.doctor.image} alt="doctor" className="rounded-full" />
                                 </div>
                                 <div className="">
-                                    <p className="italic text-[18px]">{doctorInfo?.fullname}</p>
-                                    <p className="italic font-thin text-[14px]">{doctorInfo?.address}</p>
+                                    <p className="italic text-[18px]">{doctorInfo?.doctor.fullname}</p>
+                                    <p className="italic font-thin text-[14px]">{doctorInfo?.doctor.address}</p>
                                 </div>
                             </div>
                             <div className="w-full h-[1px] bg-slate-500"></div>
