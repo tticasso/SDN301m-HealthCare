@@ -28,11 +28,11 @@ export default function Login() {
     }
 
     const user = {
-        email,
-        password,
-      };
+      email,
+      password,
+    };
 
-    const userResponse = await fetch("http://localhost:9999/user/login", {
+    const userResponse = await fetch("http://localhost:9999/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,9 @@ export default function Login() {
     const responseData = await userResponse.json();
     const token = responseData.token.token;
     const userId = responseData.token.login.id;
-    localStorage.setItem("userId", userId)
+    const role = responseData.token.login.role;
+    localStorage.setItem("role", role);
+    localStorage.setItem("userId", userId);
     localStorage.setItem("token", token);
     window.location.href = "/";
   };

@@ -169,7 +169,7 @@ export default function UserProfile() {
       }
 
       setSuccess("User updated successfully!");
-      window.location.href = "/";
+      window.location.href = "/login";
     } catch (error) {
       setError((prev) => ({ ...prev, update: "Failed to update user." }));
     }

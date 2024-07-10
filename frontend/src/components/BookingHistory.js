@@ -11,6 +11,7 @@ export default function BookingHistory() {
     useEffect(() => {
         // Lấy userId từ localStorage
         const userId = localStorage.getItem('userId');
+        console.log(userId);
         if (userId) {
             // Gọi API để lấy thông tin người dùng hiện tại
             axios.get(`http://localhost:9999/user/${userId}`)
@@ -20,21 +21,22 @@ export default function BookingHistory() {
                 .catch(error => {
                     console.error('Error fetching current user:', error);
                 });
-
+            console.log(currentUser);
             // Gọi API để lấy danh sách các cuộc hẹn
             axios.get('http://localhost:9999/appointment/list')
                 .then(response => {
                     // Lọc ra các cuộc hẹn của người dùng hiện tại dựa trên patient_id
+                    console.log(response.data);
                     const userAppointments = response.data.filter(appointment =>
-                        appointment.patient_id[0][0] === userId
+                        appointment.patient_id[0][0] == userId
                     );
+                    console.log("userAppointments: ", userAppointments);
                     setAppointments(userAppointments);
                 })
                 .catch(error => {
                     console.error('Error fetching appointments:', error);
                 });
-
-            // Gọi API để lấy danh sách các chuyên ngành
+            console.log(appointments);
             axios.get('http://localhost:9999/specify')
                 .then(response => {
                     setSpecialties(response.data);
@@ -47,11 +49,11 @@ export default function BookingHistory() {
 
     const handleBookingClick = async (booking) => {
         setSelectedBookingId(booking._id);
-    
+
         try {
             // Fetch doctor specialty asynchronously
             const specialtyName = await fetchDoctorSpecialty(booking.doctor_id[0][0]);
-    
+
             // Update doctor's specialty name in the booking
             const updatedAppointments = appointments.map(appointment => {
                 if (appointment._id === booking._id) {
@@ -76,7 +78,7 @@ export default function BookingHistory() {
             const response = await axios.get(`http://localhost:9999/doctor/${doctorId}`);
             const doctorData = response.data.docProfile;
 
-            if (doctorData || doctorData.specify || doctorData.specify.length ) {
+            if (doctorData || doctorData.specify || doctorData.specify.length) {
                 const specialtyId = doctorData.specify[0];
                 const specialty = specialties.find(spec => spec._id == specialtyId);
                 return specialty ? specialty.name : 'Unknown Specialty';
@@ -96,6 +98,8 @@ export default function BookingHistory() {
     );
 
     const selectedBooking = appointments.find(booking => booking._id === selectedBookingId);
+    const role = localStorage.getItem("role");
+    const isDoctor = role === "DOCTOR";
 
     return (
         <div className="w-full h-auto px-[10px] flex gap-[10px]">
@@ -136,6 +140,11 @@ export default function BookingHistory() {
                                 <p className="text-sm text-green-600 font-bold">{selectedBooking.status === 'Confirmed' ? 'STT: 12' : ''}</p>
                                 <p className="text-sm text-red-500">{selectedBooking.status === 'Cancelled' ? 'Đã hủy' : ''}</p>
                             </div>
+                            {!isDoctor && (
+                                <button className="ml-[10px] w-[50px] lg:w-[100px] h-[35px] lg:h-[40px] bg-[#3499AF] rounded-[30px] font-bold text-[12px] lg:text-[20px] text-white mt-2 lg:mt-0">
+                                    Xác nhận
+                                </button>
+                            )}
                         </div>
                         <div className="flex justify-between items-center mb-4">
                             <div>

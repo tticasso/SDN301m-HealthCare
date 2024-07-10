@@ -47,7 +47,7 @@ export default function Signup() {
     };
 
     try {
-      const response = await fetch("http://localhost:9999/user/register", {
+      const response = await fetch("http://localhost:9999/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,19 +55,33 @@ export default function Signup() {
         body: JSON.stringify(user),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response OK:', response.ok);
+
       if (!response.ok) {
+        console.log("Lỗi ở đây");
         throw new Error("Failed to create user.");
       }
 
       const responseData = await response.json();
-      const userId = responseData.token.login.id;
+      console.log('Response data:', responseData);
+
+      if (!responseData.token || !responseData.token._id) {
+        throw new Error("Response data is missing expected fields.");
+      }
+
+      const userId = responseData.token._id;
 
       localStorage.setItem("userId", userId);
 
       navigate("/menu", { state: { selectedTab: "taiKhoan" } });
     } catch (error) {
+      console.log("Lỗi ở đây 2", error);
       setError("Failed to create user.");
     }
+
+
+
   };
 
   return (
