@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import Title from "../components/Title";
 import {
@@ -18,14 +19,14 @@ import {
   Row,
   Col
 } from 'antd';
-import { 
-  PlusOutlined, 
-  DeleteOutlined, 
-  EditOutlined, 
-  SyncOutlined, 
-  SearchOutlined, 
-  LockOutlined, 
-  UnlockOutlined 
+import {
+  PlusOutlined,
+  EyeOutlined,
+  EditOutlined,
+  SyncOutlined,
+  SearchOutlined,
+  LockOutlined,
+  UnlockOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
@@ -41,6 +42,12 @@ const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [hospitals, setHospitals] = useState([]);
   const [specifies, setSpecifies] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleViewProfile = (doctorId) => {
+    navigate(`/admin/doctor-profile/${doctorId}`);
+};
 
   useEffect(() => {
     fetchUsers();
@@ -139,17 +146,17 @@ const UserManagement = () => {
       // Lấy thông tin doctorProfile dựa trên ID của user
       const response = await axios.get(`http://localhost:9999/doctor/${editingUser._id}`);
       const doctorProfile = response.data.docProfile;
-  
+
       if (!doctorProfile || !doctorProfile._id) {
         throw new Error('Doctor profile not found or missing _id');
       }
-  
+
       // Sử dụng ID của doctorProfile trong URL của request PUT
       await axios.put(`http://localhost:9999/doctor/${doctorProfile._id}`, {
         ...values,
         doctor: editingUser._id
       });
-  
+
       notification.success({ message: 'Doctor profile updated successfully' });
       setIsDocProfileModalVisible(false);
       docProfileForm.resetFields();
@@ -158,7 +165,7 @@ const UserManagement = () => {
       notification.error({ message: 'Error updating doctor profile', description: error.message });
     }
   };
-  
+
 
   const columns = [
     {
@@ -296,6 +303,13 @@ const UserManagement = () => {
               onClick={() => handleCreateDocProfile(record)}
             />
           )}
+          {record.role === 'DOCTOR' && (
+            <Button
+              type="text"
+              icon={<EyeOutlined />}
+              onClick={() => handleViewProfile(record._id)}
+            />
+          )}
         </Space>
       ),
     },
@@ -332,11 +346,11 @@ const UserManagement = () => {
           </Button>
         </Col>
       </Row>
-      <Table 
-        columns={columns} 
-        dataSource={filteredUsers} 
-        scroll={{ x: 'max-content' }} 
-        rowKey="_id" 
+      <Table
+        columns={columns}
+        dataSource={filteredUsers}
+        scroll={{ x: 'max-content' }}
+        rowKey="_id"
       />
       <Modal
         title={editingUser ? 'Cập nhật người dùng' : 'Thêm người dùng'}
@@ -389,7 +403,7 @@ const UserManagement = () => {
               <Form.Item name="address" label="Địa chỉ">
                 <Input />
               </Form.Item>
-              
+
             </>
           )}
           <Form.Item

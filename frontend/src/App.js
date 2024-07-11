@@ -14,6 +14,7 @@ import LayoutPage from "./components/Dashboard";
 import HospitalManage from "./components/HospitalManage";
 import SpecifyManage from "./components/SpecifyManage";
 import DoctorProfileManagement from "./components/DoctorManage";
+import DoctorProfile from "./components/DoctorProfile";
 
 const App = () => {
   return (
@@ -28,10 +29,11 @@ const App = () => {
         <Route path="/hospital/:id" element={<HospitalDetail />} />
         <Route path="/hospital-list" element={<HospitalList />} />
         <Route path="/admin" element={<LayoutPage />}>
-        <Route path="user-manage" element={<UserManagement />} />
-        <Route path="hospital-manage" element={<HospitalManage />} />
-        <Route path="specify-manage" element={<SpecifyManage />} />
-        <Route path="doctor-manage" element={<DoctorProfileManagement />} />
+          <Route path="user-manage" element={<UserManagement />} />
+          <Route path="hospital-manage" element={<HospitalManage />} />
+          <Route path="specify-manage" element={<SpecifyManage />} />
+          <Route path="doctor-manage" element={<DoctorProfileManagement />} />
+          <Route path="doctor-profile/:id" element={<DoctorProfile />} />
         </Route>
       </Routes>
     </div>
