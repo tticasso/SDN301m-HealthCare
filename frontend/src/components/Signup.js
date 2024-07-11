@@ -54,11 +54,11 @@ export default function Signup() {
         },
         body: JSON.stringify(user),
       });
-    
+
       if (!response.ok) {
         throw new Error("Failed to create user1.");
       }
-    
+
       // Xử lý khi đăng ký thành công
       const responseData = await response.json();
       const userId = responseData.token._id;
@@ -71,8 +71,8 @@ export default function Signup() {
       console.error("Error during registration:", error);
       setError("Failed to create user.");
     }
-    
-    
+
+
   };
 
   return (
@@ -87,7 +87,7 @@ export default function Signup() {
         </i>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Email address</i>
+          <i className="text-[#3499AF]">Email</i>
           <div className="w-full flex justify-center">
             <div className="w-full flex justify-center">
               <UilEnvelopeAlt size={35} color="#3499AF" />
@@ -102,7 +102,7 @@ export default function Signup() {
           </div>
         </div>
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Password</i>
+          <i className="text-[#3499AF]">Mật khẩu</i>
           <div className="w-full flex justify-center">
             <UilLock size={35} color="#3499AF" />
             <input
@@ -115,7 +115,7 @@ export default function Signup() {
           </div>
         </div>
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Confirm Password</i>
+          <i className="text-[#3499AF]">Nhập lại mật khẩu</i>
           <div className="w-full flex justify-center">
             <UilLock size={35} color="#3499AF" />
             <input
@@ -130,15 +130,15 @@ export default function Signup() {
         <div className="w-full flex justify-center items-center mt-[30px]">
           <button
             onClick={handleSubmit}
-            className="w-[200px] h-[50px] bg-[#3499AF] rounded-[30px] text-white"
+            className="w-[200px] h-[50px] bg-[#3499AF] font-bold rounded-[30px] text-white"
           >
-            Sign up
+            Đăng kí
           </button>
         </div>
         <div className="w-full flex justify-center items-center mt-[5px]">
-          <i>Already have an account?</i>
-          <a href="/" className="font-bold italic ml-[2px]">
-            Login here!
+          <i>Bạn đã có tài khoản?</i>
+          <a href="/login" className="font-bold italic ml-[2px]">
+            Đăng nhập!
           </a>
         </div>
       </div>

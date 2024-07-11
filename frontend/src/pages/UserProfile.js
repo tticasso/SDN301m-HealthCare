@@ -183,8 +183,8 @@ export default function UserProfile() {
     <div className="w-full">
       <div className="flex border-solid border-l-2 border-b-2 rounded-[8px]">
         <div className="w-1/5 flex-col italic">
-          <p className="bg-[#3499AF] font-bold text-white py-2 pl-2 rounded-tl-[8px]">
-            Profile picture
+          <p className="bg-[#3499AF] font-bold text-white py-2 pl-2 rounded-tl-[8px] not-italic">
+            Ảnh đại diện
           </p>
           <div className="flex justify-center mt-[50px]">
             <div className="relative w-[100px] h-[100px] rounded-[100px] bg-[#D9D9D9] ">
@@ -213,15 +213,15 @@ export default function UserProfile() {
         </div>
         <div className="w-[1px] h-full bg-[#3499AF] z-10"></div>
         <div className="w-4/5">
-          <p className="bg-[#3499AF] font-bold text-white italic py-2 rounded-tr-[8px] pl-[10px]">
-            Account Detail
+          <p className="bg-[#3499AF] font-bold text-white italic py-2 rounded-tr-[8px] pl-[10px] not-italic">
+            Thông tin cá nhân
           </p>
           {error.fetch && (
             <p className="text-red-500 text-center">{error.fetch}</p>
           )}
           <div className="flex">
             <div className="w-4/5 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">Full name:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Họ và tên</i>
               <p className="w-4/5 flex justify-center">
                 <input
                   type="text"
@@ -237,7 +237,7 @@ export default function UserProfile() {
               )}
             </div>
             <p className="w-3/5 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">Email:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Email:</i>
               <div className="w-4/5 flex justify-center">
                 <input
                   type="text"
@@ -253,7 +253,7 @@ export default function UserProfile() {
           </div>
           <div className="flex">
             <div className="w-4/5 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">Address:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Địa chỉ:</i>
               <p className="w-4/5 flex justify-center">
                 <input
                   type="text"
@@ -269,7 +269,7 @@ export default function UserProfile() {
               )}
             </div>
             <p className="w-3/5 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">Password:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Mật khẩu:</i>
               <div className="w-full flex justify-center">
                 <input
                   type="password"
@@ -283,9 +283,9 @@ export default function UserProfile() {
                 <div className="w-full h-full">
                   <button
                     onClick={handlePasswordChange}
-                    className="text-white bg-[#3499AF] rounded-[100px] w-[130px] h-[35px] italic ml-[20px] font-bold"
+                    className="text-white bg-[#3499AF] rounded-[100px] w-[120px] h-[35px] ml-[20px] font-bold"
                   >
-                    Change password
+                    Đổi mật khẩu
                   </button>
                 </div>
               </div>
@@ -296,7 +296,7 @@ export default function UserProfile() {
           </div>
           <div className="flex">
             <div className="w-2/6 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">Birthday:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Ngày sinh:</i>
               <p className="w-4/5 flex justify-center">
                 <input
                   type="date"
@@ -310,8 +310,8 @@ export default function UserProfile() {
               {error.dob && <p className="text-red-500">{error.dob}</p>}
             </div>
             <div className="w-1/2 mb-[10px]">
-              <i className="text-[#3499AF] text-black font-bold">
-                Phone number:
+              <i className="text-[#3499AF] text-black font-bold not-italic">
+                Số điện thoại:
               </i>
               <div className="w-4/5 flex justify-center">
                 <input
@@ -326,7 +326,7 @@ export default function UserProfile() {
               {error.phone && <p className="text-red-500">{error.phone}</p>}
             </div>
             <div className="w-2/6 mb-[10px] pr-[20px]">
-              <i className="text-[#3499AF] text-black font-bold">Gender:</i>
+              <i className="text-[#3499AF] text-black font-bold not-italic">Giới tính:</i>
               <div className="w-4/5 flex justify-center">
                 <select
                   id="gender"
@@ -336,10 +336,10 @@ export default function UserProfile() {
                   className="w-full h-[36px] pl-[10px] border-2 border-[#3499AF] rounded-md"
                   required
                 >
-                  <option >Select gender</option>
-                  <option value="Male" >Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option >Lựa chọn giới tính</option>
+                  <option value="Male" >Nam</option>
+                  <option value="Female">Nữ</option>
+                  <option value="Other">Khác</option>
                 </select>
               </div>
               {error.gender && <p className="text-red-500">{error.gender}</p>}
