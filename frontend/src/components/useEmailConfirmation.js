@@ -47,7 +47,7 @@ const useEmailConfirmation = () => {
         if (login.status === false) {
             Swal.fire({
                 title: 'Hãy xác thực email để thực hiện thao tác.',
-                html: 'Kích hoạt tại đây: <a href="http://localhost:3000/" id="nhan-ma-link">Nhận mã</a>',
+                html: 'Kích hoạt tại đây: <a href="http://localhost:3000/" id="nhan-ma-link" style="color:blue;">Nhận mã</a>',
                 icon: 'warning',
                 didRender: () => {
                     // Thêm sự kiện click vào đường link
@@ -62,7 +62,7 @@ const useEmailConfirmation = () => {
             callback();
         }
     };
-    
+
     return checkEmailConfirmation;
 };
 
