@@ -74,20 +74,6 @@ export default function HomePage() {
       <div className="w-full h-[400px]">
         <img src="https://mimanihospital.com/wp-content/uploads/2017/03/abt-banner.jpg" alt="banner" className="w-full h-full object-fit" />
       </div>
-      <div className="w-full flex justify-center mt-[20px]">
-        <div className="w-[600px] flex">
-          <input
-            type="text"
-            placeholder="Tìm kiếm bác sĩ, bệnh viện, phòng khám..."
-            className="w-3/4 h-[50px] pl-[20px] text-[20px] border-2 border-[#3499AF] rounded-l-[30px] box-border"
-          />
-          <button
-            className="w-1/4 h-[50px] bg-[#3499AF] rounded-r-[30px] text-white border-2 border-[#3499AF] box-border font-bold text-[20px] flex items-center justify-center"
-          >
-            Tìm kiếm
-          </button>
-        </div>
-      </div>
       <div className="w-full mt-[20px]">
         <HowItWork />
       </div>
@@ -109,7 +95,7 @@ export default function HomePage() {
             )}
             slideCount={doctors.length}
             slidesPerView={3}
-            viewAllUrl="/doctors"
+            viewAllUrl="/doctor-list"
           />
         </div>
       </div>
