@@ -1,11 +1,13 @@
 const Appointment = require("../models/AppointmentModels");
 const nodemailer = require('nodemailer');
 const User = require("../models/UserModel");
+const dayjs = require('dayjs')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'healthcaresystem31@gmail.com',
         pass: 'wmcd pufy wvlu xqkh'
+        
     }
 });
 async function sendEmailBookingNew(appointment) {

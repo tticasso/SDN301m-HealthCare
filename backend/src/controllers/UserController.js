@@ -40,6 +40,15 @@ async function deleteUser (req, res) {
     }
 };
 
+async function changeStatus (req, res) {
+    try {
+        await userService.changeStatus(req.params.id)
+        res.status(200).json({ message: 'Thay đổi trạng thái thành công' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
 // Lấy tất cả người dùng 
 async function getAllUsers (req, res) {
     try {
@@ -56,6 +65,7 @@ const userController = {
     updateUser,
     deleteUser,
     getAllUsers,
+    changeStatus
 }
 
 module.exports = userController;
