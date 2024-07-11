@@ -1,16 +1,54 @@
 const DocSchedule = require('../models/DoctorSchedule.model')
-
+const Doctor = require('../models/DoctorProfile.Model')
 
 //tạo 1 schedule
 const createDocSchedule = async (docSchedule) => {
-    let schedule = await DocSchedule.findOne({doctor: docSchedule.doctor, time: docSchedule.time});
+    const schedule = await DocSchedule.findOne({ doctor: docSchedule.doctor });
     if (schedule) {
-        throw new Error('Ca làm việc đã tồn tại');
+        let checkDay = false;
+        let checkSlots = false;
+        let dayIndex;
+        let slotTime = docSchedule.shift[0].slots[0].time;
+        
+        // Kiểm tra nếu ngày đã tồn tại
+        schedule.shift.forEach((element, index) => {
+            if (element.day === docSchedule.shift[0].day) {
+                checkDay = true;
+                dayIndex = index;
+                // Kiểm tra nếu thời gian đã tồn tại
+                element.slots.forEach(slot => {
+                    if (slot.time === slotTime) {
+                        checkSlots = true;
+                    }
+                });
+            }
+        });
+
+        if (checkDay && checkSlots) {
+            throw new Error('Ca làm việc đã tồn tại');
+        }
+
+        if (checkDay && !checkSlots) {
+            schedule.shift[dayIndex].slots.push(docSchedule.shift[0].slots[0]);
+        }
+
+        if (!checkDay) {
+            schedule.shift.push(docSchedule.shift[0]);
+        }
+
+        await schedule.save();
+        return schedule;
+    } else {
+        const newSchedule = new DocSchedule(docSchedule);
+        const data = await newSchedule.save();
+        const profile = await Doctor.findOne({doctor:data.doctor})
+        profile.schedule.push(data._id);
+        await profile.save();
+        return newSchedule;
     }
-    const newProfile = new DocSchedule(docSchedule)
-    await newProfile.save();
-    return newProfile;
+
 };
+
 
 // Lấy 1 profile
 const getDocSchedule = async (id) => {

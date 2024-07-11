@@ -36,8 +36,8 @@ app.get("/", (req, res, next) => {
 app.use('/user', userRouter);
 app.use('/user/medical-record', medicalRecordRouter)
 app.use('/doctor/medical-record', medicalRecordRouter)
-app.use('/chat', chatRouter)
-app.use('/conversation', conversationRouter)
+// app.use('/chat', chatRouter)
+// app.use('/conversation', conversationRouter)
 app.use('/banner', bannerRouter)
 app.use('/hospital', hospitalRouter)
 app.use('/appointment', appointmentRouter)
