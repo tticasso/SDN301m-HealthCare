@@ -53,9 +53,11 @@ export default function Login() {
       const token = responseData.token.token;
       const userId = responseData.token.login.id;
       const role = responseData.token.login.role;
+      const email = responseData.token.login.email;
       localStorage.setItem("role", role);
       localStorage.setItem("userId", userId);
       localStorage.setItem("token", token);
+      localStorage.setItem("email", email);
       window.location.href = "/";
     } catch (error) {
       console.error("Error during login:", error);

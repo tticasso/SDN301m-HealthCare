@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { UilUser, UilSignOutAlt } from "@iconscout/react-unicons";
 import useEmailConfirmation from './useEmailConfirmation';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
