@@ -46,6 +46,12 @@ const loginUser = async (email, password) => {
     }
 }
 
+const changeStatus = async (userId) => {
+    const user = await User.findById(userId)
+    user.status = !user.status
+    await user.save()
+    return user
+}
 
 const createUser = async (user) => {
     if (await User.findOne({ email: user.email })) {
@@ -125,6 +131,7 @@ const userService = {
     updateUser,
     deleteUser,
     getAllUsers,
+    changeStatus
 }
 
 module.exports = userService;
