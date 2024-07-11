@@ -44,12 +44,18 @@ const getAllPrescription = async (patient_id) => {
     return prescriptions;
 };
 
+const getAllPrescriptionByDoctor = async(doctor_id) => {
+    const prescriptions = await Prescription.find({doctor: doctor_id})
+    return prescriptions;
+}
+
 const userService = {
     createPrescription,
     getPrescription,
     deletePrescription,
     updatePrescription,
-    getAllPrescription
+    getAllPrescription,
+    getAllPrescriptionByDoctor
 }
 
 module.exports = userService;

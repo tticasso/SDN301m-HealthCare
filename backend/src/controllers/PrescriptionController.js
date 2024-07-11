@@ -50,12 +50,22 @@ async function getAllPrescription (req, res) {
     }
 };
 
+async function getAllPrescriptionByDoctor (req, res) {
+    try {
+        const prescriptions = await prescriptionService.getAllPrescriptionByDoctor(req.params.doctorId);
+        res.status(200).json(prescriptions);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 const prescriptionController = {
     createPrescription,
     updatePrescription,
     deletePrescription,
     getPrescription,
     getAllPrescription,
+    getAllPrescriptionByDoctor,
 }
 
 module.exports = prescriptionController;

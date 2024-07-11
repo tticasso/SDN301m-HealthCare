@@ -10,5 +10,6 @@ prescriptionRouter.get('/:id', prescriptionController.getPrescription);
 prescriptionRouter.put('/:id', prescriptionController.updatePrescription);
 prescriptionRouter.delete('/:id', prescriptionController.deletePrescription);
 prescriptionRouter.get('/', prescriptionController.getAllPrescription);
+prescriptionRouter.get('/doctor/:doctorId', prescriptionController.getAllPrescriptionByDoctor);
 
 module.exports = prescriptionRouter;

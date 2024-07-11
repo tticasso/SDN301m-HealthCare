@@ -3,13 +3,14 @@ const userRouter = express.Router();
 const userController = require('../controllers/UserController');
 const bodyParser = require('body-parser');
 const authMiddleware = require('../middlewares/authMiddleware')
+const roleMiddleware = require('../middlewares/roleMiddleware')
 
 userRouter.use(bodyParser.json())
 
-userRouter.post('/create', userController.createUser);
-userRouter.get('/:id', userController.getUser);
-userRouter.put('/:id', userController.updateUser);
-userRouter.delete('/:id', userController.deleteUser);
-userRouter.get('/', userController.getAllUsers);
-userRouter.put('/status/:id', userController.changeStatus);
+userRouter.post('/create',authMiddleware,roleMiddleware("ADMIN"), userController.createUser);
+userRouter.get('/:id',authMiddleware, userController.getUser);
+userRouter.put('/:id',authMiddleware, userController.updateUser);
+userRouter.delete('/:id',authMiddleware,roleMiddleware("ADMIN"), userController.deleteUser);
+userRouter.get('/',authMiddleware, userController.getAllUsers);
 module.exports = userRouter;
+
