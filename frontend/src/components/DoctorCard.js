@@ -37,7 +37,7 @@ export default function DoctorCard({ doctor, user, specialties, hospital }) {
           {user?.fullname}
         </p>
         <div className="flex flex-wrap justify-center">
-          <p className="text-[13px] font-light text-center mr-2">
+          <p className="text-[13px] font-light text-center mr-2 truncate px-4">
             {getSpecialtyNames()}
           </p>
         </div>
