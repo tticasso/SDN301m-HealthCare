@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { UilUser, UilSignOutAlt } from "@iconscout/react-unicons";
 import useEmailConfirmation from './useEmailConfirmation';
-<<<<<<< Updated upstream
-=======
-import 'react-toastify/dist/ReactToastify.css';
->>>>>>> Stashed changes
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
