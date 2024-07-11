@@ -26,12 +26,12 @@ export default function Login() {
       setError(validationError);
       return;
     }
-  
+
     const user = {
       email,
       password,
     };
-  
+
     try {
       const userResponse = await fetch("http://localhost:9999/auth/login", {
         method: "POST",
@@ -40,14 +40,14 @@ export default function Login() {
         },
         body: JSON.stringify(user),
       });
-  
+
       if (!userResponse.ok) {
         const errorData = await userResponse.json();
         const errorMessage = errorData.message || "Login failed. Please try again.";
         setError(errorMessage);
         return;
       }
-  
+
       const responseData = await userResponse.json();
       console.log("responseData: ", responseData);
       const token = responseData.token.token;
@@ -58,13 +58,18 @@ export default function Login() {
       localStorage.setItem("userId", userId);
       localStorage.setItem("token", token);
       localStorage.setItem("email", email);
-      window.location.href = "/";
+      if (role === "ADMIN") {
+        window.location.href = "/admin"
+      } else {
+        window.location.href = "/";
+      }
+
     } catch (error) {
       console.error("Error during login:", error);
       setError("An error occurred. Please try again later.");
     }
   };
-  
+
 
   return (
     <div className="w-[420px] h-[600px] bg-white rounded-[30px] flex items-center justify-center">

@@ -137,7 +137,7 @@ const LayoutPage = () => {
                     flexDirection: "column",
                 }}>
                     <Typography.Title level={5} style={{ fontWeight: "bold", textAlign: "center" }}>
-                        MEDICAL
+                        Health Care
                     </Typography.Title>
                     {!collapsed && <Tag color="red">ADMIN</Tag>}
                 </div>
