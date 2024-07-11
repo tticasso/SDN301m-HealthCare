@@ -47,6 +47,7 @@ async function generateAppointmentTimes(req, res, next) {
 }
 
 async function getAvailableTimeSlots(req, res, next) {
+
     const availableSlots = appointmentService.getAvailableTimeSlots()
     res.json(availableSlots)
 }

@@ -12,4 +12,5 @@ hospitalRouter.get('/', hospitalController.getAllHospital),
 hospitalRouter.get('/:id', hospitalController.getHospital),
 hospitalRouter.get('/:hospitalName/:specifyName/doctors', hospitalController.getAllDoctorByHospital)
 
+
 module.exports = hospitalRouter

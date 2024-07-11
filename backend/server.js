@@ -3,6 +3,7 @@ const DBconnect = require('./src/config/dbConfig')
 const bodyParser = require('body-parser')
 const httpErrors = require('http-errors')
 const morgan = require('morgan')
+
 const router = require('./src/routes/routerIndex')
 const userRouter = require('./src/routes/UserRouter')
 const bannerRouter = require('./src/routes/BannerRouter')
@@ -19,7 +20,7 @@ require('dotenv').config()
 const app = express()
 var corsOptions = {
     origin: "http://localhost:3000"
-  };
+};
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors(corsOptions))
@@ -35,6 +36,8 @@ app.get("/", (req, res, next) => {
 app.use('/user', userRouter);
 app.use('/user/medical-record', medicalRecordRouter)
 app.use('/doctor/medical-record', medicalRecordRouter)
+app.use('/chat', chatRouter)
+app.use('/conversation', conversationRouter)
 app.use('/banner', bannerRouter)
 app.use('/hospital', hospitalRouter)
 app.use('/appointment', appointmentRouter)
@@ -42,6 +45,8 @@ app.use('/prescription', prescriptionRouter)
 app.use('/doctor', doctorRouter)
 app.use('/specify', specifyRouter)
 app.use('/auth', authRouter)
+
+
 DBconnect();
 
 app.use(async (req, res, next) => {
@@ -60,5 +65,5 @@ app.use((err, req, res, next) => {
 
 
 app.listen(process.env.PORT, process.env.HOST_NAME, () => {
-    console.log(`Serser is running port: http://${process.env.HOST_NAME}:${process.env.PORT}`);
+    console.log(`Server is running port: http://${process.env.HOST_NAME}:${process.env.PORT}`);
 })

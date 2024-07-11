@@ -19,6 +19,7 @@ import {
   Row,
   Col
 } from 'antd';
+
 import {
   PlusOutlined,
   EyeOutlined,
@@ -165,7 +166,6 @@ const UserManagement = () => {
       notification.error({ message: 'Error updating doctor profile', description: error.message });
     }
   };
-
 
   const columns = [
     {
@@ -318,7 +318,6 @@ const UserManagement = () => {
   const filteredUsers = users.filter(user =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.fullname.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div style={{ padding: 20 }}>
@@ -403,7 +402,6 @@ const UserManagement = () => {
               <Form.Item name="address" label="Địa chỉ">
                 <Input />
               </Form.Item>
-
             </>
           )}
           <Form.Item

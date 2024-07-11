@@ -98,6 +98,7 @@ const LayoutPage = () => {
             icon: <LogoutOutlined />,
             label: "Đăng xuất",
             link: "/logout",
+
         },
     ];
 

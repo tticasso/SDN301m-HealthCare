@@ -29,6 +29,7 @@ async function deleteHospital (req, res) {
     }
 };
 
+
 // Lấy 
 async function getAllHospital (req, res) {
     try {
@@ -45,6 +46,8 @@ async function getHospital (req, res) {
         res.status(200).json(hospital);
     } catch (error) {
         res.status(404).json({ message: error.message });
+
+
     }
 }
 
@@ -67,6 +70,7 @@ const hospitalController = {
     getAllHospital,
     getHospital,
     getAllDoctorByHospital,
+
 }
 
 module.exports = hospitalController;

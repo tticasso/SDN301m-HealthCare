@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Homepage from "./pages/Homepage";
 import DoctorList from "./pages/DoctorList";
 import BookingAppointment from "./pages/BookingAppointment";
+import Profile from "./pages/UserProfileMenu";
 import HospitalDetail from "./pages/HospitalDetail";
 import HospitalList from "./pages/HospitalList";
 import UserManagement from "./components/UserManage";
@@ -15,6 +16,7 @@ import HospitalManage from "./components/HospitalManage";
 import SpecifyManage from "./components/SpecifyManage";
 import DoctorProfileManagement from "./components/DoctorManage";
 import DoctorProfile from "./components/DoctorProfile";
+
 
 const App = () => {
   return (
@@ -35,6 +37,7 @@ const App = () => {
           <Route path="specify-manage" element={<SpecifyManage />} />
           <Route path="doctor-manage" element={<DoctorProfileManagement />} />
           <Route path="doctor-profile/:id" element={<DoctorProfile />} />
+
         </Route>
       </Routes>
     </div>

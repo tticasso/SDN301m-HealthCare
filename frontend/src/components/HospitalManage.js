@@ -31,6 +31,7 @@ const HospitalManage = () => {
     useEffect(() => {
         fetchHospitals();
         fetchSpecifies()
+
     }, []);
 
     const fetchHospitals = async () => {
@@ -180,7 +181,6 @@ const HospitalManage = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-
                     </Button>
                     <Popconfirm
                         title="Are you sure to delete this hospital?"
@@ -313,4 +313,6 @@ const HospitalManage = () => {
     );
 };
 
+
 export default HospitalManage;
+

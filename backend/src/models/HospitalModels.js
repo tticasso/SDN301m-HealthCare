@@ -31,6 +31,7 @@ const hospitalSchema = new Schema({
     endTime: {
         type: String,
     },
+
     specify: [{
         type: Schema.Types.ObjectId,
         ref: 'Specify'

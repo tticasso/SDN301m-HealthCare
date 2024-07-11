@@ -108,8 +108,7 @@ const SpecifyManage = () => {
       ellipsis: true,
       render: (text, record) => (
         <Space size="middle">
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-            
+          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>          
           </Button>
           <Popconfirm
             title="Are you sure to delete this specialty?"
@@ -118,13 +117,13 @@ const SpecifyManage = () => {
             cancelText="No"
           >
             <Button icon={<DeleteOutlined />} danger>
-              
             </Button>
           </Popconfirm>
         </Space>
       ),
     },
   ];
+
 
   const filteredSpecialties = specialties.filter(specialty =>
     specialty.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -188,4 +187,6 @@ const SpecifyManage = () => {
   );
 };
 
+
 export default SpecifyManage;
+

@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 async function sendEmailBookingNew(appointment) {
+
     try {
         const patient = await User.findById(appointment.patient_id);
         const doctor = await User.findById(appointment.doctor_id);
@@ -57,6 +58,7 @@ async function sendEmailBookingNew(appointment) {
 async function create({ patient_id, doctor_id, appointment_date, appointment_time, status = 'Pending' }) {
     const appointment = new Appointment({
         patient_id, doctor_id, appointment_date, appointment_time, status
+
     })
     try {
         const newDoc = await appointment.save()
@@ -116,6 +118,7 @@ async function editAppointmentStatusAndSendEmail(id) {
 }
 
 async function sendSuccessEmail(appointment) {
+
     try {
         const patient = await User.findById(appointment.patient_id);
         const doctor = await User.findById(appointment.doctor_id);
@@ -158,7 +161,6 @@ async function sendSuccessEmail(appointment) {
         console.error('Error sending email:', error);
     }
 }
-
 
 function generateAppointmentTimes() {
     const times = [];

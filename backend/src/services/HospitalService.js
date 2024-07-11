@@ -48,6 +48,7 @@ const hospitalService = {
     deleteHospital,
     getHospital,
     getAllHospital,
+
 }
 
 module.exports = hospitalService;
