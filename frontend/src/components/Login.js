@@ -26,26 +26,45 @@ export default function Login() {
       setError(validationError);
       return;
     }
-
+  
     const user = {
-        email,
-        password,
-      };
-
-    const userResponse = await fetch("http://localhost:9999/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    const responseData = await userResponse.json();
-    const token = responseData.token.token;
-    const userId = responseData.token.login.id;
-    localStorage.setItem("userId", userId)
-    localStorage.setItem("token", token);
-    window.location.href = "/";
+      email,
+      password,
+    };
+  
+    try {
+      const userResponse = await fetch("http://localhost:9999/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+  
+      if (!userResponse.ok) {
+        const errorData = await userResponse.json();
+        const errorMessage = errorData.message || "Login failed. Please try again.";
+        setError(errorMessage);
+        return;
+      }
+  
+      const responseData = await userResponse.json();
+      console.log("responseData: ", responseData);
+      const token = responseData.token.token;
+      const userId = responseData.token.login.id;
+      const role = responseData.token.login.role;
+      const email = responseData.token.login.email;
+      localStorage.setItem("role", role);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("token", token);
+      localStorage.setItem("email", email);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("An error occurred. Please try again later.");
+    }
   };
+  
 
   return (
     <div className="w-[420px] h-[600px] bg-white rounded-[30px] flex items-center justify-center">
@@ -56,7 +75,7 @@ export default function Login() {
         </div>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Email address</i>
+          <i className="text-[#3499AF]">Email</i>
           <div className="w-full flex justify-center">
             <UilEnvelopeAlt size={35} color="#3499AF" />
             <input
@@ -69,7 +88,7 @@ export default function Login() {
           </div>
         </div>
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Password</i>
+          <i className="text-[#3499AF]">Mật khẩu</i>
           <div className="w-full flex justify-center">
             <UilLock size={35} color="#3499AF" />
             <input
@@ -81,21 +100,21 @@ export default function Login() {
             />
           </div>
         </div>
-        <a href="/" className="font-bold italic text-[16px]">
-          Forgot Password?
+        <a href="/#" className="font-bold italic text-[16px]">
+          Quên mật khẩu?
         </a>
         <div className="w-full flex justify-center items-center mt-[40px]">
           <button
             onClick={handleSubmit}
-            className="w-[200px] h-[50px] bg-[#3499AF] rounded-[30px] text-white"
+            className="w-[200px] h-[50px] bg-[#3499AF] font-bold rounded-[30px] text-white"
           >
-            Login
+            Đăng nhập
           </button>
         </div>
         <div className="w-full flex justify-center items-center mt-[5px]">
-          <i>Do not have an account?</i>
+          <i>Bạn chưa có tài khoản?</i>
           <a href="/signup" className="font-bold italic ml-[2px]">
-            Signup here!
+            Đăng kí!
           </a>
         </div>
       </div>

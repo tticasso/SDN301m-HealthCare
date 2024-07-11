@@ -1,6 +1,54 @@
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Header from "../components/Header";
-import { UilHeart, UilUser } from '@iconscout/react-unicons'
+import { UilHeart, UilUser } from "@iconscout/react-unicons";
+
 export default function DoctorDetail() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [doctor, setDoctor] = useState(null);
+    const [user, setUser] = useState(null);
+    const [specialties, setSpecialties] = useState([]);
+    const [hospital, setHospital] = useState(null);
+
+    useEffect(() => {
+        // Fetch doctor data
+        axios.get(`http://localhost:9999/doctor/${id}`).then((response) => {
+            setDoctor(response.data);
+
+            // Fetch user data
+            axios.get(`http://localhost:9999/user/${response.data.docProfile.doctor}`).then((userResponse) => {
+                setUser(userResponse.data);
+            });
+
+            // Fetch specialty data
+            axios.get("http://localhost:9999/specify").then((specialtyResponse) => {
+                setSpecialties(specialtyResponse.data);
+            });
+
+            // Fetch hospital data
+            axios.get(`http://localhost:9999/hospital/${response.data.docProfile.place}`).then((hospitalResponse) => {
+                setHospital(hospitalResponse.data);
+            });
+        });
+    }, [id]);
+
+    const getSpecialtyNames = () => {
+        return doctor?.docProfile?.specify.map((specId) => {
+            const specialty = specialties.find((spec) => spec._id === specId);
+            return specialty ? specialty.name : "";
+        }).join(", ");
+    };
+
+    if (!doctor || !user || !hospital) {
+        return <div>Loading...</div>;
+    }
+
+    const handleBookingClick = () => {
+        navigate(`/booking/${doctor.docProfile.doctor}`);
+    };
+
     return (
         <div className="w-screen h-screen">
             <Header />
@@ -8,15 +56,19 @@ export default function DoctorDetail() {
                 <div className="w-2/3 my-[10px]">
                     <p className="font-medium italic text-[20px] py-[20px]">Trang chủ / Bác Sĩ</p>
                     <div className="w-full bg-white rounded-[10px] py-[30px] px-[20px]">
-                        <div className="w-full flex justify-between ">
-                            <div className=" flex">
+                        <div className="w-full flex justify-between">
+                            <div className="flex">
                                 <div className="w-[150px] h-[150px] flex justify-center items-center rounded-[150px] bg-[#DBF2F8]">
-                                    <UilUser size={100} color="#000000" />
+                                    <img
+                                        src={doctor?.doctor.image}
+                                        alt="doctor"
+                                        className="w-full h-full object-cover rounded-[100px]"
+                                    />
                                 </div>
                                 <div className="h-[150px] pl-[10px]">
                                     <div className="flex">
-                                        <p className="text-[24px] font-semibold">Tiến sĩ Bác sĩ</p>
-                                        <p className="ml-[5px] text-[24px] font-semibold">Nguyễn Văn A</p>
+                                        <p className="text-[24px] font-semibold">{doctor.docProfile.level} -</p>
+                                        <p className="ml-[5px] text-[24px] font-semibold">{user.fullname}</p>
                                     </div>
                                     <div className="flex items-center gap-[10px]">
                                         <div className="flex items-center h-[25px]">
@@ -25,43 +77,34 @@ export default function DoctorDetail() {
                                             </svg>
                                             <p className="ml-[5px] text-[20px] font-semibold text-[#1975DC]">Bác sĩ</p>
                                         </div>
-                                        <div className="flex items-baseline gap-[5px]">
-                                            <p className="text-[20px] font-semibold">24</p>
-                                            <p className="text-[20px] font-extralight">năm kinh nghiệm</p>
-                                        </div>
                                     </div>
                                     <div className="flex">
                                         <div>
-                                            <p className="font-light text-[16]">Chuyên Khoa</p>
-                                            <p className="font-light text-[16]">Chức vụ</p>
-                                            <p className="font-light text-[16]">Nơi công tác</p>
+                                            <p className="font-light text-[16px]">Chuyên Khoa</p>
+                                            <p className="font-light text-[16px]">Nơi công tác</p>
                                         </div>
                                         <div className="pl-[10px]">
-                                            <p className="font-semibold text-[#1975DC] text-[16]">Nội tiết</p>
-                                            <p className="font-medium text-[16]">Trưởng khoa Nội tiết bệnh viện ABC</p>
-                                            <p className="font-medium text-[16]">Bệnh viện ABC</p>
+                                            <p className="font-semibold text-[#1975DC] text-[16px]">{getSpecialtyNames()}</p>
+                                            <p className="font-medium text-[16px]">{hospital.name}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="">
+                            <div>
                                 <button className="flex bg-white border-[1px] border-[#B7B7B7] px-[5px] rounded-[20px]">
-                                    <p className="text-[#B7B7B7] font-light text-[12]">Yêu thích </p>
+                                    <p className="text-[#B7B7B7] font-light text-[12px]">Yêu thích</p>
                                     <UilHeart size={24} color="#B7B7B7" />
                                 </button>
                             </div>
                         </div>
                         <div className="mt-[20px] px-[30px]">
                             <p className="text-[20px] font-semibold">Giới thiệu</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
-                            <p className="font-light text-[16] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mi velit, fringilla sit amet nibh quis, pellentesque feugiat urna. Donec ut dolor nunc. Sed posuere orci velit, quis accumsan tellus ultrices ut. Sed sodales blandit mi in pellentesque. Curabitur nec nulla neque. Morbi a fermentum enim. Donec tincidunt, sem sollicitudin bibendum consequat, neque arcu hendrerit sem, et rhoncus ex justo in sapien.</p>
+                            <p className="font-light text-[16px] mt-[10px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         </div>
                         <div className="w-full flex justify-center mt-[30px]">
-                            <a href="#" className="w-full flex justify-center">
-                                <button className="w-2/3 bg-[#3499AF] text-white rounded-[10px] py-[10px] mt-[20px] text-[24px] font-bold italic">Đặt lịch hẹn</button>
-                            </a>
-
+                            <button onClick={handleBookingClick} className="w-2/3 bg-[#3499AF] text-white rounded-[10px] py-[10px] mt-[20px] text-[24px] font-bold italic">
+                                Đặt lịch hẹn
+                            </button>
                         </div>
                     </div>
                 </div>

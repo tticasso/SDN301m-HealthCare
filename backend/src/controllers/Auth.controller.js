@@ -35,7 +35,8 @@ const activateAccount = async (req, res) => {
     try {
         const { token } = req.query;
         await authService.activateAccount(token);
-        res.status(200).send('Tài khoản đã được kích hoạt thành công.');
+        //res.status(200).send('Tài khoản đã được kích hoạt thành công.');
+        return res.redirect('http://localhost:3000/');
     } catch (error) {
         res.status(500).send(error.message);
     }

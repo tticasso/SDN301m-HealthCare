@@ -12,5 +12,5 @@ userRouter.get('/:id',authMiddleware, userController.getUser);
 userRouter.put('/:id',authMiddleware, userController.updateUser);
 userRouter.delete('/:id',authMiddleware,roleMiddleware("ADMIN"), userController.deleteUser);
 userRouter.get('/',authMiddleware, userController.getAllUsers);
-
 module.exports = userRouter;
+

@@ -96,8 +96,8 @@ const LayoutPage = () => {
         {
             key: "messages",
             icon: <MessageOutlined />,
-            label: "Tin nhắn",
-            link: "/messages",
+            label: "Bác sĩ",
+            link: "/admin/doctor-manage",
         },
         {
             key: "logout",
