@@ -136,18 +136,29 @@ const UserManagement = () => {
 
   const handleDocProfileFormSubmit = async (values) => {
     try {
-      await axios.post('http://localhost:9999/doctor/create', {
+      // Lấy thông tin doctorProfile dựa trên ID của user
+      const response = await axios.get(`http://localhost:9999/doctor/${editingUser._id}`);
+      const doctorProfile = response.data.docProfile;
+  
+      if (!doctorProfile || !doctorProfile._id) {
+        throw new Error('Doctor profile not found or missing _id');
+      }
+  
+      // Sử dụng ID của doctorProfile trong URL của request PUT
+      await axios.put(`http://localhost:9999/doctor/${doctorProfile._id}`, {
         ...values,
         doctor: editingUser._id
       });
-      notification.success({ message: 'Doctor profile created successfully' });
+  
+      notification.success({ message: 'Doctor profile updated successfully' });
       setIsDocProfileModalVisible(false);
       docProfileForm.resetFields();
     } catch (error) {
-      console.error('Error creating doctor profile:', error);
-      notification.error({ message: 'Error creating doctor profile', description: error.message });
+      console.error('Error updating doctor profile:', error);
+      notification.error({ message: 'Error updating doctor profile', description: error.message });
     }
   };
+  
 
   const columns = [
     {
