@@ -43,7 +43,7 @@ async function deletePrescription (req, res) {
 // láy toàn bộ đơn thuốc của 1 bệnh nhan
 async function getAllPrescription (req, res) {
     try {
-        const prescriptions = await prescriptionService.getAllPrescription(req.params.id);
+        const prescriptions = await prescriptionService.getAllPrescription(req.params.patientId);
         res.status(200).json(prescriptions);
     } catch (error) {
         res.status(400).json({ message: error.message });

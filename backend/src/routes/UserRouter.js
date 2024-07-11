@@ -7,10 +7,10 @@ const roleMiddleware = require('../middlewares/roleMiddleware')
 
 userRouter.use(bodyParser.json())
 
-userRouter.post('/create',authMiddleware,roleMiddleware("ADMIN"), userController.createUser);
-userRouter.get('/:id',authMiddleware, userController.getUser);
-userRouter.put('/:id',authMiddleware, userController.updateUser);
-userRouter.delete('/:id',authMiddleware,roleMiddleware("ADMIN"), userController.deleteUser);
-userRouter.get('/',authMiddleware, userController.getAllUsers);
+userRouter.post('/create',roleMiddleware("ADMIN"), userController.createUser);
+userRouter.get('/:id', userController.getUser);
+userRouter.put('/:id', userController.updateUser);
+userRouter.delete('/:id',roleMiddleware("ADMIN"), userController.deleteUser);
+userRouter.get('/', userController.getAllUsers);
 module.exports = userRouter;
 

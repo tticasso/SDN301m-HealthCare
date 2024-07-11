@@ -193,8 +193,9 @@ export default function UserProfile() {
                   type="text"
                   name="email"
                   value={user.email}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
+                  disabled
                 />
               </div>
               {error.email && <p className="text-red-500">{error.email}</p>}
