@@ -26,19 +26,42 @@ const HospitalManage = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editingHospital, setEditingHospital] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [specifies, setSpecifies] = useState([]);
 
     useEffect(() => {
         fetchHospitals();
+        fetchSpecifies()
     }, []);
 
     const fetchHospitals = async () => {
         try {
             const response = await axios.get('http://localhost:9999/hospital');
-            setHospital(response.data);
+            // Kết hợp dữ liệu bệnh viện với tên chuyên khoa
+            const hospitalsWithSpecifies = await Promise.all(
+                response.data.map(async hospital => {
+                    const specifiesResponse = await axios.get('http://localhost:9999/specify');
+                    const specifyNames = hospital.specify.map(specifyId => {
+                        const specify = specifiesResponse.data.find(spec => spec._id === specifyId);
+                        return specify ? specify.name : '';
+                    });
+                    return { ...hospital, specifyNames };
+                })
+            );
+            setHospital(hospitalsWithSpecifies);
         } catch (error) {
             console.error('Error fetching hospitals:', error);
         }
     };
+
+    const fetchSpecifies = async () => {
+        try {
+          const response = await axios.get('http://localhost:9999/specify');
+          setSpecifies(response.data);
+        } catch (error) {
+          console.error('Error fetching specifies:', error);
+          notification.error({ message: 'Error fetching specifies', description: error.message });
+        }
+      };
 
     const handleFormSubmit = async (values) => {
         try {
@@ -135,6 +158,19 @@ const HospitalManage = () => {
             render: (_, record) => `${record.startTime} - ${record.endTime}`,
         },
         {
+            title: 'Chuyên khoa',
+            width: 150,
+            dataIndex: 'specifyNames',
+            key: 'specifyNames',
+            render: (specifyNames) => specifyNames.join(', '),
+        },
+        {
+            title: 'Hình ảnh',
+            width: 150,
+            dataIndex: 'image',
+            key: 'image',
+        },
+        {
             title: 'Hành động',
             key: 'actions',
             fixed: "right",
@@ -144,7 +180,7 @@ const HospitalManage = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-            
+
                     </Button>
                     <Popconfirm
                         title="Are you sure to delete this hospital?"
@@ -153,7 +189,7 @@ const HospitalManage = () => {
                         cancelText="No"
                     >
                         <Button icon={<DeleteOutlined />} danger>
-                            
+
                         </Button>
                     </Popconfirm>
                 </Space>
@@ -252,6 +288,24 @@ const HospitalManage = () => {
                         rules={[{ required: true, message: 'Please enter end time' }]}
                     >
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="image"
+                        label="Hình ảnh"
+                        rules={[{ required: true, message: 'Please enter link image' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="specify"
+                        label="Chuyên khoa"
+                        rules={[{ required: true, message: 'Vui lòng chọn chuyên khoa' }]}
+                    >
+                        <Select mode="multiple">
+                            {specifies.map(specify => (
+                                <Option key={specify._id} value={specify._id}>{specify.name}</Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                 </Form>
             </Modal>

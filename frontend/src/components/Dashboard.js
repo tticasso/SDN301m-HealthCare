@@ -94,12 +94,6 @@ const LayoutPage = () => {
             link: "/admin/specify-manage",
         },
         {
-            key: "messages",
-            icon: <MessageOutlined />,
-            label: "Bác sĩ",
-            link: "/admin/doctor-manage",
-        },
-        {
             key: "logout",
             icon: <LogoutOutlined />,
             label: "Đăng xuất",
