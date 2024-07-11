@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import Title from "../components/Title";
 import {
@@ -18,7 +19,16 @@ import {
   Row,
   Col
 } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined, SyncOutlined, SearchOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
+
+import {
+  PlusOutlined,
+  EyeOutlined,
+  EditOutlined,
+  SyncOutlined,
+  SearchOutlined,
+  LockOutlined,
+  UnlockOutlined
+} from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const { Option } = Select;
@@ -26,12 +36,24 @@ const { Option } = Select;
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [form] = Form.useForm();
+  const [docProfileForm] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDocProfileModalVisible, setIsDocProfileModalVisible] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [hospitals, setHospitals] = useState([]);
+  const [specifies, setSpecifies] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleViewProfile = (doctorId) => {
+    navigate(`/admin/doctor-profile/${doctorId}`);
+};
 
   useEffect(() => {
     fetchUsers();
+    fetchHospitals();
+    fetchSpecifies();
   }, []);
 
   const fetchUsers = async () => {
@@ -40,6 +62,27 @@ const UserManagement = () => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
+      notification.error({ message: 'Error fetching users', description: error.message });
+    }
+  };
+
+  const fetchHospitals = async () => {
+    try {
+      const response = await axios.get('http://localhost:9999/hospital');
+      setHospitals(response.data);
+    } catch (error) {
+      console.error('Error fetching hospitals:', error);
+      notification.error({ message: 'Error fetching hospitals', description: error.message });
+    }
+  };
+
+  const fetchSpecifies = async () => {
+    try {
+      const response = await axios.get('http://localhost:9999/specify');
+      setSpecifies(response.data);
+    } catch (error) {
+      console.error('Error fetching specifies:', error);
+      notification.error({ message: 'Error fetching specifies', description: error.message });
     }
   };
 
@@ -58,18 +101,29 @@ const UserManagement = () => {
       setEditingUser(null);
     } catch (error) {
       console.error('Error saving user:', error);
-      notification.error({ message: 'Error saving user' });
+      notification.error({ message: 'Error saving user', description: error.message });
     }
   };
 
-  const handleDelete = async (id) => {
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:9999/user/${id}`);
+  //     fetchUsers();
+  //     notification.success({ message: 'User deleted successfully' });
+  //   } catch (error) {
+  //     console.error('Error deleting user:', error);
+  //     notification.error({ message: 'Error deleting user', description: error.message });
+  //   }
+  // };
+
+  const handleChangeStatus = async (id) => {
     try {
-      await axios.delete(`http://localhost:9999/user/${id}`);
-      fetchUsers();
-      notification.success({ message: 'User deleted successfully' });
+      await axios.put(`http://localhost:9999/user/status/${id}`);
+      fetchUsers(); // Giả sử bạn có hàm này để lấy lại danh sách người dùng sau khi thay đổi
+      notification.success({ message: 'User status updated successfully' });
     } catch (error) {
-      console.error('Error deleting user:', error);
-      notification.error({ message: 'Error deleting user' });
+      console.error('Error updating user status:', error);
+      notification.error({ message: 'Error updating user status', description: error.message });
     }
   };
 
@@ -80,6 +134,37 @@ const UserManagement = () => {
       ...user,
       dob: dayjs(user.dob),
     });
+  };
+
+  const handleCreateDocProfile = (user) => {
+    setEditingUser(user);
+    setIsDocProfileModalVisible(true);
+    docProfileForm.resetFields();
+  };
+
+  const handleDocProfileFormSubmit = async (values) => {
+    try {
+      // Lấy thông tin doctorProfile dựa trên ID của user
+      const response = await axios.get(`http://localhost:9999/doctor/${editingUser._id}`);
+      const doctorProfile = response.data.docProfile;
+
+      if (!doctorProfile || !doctorProfile._id) {
+        throw new Error('Doctor profile not found or missing _id');
+      }
+
+      // Sử dụng ID của doctorProfile trong URL của request PUT
+      await axios.put(`http://localhost:9999/doctor/${doctorProfile._id}`, {
+        ...values,
+        doctor: editingUser._id
+      });
+
+      notification.success({ message: 'Doctor profile updated successfully' });
+      setIsDocProfileModalVisible(false);
+      docProfileForm.resetFields();
+    } catch (error) {
+      console.error('Error updating doctor profile:', error);
+      notification.error({ message: 'Error updating doctor profile', description: error.message });
+    }
   };
 
   const columns = [
@@ -109,10 +194,12 @@ const UserManagement = () => {
       dataIndex: 'dob',
       width: 170,
       key: 'dob',
-      render: (dob) => (<Typography.Text>
-        {dayjs(dob).format("DD/MM/YYYY")} - {" "}
-        {dayjs().diff(dob, "year")} tuổi
-      </Typography.Text>)
+      render: (dob) => (
+        <Typography.Text>
+          {dayjs(dob).format("DD/MM/YYYY")} - {" "}
+          {dayjs().diff(dob, "year")} tuổi
+        </Typography.Text>
+      )
     },
     {
       title: 'Giới tính',
@@ -141,7 +228,7 @@ const UserManagement = () => {
         { text: 'ADMIN', value: 'ADMIN' },
         { text: 'MANAGER', value: 'MANAGER' },
         { text: 'DOCTOR', value: 'DOCTOR' },
-        { text: 'PATIENT', value: 'PATIENT' },
+        { text: 'PAITENT', value: 'PAITENT' },
       ],
       onFilter: (value, record) => record.role === value,
       render: (role) => {
@@ -153,7 +240,7 @@ const UserManagement = () => {
           case 'DOCTOR':
             color = 'green';
             break;
-          case 'PATIENT':
+          case 'PAITENT':
             color = 'purple';
             break;
           case 'MANAGER':
@@ -183,7 +270,7 @@ const UserManagement = () => {
       title: 'Hành động',
       fixed: "right",
       align: "center",
-      width: 150,
+      width: 200,
       ellipsis: true,
       render: (text, record) => (
         <Space size="middle">
@@ -194,37 +281,51 @@ const UserManagement = () => {
             }
           >
             <Popconfirm
-              title="Khóa tài khoản này?"
-              onConfirm={() => handleDelete(record._id)}
+              title={
+                record?.status ? "Khóa tài khoản này?" : " Mở khóa tài khoản này?"
+              }
+              onConfirm={() => handleChangeStatus(record._id)}
               okText="Yes"
               cancelText="No"
             >
               <Button
                 type="text"
-                // onClick={() => handleStatus(record)}
                 icon={
                   record?.status ? <UnlockOutlined /> : <LockOutlined />
                 }
               ></Button>
             </Popconfirm>
           </Tooltip>
+          {record.role === 'DOCTOR' && (
+            <Button
+              type="text"
+              icon={<PlusOutlined />}
+              onClick={() => handleCreateDocProfile(record)}
+            />
+          )}
+          {record.role === 'DOCTOR' && (
+            <Button
+              type="text"
+              icon={<EyeOutlined />}
+              onClick={() => handleViewProfile(record._id)}
+            />
+          )}
         </Space>
       ),
     },
   ];
 
   const filteredUsers = users.filter(user =>
-    user.email.includes(searchTerm) ||
-    user.fullname.includes(searchTerm)
-  );
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.fullname.toLowerCase().includes(searchTerm.toLowerCase())
 
   return (
     <div style={{ padding: 20 }}>
       <Title title="Quản lý người dùng" />
-      <Row justify="space-between" align="middle" style={{ marginBottom: 10 }}>
+      <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>
         <Col>
           <Space>
-            <Button icon={<SyncOutlined />} onClick={fetchUsers} />
+            <Button icon={<SyncOutlined />} onClick={fetchUsers}>Làm mới</Button>
             <Input
               placeholder="Tìm kiếm"
               value={searchTerm}
@@ -244,7 +345,12 @@ const UserManagement = () => {
           </Button>
         </Col>
       </Row>
-      <Table columns={columns} dataSource={filteredUsers} scroll={{ x: 'max-content' }} rowKey="_id" />
+      <Table
+        columns={columns}
+        dataSource={filteredUsers}
+        scroll={{ x: 'max-content' }}
+        rowKey="_id"
+      />
       <Modal
         title={editingUser ? 'Cập nhật người dùng' : 'Thêm người dùng'}
         visible={isModalVisible}
@@ -279,38 +385,21 @@ const UserManagement = () => {
               <Input.Password />
             </Form.Item>
           )}
-
           {editingUser && (
             <>
-              <Form.Item
-                name="dob"
-                label="Ngày sinh"
-              // rules={[{ required: true, message: 'Vui lòng điền sinh nhật' }]}
-              >
+              <Form.Item name="dob" label="Ngày sinh">
                 <DatePicker format="DD/MM/YYYY" />
               </Form.Item>
-              <Form.Item
-                name="gender"
-                label="Giới tính"
-              // rules={[{ required: true, message: 'Vui lòng điền giới tính' }]}
-              >
+              <Form.Item name="gender" label="Giới tính">
                 <Select>
                   <Option value="male">Nam</Option>
                   <Option value="female">Nữ</Option>
                 </Select>
               </Form.Item>
-              <Form.Item
-                name="phone"
-                label="Số điện thoại"
-              // rules={[{ required: true, message: 'Vui lòng điền số điện thoại' }]}
-              >
+              <Form.Item name="phone" label="Số điện thoại">
                 <Input />
               </Form.Item>
-              <Form.Item
-                name="address"
-                label="Địa chỉ"
-              // rules={[{ required: true, message: 'Vui lòng điền địa chỉ' }]}
-              >
+              <Form.Item name="address" label="Địa chỉ">
                 <Input />
               </Form.Item>
             </>
@@ -323,7 +412,48 @@ const UserManagement = () => {
             <Select disabled={editingUser}>
               <Option value="MANAGER">MANAGER</Option>
               <Option value="DOCTOR">DOCTOR</Option>
-              <Option value="PATIENT">PATIENT</Option>
+              <Option value="PAITENT">PAITENT</Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Tạo hồ sơ bác sĩ"
+        visible={isDocProfileModalVisible}
+        onCancel={() => {
+          setIsDocProfileModalVisible(false);
+          docProfileForm.resetFields();
+        }}
+        onOk={() => docProfileForm.submit()}
+      >
+        <Form form={docProfileForm} layout="vertical" onFinish={handleDocProfileFormSubmit}>
+          <Form.Item
+            name="level"
+            label="Bằng cấp"
+            rules={[{ required: true, message: 'Vui lòng điền bằng cấp' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="place"
+            label="Nơi công tác"
+            rules={[{ required: true, message: 'Vui lòng chọn nơi công tác' }]}
+          >
+            <Select>
+              {hospitals.map(hospital => (
+                <Option key={hospital._id} value={hospital._id}>{hospital.name}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="specify"
+            label="Chuyên khoa"
+            rules={[{ required: true, message: 'Vui lòng chọn chuyên khoa' }]}
+          >
+            <Select mode="multiple">
+              {specifies.map(specify => (
+                <Option key={specify._id} value={specify._id}>{specify.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>

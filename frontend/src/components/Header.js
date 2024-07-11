@@ -1,8 +1,12 @@
-import { useState } from "react";
+import {  useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { UilUser, UilSignOutAlt } from "@iconscout/react-unicons";
+import useEmailConfirmation from './useEmailConfirmation';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const checkEmailConfirmation = useEmailConfirmation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,15 +19,21 @@ export default function Header() {
     window.location.href = "/";
   }
 
+  const handleNavigation = (url) => {
+    checkEmailConfirmation(() => {
+      navigate(url);
+    });
+  };
+
   return (
     <div className="w-screen h-[60px] flex justify-center bg-white shadow-md">
       <div className="w-11/12 lg:w-4/5 h-full flex items-center justify-between">
-        <div className="flex items-center">
+        <a href="/" className="flex items-center">
           <p className="font-bold text-[28px] lg:text-[35px]">Health</p>
           <p className="font-bold text-[28px] lg:text-[35px] text-[#3499AF]">
             Care
           </p>
-        </div>
+        </a>
         <div className="flex lg:hidden">
           <button
             onClick={toggleMenu}
@@ -55,19 +65,14 @@ export default function Header() {
                 Trang chủ
               </i>
             </a>
-            <a href="/doctor-list" className="py-2 lg:py-0">
+            <a onClick={() => handleNavigation("/doctor-list")} className="py-2 lg:py-0 cursor-pointer">
               <i className="text-[20px] lg:text-[25px] font-semibold not-italic">
                 Bác sĩ
               </i>
             </a>
-            <a href="/" className="py-2 lg:py-0">
+            <a onClick={() => handleNavigation("/hospital-list")} className="py-2 lg:py-0 cursor-pointer">
               <i className="text-[20px] lg:text-[25px] font-semibold not-italic">
-                Function
-              </i>
-            </a>
-            <a href="/" className="py-2 lg:py-0">
-              <i className="text-[20px] lg:text-[25px] font-semibold not-italic">
-                Function
+                Bệnh viện
               </i>
             </a>
             {!token && (

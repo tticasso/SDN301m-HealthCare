@@ -47,7 +47,7 @@ export default function Signup() {
     };
 
     try {
-      const response = await fetch("http://localhost:9999/user/register", {
+      const response = await fetch("http://localhost:9999/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,18 +56,23 @@ export default function Signup() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create user.");
+        throw new Error("Failed to create user1.");
       }
 
+      // Xử lý khi đăng ký thành công
       const responseData = await response.json();
-      const userId = responseData.token.login.id;
-
+      const userId = responseData.token._id;
       localStorage.setItem("userId", userId);
-
+      localStorage.setItem("status", responseData.token.status)
+      // Hiển thị thông báo thành công hoặc chuyển hướng đến trang khác
+      console.log("User registered successfully:", responseData);
       navigate("/menu", { state: { selectedTab: "taiKhoan" } });
     } catch (error) {
+      console.error("Error during registration:", error);
       setError("Failed to create user.");
     }
+
+
   };
 
   return (
@@ -82,22 +87,22 @@ export default function Signup() {
         </i>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Email address</i>
+          <i className="text-[#3499AF]">Email</i>
           <div className="w-full flex justify-center">
-            <div className="flex items-center border-2 border-[#3499AF] rounded-md w-full h-[36px]">
-              <UilEnvelopeAlt size={20} color="#3499AF" className="ml-2" />
+            <div className="w-full flex justify-center">
+              <UilEnvelopeAlt size={35} color="#3499AF" />
               <input
                 type="text"
                 placeholder="example@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-full pl-2 border-none outline-none"
+                className="w-full h-[36px] ml-[5px] pl-[10px] border-2 border-[#3499AF] rounded-md"
               />
             </div>
           </div>
         </div>
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Password</i>
+          <i className="text-[#3499AF]">Mật khẩu</i>
           <div className="w-full flex justify-center">
             <UilLock size={35} color="#3499AF" />
             <input
@@ -110,7 +115,7 @@ export default function Signup() {
           </div>
         </div>
         <div className="w-full mb-[10px]">
-          <i className="text-[#3499AF]">Confirm Password</i>
+          <i className="text-[#3499AF]">Nhập lại mật khẩu</i>
           <div className="w-full flex justify-center">
             <UilLock size={35} color="#3499AF" />
             <input
@@ -125,15 +130,15 @@ export default function Signup() {
         <div className="w-full flex justify-center items-center mt-[30px]">
           <button
             onClick={handleSubmit}
-            className="w-[200px] h-[50px] bg-[#3499AF] rounded-[30px] text-white"
+            className="w-[200px] h-[50px] bg-[#3499AF] font-bold rounded-[30px] text-white"
           >
-            Sign up
+            Đăng kí
           </button>
         </div>
         <div className="w-full flex justify-center items-center mt-[5px]">
-          <i>Already have an account?</i>
-          <a href="/" className="font-bold italic ml-[2px]">
-            Login here!
+          <i>Bạn đã có tài khoản?</i>
+          <a href="/login" className="font-bold italic ml-[2px]">
+            Đăng nhập!
           </a>
         </div>
       </div>

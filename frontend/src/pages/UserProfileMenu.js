@@ -11,6 +11,7 @@ import { Layout, Menu } from "antd";
 import { useLocation } from "react-router-dom";
 import UserProfile from './UserProfile';
 import BookingHistory from '../components/BookingHistory';
+import PrescriptionDetail from '../components/PrescriptionDetail';
 
 
 const { Content, Sider } = Layout;
@@ -36,7 +37,7 @@ const UserProfileMenu: React.FC = () => {
       case "lichKham":
         return <BookingHistory />;
       case "lichSuThanhToan":
-        return <div>lich su thanh toan</div>;
+        return <PrescriptionDetail/>;
       case "taiKhoan":
         return <UserProfile />;
       default:

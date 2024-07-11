@@ -6,25 +6,43 @@ import DoctorListCard from '../components/DoctorListCard';
 
 export default function DoctorList() {
     const [doctors, setDoctors] = useState([]);
-    const [specializedData, setSpecializedData] = useState({});
+    const [users, setUsers] = useState({});
+    const [specialties, setSpecialties] = useState([]);
+    const [hospitals, setHospitals] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedSpecialty, setSelectedSpecialty] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [doctorResponse, specializedResponse] = await Promise.all([
-                    axios.get('http://localhost:9999/doctor'),
-                    axios.get('http://localhost:9999/specialized'),
-                ]);
+                const doctorResponse = await axios.get('http://localhost:9999/doctor');
+                const doctorData = doctorResponse.data || [];
 
-                const doctorsData = doctorResponse.data || [];
-                const specializedData = specializedResponse.data.reduce((acc, specialty) => {
-                    acc[specialty.id] = specialty.specializedName;
+                const userPromises = doctorData.map((doc) =>
+                    axios.get(`http://localhost:9999/user/${doc.docProfile.doctor}`)
+                );
+                const userResponses = await Promise.all(userPromises);
+                const usersData = userResponses.reduce((acc, userRes) => {
+                    acc[userRes.data._id] = userRes.data;
                     return acc;
                 }, {});
+                setUsers(usersData);
 
-                setDoctors(doctorsData);
-                setSpecializedData(specializedData);
+                const specialtyResponse = await axios.get('http://localhost:9999/specify');
+                const specialtiesData = specialtyResponse.data || [];
+                setSpecialties(specialtiesData);
+
+                const hospitalPromises = doctorData.map((doc) =>
+                    axios.get(`http://localhost:9999/hospital/${doc.docProfile.place}`)
+                );
+                const hospitalResponses = await Promise.all(hospitalPromises);
+                const hospitalsData = hospitalResponses.reduce((acc, hospitalRes) => {
+                    acc[hospitalRes.data._id] = hospitalRes.data;
+                    return acc;
+                }, {});
+                setHospitals(Object.values(hospitalsData));
+
+                setDoctors(doctorData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -34,12 +52,14 @@ export default function DoctorList() {
     }, []);
 
     const filteredDoctors = doctors.filter((doctor) => {
-        const fullName = doctor.fullname.toLowerCase();
-        const address = doctor.place.toLowerCase();
-        const specialties = doctor.specialized.map(id => specializedData[id]).join(' ').toLowerCase();
+        const fullName = (users[doctor.docProfile.doctor] && users[doctor.docProfile.doctor].fullname) ? users[doctor.docProfile.doctor].fullname.toLowerCase() : '';
+        const address = (hospitals.find(hospital => hospital._id === doctor.docProfile.place) && hospitals.find(hospital => hospital._id === doctor.docProfile.place).address) ? hospitals.find(hospital => hospital._id === doctor.docProfile.place).address.toLowerCase() : '';
+        const specialtiesList = doctor.docProfile.specify.map(id => specialties.find(specialty => specialty._id === id)?.name).join(' ').toLowerCase();
         const searchTermLower = searchTerm.toLowerCase();
+        const selectedSpecialtyLower = selectedSpecialty.toLowerCase();
 
-        return fullName.includes(searchTermLower) || address.includes(searchTermLower) || specialties.includes(searchTermLower);
+        return (selectedSpecialtyLower === '' || specialtiesList.includes(selectedSpecialtyLower)) &&
+               (fullName.includes(searchTermLower) || address.includes(searchTermLower));
     });
 
     return (
@@ -65,19 +85,31 @@ export default function DoctorList() {
                         <p className="font-semibold text-[20px]">Chuyên khoa</p>
                         <div className="rounded-md w-full mt-[10px]">
                             <div className="overflow-y-auto max-h-64">
-                                {Object.keys(specializedData).map((id) => (
-                                    <div key={id} className="flex items-center mb-2">
+                                <div className="flex items-center mb-2">
+                                    <input
+                                        type="radio"
+                                        id="specialty-all"
+                                        name="specialty"
+                                        className="mr-2"
+                                        checked={selectedSpecialty === ''}
+                                        onChange={() => setSelectedSpecialty('')}
+                                    />
+                                    <label htmlFor="specialty-all" className="cursor-pointer">
+                                        Tất cả
+                                    </label>
+                                </div>
+                                {specialties.map((specialty) => (
+                                    <div key={specialty._id} className="flex items-center mb-2">
                                         <input
                                             type="radio"
-                                            id={`specialty-${id}`}
+                                            id={`specialty-${specialty._id}`}
                                             name="specialty"
                                             className="mr-2"
-                                            onChange={() => {
-                                                setSearchTerm(specializedData[id]);
-                                            }}
+                                            checked={selectedSpecialty === specialty.name}
+                                            onChange={() => setSelectedSpecialty(specialty.name)}
                                         />
-                                        <label htmlFor={`specialty-${id}`} className="cursor-pointer">
-                                            {specializedData[id]}
+                                        <label htmlFor={`specialty-${specialty._id}`} className="cursor-pointer">
+                                            {specialty.name}
                                         </label>
                                     </div>
                                 ))}
@@ -87,11 +119,12 @@ export default function DoctorList() {
                     <div className="w-3/4">
                         {filteredDoctors.map((doctor) => (
                             <DoctorListCard
-                                key={doctor.id}
-                                image={doctor.avatar}
-                                name={doctor.fullname}
-                                specialties={doctor.specialized.map(id => specializedData[id])}
-                                address={doctor.address}
+                                key={doctor._id}
+                                image={users[doctor.docProfile.doctor]?.image}
+                                name={users[doctor.docProfile.doctor]?.fullname}
+                                specialties={doctor.docProfile.specify.map(id => specialties.find(specialty => specialty._id === id)?.name)}
+                                address={hospitals.find(hospital => hospital._id === doctor.docProfile.place)?.address}
+                                doctorId={doctor.docProfile.doctor}
                             />
                         ))}
                     </div>

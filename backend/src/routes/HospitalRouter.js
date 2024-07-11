@@ -4,10 +4,13 @@ const hospitalController = require('../controllers/HospitalController')
 const hospitalRouter = express.Router()
 
 hospitalRouter.use(bodyParser.json())
-hospitalRouter.post('/create', hospitalController.create),
-hospitalRouter.get('/list', hospitalController.getAllHospital),
-hospitalRouter.get('/:id', hospitalController.getHospitalById),
-hospitalRouter.put('/edit/:id', hospitalController.editHospital),
-hospitalRouter.delete('/delete/:id', hospitalController.deleteHospital),
+
+hospitalRouter.post('/create', hospitalController.createHospital),
+hospitalRouter.put('/:id', hospitalController.updateHospital),
+hospitalRouter.delete('/:id', hospitalController.deleteHospital),
+hospitalRouter.get('/', hospitalController.getAllHospital),
+hospitalRouter.get('/:id', hospitalController.getHospital),
+hospitalRouter.get('/:hospitalName/:specifyName/doctors', hospitalController.getAllDoctorByHospital)
+
 
 module.exports = hospitalRouter

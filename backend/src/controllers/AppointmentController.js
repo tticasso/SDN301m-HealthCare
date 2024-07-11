@@ -2,8 +2,8 @@ const appointmentService = require("../services/AppointmentService");
 
 async function create(req, res, next) {
     try {
-        const { appointment_date, appointment_time, status } = req.body;
-        const newDoc = await appointmentService.create({ appointment_date, appointment_time, status });
+        const { patient_id, doctor_id, appointment_date, appointment_time, status = "Pending"  } = req.body;
+        const newDoc = await appointmentService.create({ patient_id, doctor_id, appointment_date, appointment_time, status });
         res.status(201).json(newDoc);
     } catch (error) {
         next(error);
@@ -46,7 +46,8 @@ async function generateAppointmentTimes(req, res, next) {
     res.json(times);
 }
 
-async function getAvailableTimeSlots(req, res, next){
+async function getAvailableTimeSlots(req, res, next) {
+
     const availableSlots = appointmentService.getAvailableTimeSlots()
     res.json(availableSlots)
 }

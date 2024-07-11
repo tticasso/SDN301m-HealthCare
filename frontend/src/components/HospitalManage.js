@@ -9,6 +9,7 @@ import {
     Input,
     Select,
     DatePicker,
+    Tooltip,
     notification,
     Space,
     Popconfirm,
@@ -25,24 +26,48 @@ const HospitalManage = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editingHospital, setEditingHospital] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [specifies, setSpecifies] = useState([]);
 
     useEffect(() => {
         fetchHospitals();
+        fetchSpecifies()
+
     }, []);
 
     const fetchHospitals = async () => {
         try {
-            const response = await axios.get('http://localhost:9999/hospital/list');
-            setHospital(response.data);
+            const response = await axios.get('http://localhost:9999/hospital');
+            // Kết hợp dữ liệu bệnh viện với tên chuyên khoa
+            const hospitalsWithSpecifies = await Promise.all(
+                response.data.map(async hospital => {
+                    const specifiesResponse = await axios.get('http://localhost:9999/specify');
+                    const specifyNames = hospital.specify.map(specifyId => {
+                        const specify = specifiesResponse.data.find(spec => spec._id === specifyId);
+                        return specify ? specify.name : '';
+                    });
+                    return { ...hospital, specifyNames };
+                })
+            );
+            setHospital(hospitalsWithSpecifies);
         } catch (error) {
             console.error('Error fetching hospitals:', error);
         }
     };
 
+    const fetchSpecifies = async () => {
+        try {
+          const response = await axios.get('http://localhost:9999/specify');
+          setSpecifies(response.data);
+        } catch (error) {
+          console.error('Error fetching specifies:', error);
+          notification.error({ message: 'Error fetching specifies', description: error.message });
+        }
+      };
+
     const handleFormSubmit = async (values) => {
         try {
             if (editingHospital) {
-                await axios.put(`http://localhost:9999/hospital/edit/${editingHospital._id}`, values);
+                await axios.put(`http://localhost:9999/hospital/${editingHospital._id}`, values);
                 notification.success({ message: 'Hospital updated successfully' });
             } else {
                 await axios.post('http://localhost:9999/hospital/create', values);
@@ -60,7 +85,7 @@ const HospitalManage = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:9999/hospital/delete/${id}`);
+            await axios.delete(`http://localhost:9999/hospital/${id}`);
             fetchHospitals();
             notification.success({ message: 'Hospital deleted successfully' });
         } catch (error) {
@@ -101,7 +126,7 @@ const HospitalManage = () => {
         },
         {
             title: 'Địa chỉ',
-            width: 150,
+            width: 200,
             dataIndex: 'address',
             key: 'address',
         },
@@ -116,11 +141,35 @@ const HospitalManage = () => {
             width: 150,
             dataIndex: 'info',
             key: 'info',
+            ellipsis: true,
+            render: (text) => {
+                const limit = 27; // Giới hạn số ký tự
+                if (text.length <= limit) return text;
+                const truncatedText = text.slice(0, limit) + '...';
+                return (
+                    <Tooltip title={text}>
+                        {truncatedText}
+                    </Tooltip>
+                );
+            },
         },
         {
             title: 'Giờ làm việc',
             width: 150,
             render: (_, record) => `${record.startTime} - ${record.endTime}`,
+        },
+        {
+            title: 'Chuyên khoa',
+            width: 150,
+            dataIndex: 'specifyNames',
+            key: 'specifyNames',
+            render: (specifyNames) => specifyNames.join(', '),
+        },
+        {
+            title: 'Hình ảnh',
+            width: 150,
+            dataIndex: 'image',
+            key: 'image',
         },
         {
             title: 'Hành động',
@@ -132,7 +181,6 @@ const HospitalManage = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-            
                     </Button>
                     <Popconfirm
                         title="Are you sure to delete this hospital?"
@@ -141,7 +189,7 @@ const HospitalManage = () => {
                         cancelText="No"
                     >
                         <Button icon={<DeleteOutlined />} danger>
-                            
+
                         </Button>
                     </Popconfirm>
                 </Space>
@@ -216,26 +264,48 @@ const HospitalManage = () => {
                     <Form.Item
                         name="slogan"
                         label="Slogan"
+                        rules={[{ required: true, message: 'Please enter slogan' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="info"
                         label="Giới thiệu"
+                        rules={[{ required: true, message: 'Please enter the description' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="startTime"
                         label="Giờ bắt đầu"
+                        rules={[{ required: true, message: 'Please enter start time' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="endTime"
                         label="Giờ kết thúc"
+                        rules={[{ required: true, message: 'Please enter end time' }]}
                     >
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="image"
+                        label="Hình ảnh"
+                        rules={[{ required: true, message: 'Please enter link image' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="specify"
+                        label="Chuyên khoa"
+                        rules={[{ required: true, message: 'Vui lòng chọn chuyên khoa' }]}
+                    >
+                        <Select mode="multiple">
+                            {specifies.map(specify => (
+                                <Option key={specify._id} value={specify._id}>{specify.name}</Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                 </Form>
             </Modal>
@@ -243,4 +313,6 @@ const HospitalManage = () => {
     );
 };
 
+
 export default HospitalManage;
+

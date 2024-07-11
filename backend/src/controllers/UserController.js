@@ -1,26 +1,6 @@
 const userService = require('../services/UserService')
 
 
-async function registerUser (req, res) {
-    const { name, email, password } = req.body;
-    try {
-        const token = await userService.registerUser(req.body);
-        res.status(201).json({ token });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
-async function loginUser (req, res) {
-    const { email, password } = req.body;
-    try {
-        const token = await userService.loginUser(email, password);
-        res.status(200).json({ token });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
 async function createUser (req, res) {
     try {
         const user = await userService.createUser(req.body);
@@ -60,6 +40,15 @@ async function deleteUser (req, res) {
     }
 };
 
+async function changeStatus (req, res) {
+    try {
+        await userService.changeStatus(req.params.id)
+        res.status(200).json({ message: 'Thay đổi trạng thái thành công' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
 // Lấy tất cả người dùng 
 async function getAllUsers (req, res) {
     try {
@@ -71,13 +60,12 @@ async function getAllUsers (req, res) {
 };
 
 const userController = {
-    registerUser,
-    loginUser,
     createUser,
     getUser,
     updateUser,
     deleteUser,
     getAllUsers,
+    changeStatus
 }
 
 module.exports = userController;

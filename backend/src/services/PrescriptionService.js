@@ -3,11 +3,11 @@ const Prescription = require('../models/PrescriptionModel')
 
 //tạo đơn thuốc (only role doctor)
 const createPrescription = async (prescription) => {
-    let newPrescription = await Prescription.findOne({appointment: prescription.appointment});
-    if (newPrescription) {
-        throw new Error('Đơn thuốc không tồn tại');
+    let prescription1 = await Prescription.findOne({appointment: prescription.appointment});
+    if (prescription1) {
+        throw new Error('Đơn thuốc đã tồn tại');
     }
-    newPrescription = prescription;
+    const newPrescription = new Prescription(prescription);
     await newPrescription.save();
     return newPrescription;
 };
@@ -44,12 +44,18 @@ const getAllPrescription = async (patient_id) => {
     return prescriptions;
 };
 
+const getAllPrescriptionByDoctor = async(doctor_id) => {
+    const prescriptions = await Prescription.find({doctor: doctor_id})
+    return prescriptions;
+}
+
 const userService = {
     createPrescription,
     getPrescription,
     deletePrescription,
     updatePrescription,
-    getAllPrescription
+    getAllPrescription,
+    getAllPrescriptionByDoctor
 }
 
 module.exports = userService;

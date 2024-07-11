@@ -21,61 +21,60 @@ import dayjs from 'dayjs';
 const { Option } = Select;
 
 const SpecifyManage = () => {
-  const [users, setUsers] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
+  const [editingSpecialty, setEditingSpecialty] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchUsers();
+    fetchSpecialties();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchSpecialties = async () => {
     try {
-      const response = await axios.get('/user');
-      setUsers(response.data);
+      const response = await axios.get('http://localhost:9999/specify');
+      setSpecialties(response.data);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching specialties:', error);
     }
   };
 
   const handleFormSubmit = async (values) => {
     try {
-      if (editingUser) {
-        await axios.put(`/user/${editingUser._id}`, values);
-        notification.success({ message: 'User updated successfully' });
+      if (editingSpecialty) {
+        await axios.put(`http://localhost:9999/specify/${editingSpecialty._id}`, values);
+        notification.success({ message: 'Specialty updated successfully' });
       } else {
-        await axios.post('/user/create', values);
-        notification.success({ message: 'User created successfully' });
+        await axios.post('http://localhost:9999/specify/create', values);
+        notification.success({ message: 'Specialty created successfully' });
       }
-      fetchUsers();
+      fetchSpecialties();
       setIsModalVisible(false);
       form.resetFields();
-      setEditingUser(null);
+      setEditingSpecialty(null);
     } catch (error) {
-      console.error('Error saving user:', error);
-      notification.error({ message: 'Error saving user' });
+      console.error('Error saving specialty:', error);
+      notification.error({ message: 'Error saving specialty' });
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/user/${id}`);
-      fetchUsers();
-      notification.success({ message: 'User deleted successfully' });
+      await axios.delete(`http://localhost:9999/specify/${id}`);
+      fetchSpecialties();
+      notification.success({ message: 'Specialty deleted successfully' });
     } catch (error) {
-      console.error('Error deleting user:', error);
-      notification.error({ message: 'Error deleting user' });
+      console.error('Error deleting specialty:', error);
+      notification.error({ message: 'Error deleting specialty' });
     }
   };
 
-  const handleEdit = (user) => {
-    setEditingUser(user);
+  const handleEdit = (specialty) => {
+    setEditingSpecialty(specialty);
     setIsModalVisible(true);
     form.setFieldsValue({
-      ...user,
-      dob: dayjs(user.dob),
+      ...specialty,
     });
   };
 
@@ -109,17 +108,15 @@ const SpecifyManage = () => {
       ellipsis: true,
       render: (text, record) => (
         <Space size="middle">
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-            Edit
+          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>          
           </Button>
           <Popconfirm
-            title="Are you sure to delete this user?"
+            title="Are you sure to delete this specialty?"
             onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
             <Button icon={<DeleteOutlined />} danger>
-              Delete
             </Button>
           </Popconfirm>
         </Space>
@@ -127,9 +124,9 @@ const SpecifyManage = () => {
     },
   ];
 
-  const filteredUsers = users.filter(user =>
-    user.email.includes(searchTerm) ||
-    user.fullname.includes(searchTerm)
+
+  const filteredSpecialties = specialties.filter(specialty =>
+    specialty.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -138,7 +135,7 @@ const SpecifyManage = () => {
       <Row justify="space-between" align="middle" style={{ marginBottom: 10 }}>
         <Col>
           <Space>
-            <Button icon={<SyncOutlined />} onClick={fetchUsers} />
+            <Button icon={<SyncOutlined />} onClick={fetchSpecialties} />
             <Input
               placeholder="Tìm kiếm"
               value={searchTerm}
@@ -158,14 +155,14 @@ const SpecifyManage = () => {
           </Button>
         </Col>
       </Row>
-      <Table columns={columns} dataSource={filteredUsers} scroll={{ x: 'max-content' }} rowKey="_id" />
+      <Table columns={columns} dataSource={filteredSpecialties} scroll={{ x: 'max-content' }} rowKey="_id" />
       <Modal
-        title={editingUser ? 'Sửa chuyên khoa' : 'Thêm chuyên khoa'}
+        title={editingSpecialty ? 'Sửa chuyên khoa' : 'Thêm chuyên khoa'}
         visible={isModalVisible}
         onCancel={() => {
           setIsModalVisible(false);
           form.resetFields();
-          setEditingUser(null);
+          setEditingSpecialty(null);
         }}
         onOk={() => form.submit()}
       >
@@ -190,4 +187,6 @@ const SpecifyManage = () => {
   );
 };
 
+
 export default SpecifyManage;
+

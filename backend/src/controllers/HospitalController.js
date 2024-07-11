@@ -1,65 +1,76 @@
-const Hospital = require("../models/HospitalModels");
-const hospitalService = require("../services/HospitalService");
+const hospitalService = require('../services/HospitalService')
+const doctorService = require('../services/Doctor.Service')
 
-async function create(req, res, next) {
+
+async function createHospital (req, res) {
     try {
-        const { name, doctor_id, phone, address, slogan, info, image, startTime, endTime } = req.body;
-        const newDoc = await hospitalService.create({ name, doctor_id, phone, address, slogan, info, image, startTime, endTime });
-        res.status(201).json(newDoc);
+        const hospital = await hospitalService.createHospital(req.body);
+        res.status(201).json(hospital);
     } catch (error) {
-        next(error);
+        res.status(400).json({ message: error.message });
     }
-}
-async function getAllHospital(req, res, next){
+};
+
+async function updateHospital (req, res) {
     try {
-        const records = await hospitalService.getAllHospital()
-        res.json(records);
+        const hospital = await hospitalService.updateHospital(req.params.id, req.body);
+        res.status(200).json(hospital);
     } catch (error) {
-        next(error);
+        res.status(400).json({ message: error.message });
+    }
+};
+
+async function deleteHospital (req, res) {
+    try {
+        await hospitalService.deleteHospital(req.params.id);
+        res.status(200).json({ message: 'Bệnh viện đã được xóa' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+
+// Lấy 
+async function getAllHospital (req, res) {
+    try {
+        const hospitals = await hospitalService.getAllHospital();
+        res.status(200).json(hospitals);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+async function getHospital (req, res) {
+    try {
+        const hospital = await hospitalService.getHospital(req.params.id);
+        res.status(200).json(hospital);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+
+
     }
 }
 
-async function getHospitalById(req, res, next){
+
+// lay list bac si
+async function getAllDoctorByHospital (req ,res) {
     try {
-        if(req.params.id){
-            const hospital = await hospitalService.getHospitalById(req.params.id)
-            res.json(hospital)
-        }
+        const doctors = await doctorService.getAllDoctorBySpecifyAndHospital(req.params.specifyName, req.params.hospitalName);
+        res.status(200).json(doctors);
     } catch (error) {
-        next(error)
+        res.status(400).json({ message: error.message });
     }
 }
 
-async function deleteHospital(req, res, next){
-    try {
-        if (req.params.id) {
-            await hospitalService.deleteHospital(req.params.id);
-            res.status(200).json({
-                "message": `Delete hospital with id: ${req.params.id} successful`
-            });
-        }
-    } catch (error) {
-        next(error);
-    }
-}
 
-async function editHospital(req, res, next){
-    try {
-        if (req.params.id) {
-            const updatedRecord= await hospitalService.editHospital(req.params.id, req.body);
-            res.status(200).json(updatedRecord);
-        }
-    } catch (error) {
-        next(error);
-    }
-}
 const hospitalController = {
-    create,
-    getAllHospital,
+    createHospital,
+    updateHospital,
     deleteHospital,
-    editHospital,
-    getHospitalById
-}
+    getAllHospital,
+    getHospital,
+    getAllDoctorByHospital,
 
+}
 
 module.exports = hospitalController;

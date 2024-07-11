@@ -94,16 +94,11 @@ const LayoutPage = () => {
             link: "/admin/specify-manage",
         },
         {
-            key: "messages",
-            icon: <MessageOutlined />,
-            label: "Tin nhắn",
-            link: "/messages",
-        },
-        {
             key: "logout",
             icon: <LogoutOutlined />,
             label: "Đăng xuất",
-            link: "/",
+            link: "/logout",
+
         },
     ];
 
@@ -143,7 +138,7 @@ const LayoutPage = () => {
                     flexDirection: "column",
                 }}>
                     <Typography.Title level={5} style={{ fontWeight: "bold", textAlign: "center" }}>
-                        MEDICAL
+                        Health Care
                     </Typography.Title>
                     {!collapsed && <Tag color="red">ADMIN</Tag>}
                 </div>
