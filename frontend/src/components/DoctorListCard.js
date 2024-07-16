@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function DoctorListCard({ image, name, specialties, address, doctorId }) {
+export default function DoctorListCard({ img, name, specialties, address, doctorId }) {
     const navigate = useNavigate();
 
     const handleBooking = () => {
@@ -11,7 +11,7 @@ export default function DoctorListCard({ image, name, specialties, address, doct
     return (
         <div className="flex items-center p-4 border w-full max-w-4xl">
             <img
-                src={image}
+                src={img}
                 alt="Doctor"
                 className="w-20 h-20 rounded-full mr-4"
             />

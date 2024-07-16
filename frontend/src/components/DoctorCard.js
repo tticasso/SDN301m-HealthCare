@@ -26,7 +26,7 @@ export default function DoctorCard({ doctor, user, specialties, hospital }) {
       <div className="flex justify-center items-center w-full mt-[10px]">
         <div className="w-[120px] h-[120px] border-[3px] rounded-[100px]">
           <img
-            src={user?.image}
+            src={user?.img}
             alt="doctor"
             className="w-full h-full object-cover rounded-[100px]"
           />

@@ -228,7 +228,7 @@ const UserManagement = () => {
         { text: 'ADMIN', value: 'ADMIN' },
         { text: 'MANAGER', value: 'MANAGER' },
         { text: 'DOCTOR', value: 'DOCTOR' },
-        { text: 'PAITENT', value: 'PAITENT' },
+        { text: 'PATIENT', value: 'PATIENT' },
       ],
       onFilter: (value, record) => record.role === value,
       render: (role) => {
@@ -240,7 +240,7 @@ const UserManagement = () => {
           case 'DOCTOR':
             color = 'green';
             break;
-          case 'PAITENT':
+          case 'PATIENT':
             color = 'purple';
             break;
           case 'MANAGER':
@@ -413,7 +413,7 @@ const UserManagement = () => {
             <Select disabled={editingUser}>
               <Option value="MANAGER">MANAGER</Option>
               <Option value="DOCTOR">DOCTOR</Option>
-              <Option value="PAITENT">PAITENT</Option>
+              <Option value="PATIENT">PATIENT</Option>
             </Select>
           </Form.Item>
         </Form>

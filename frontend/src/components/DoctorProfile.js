@@ -16,6 +16,7 @@ const DoctorProfile = () => {
         note: ''
     });
 
+    // Fetch doctor profile data
     useEffect(() => {
         const fetchDoctorProfile = async () => {
             try {
@@ -25,12 +26,26 @@ const DoctorProfile = () => {
                 const { level, place, specify } = docProfile;
                 const { fullname, email } = doctor;
 
+                // Fetch hospital name
+                const hospitalResponse = await axios.get(`http://localhost:9999/hospital/${place}`);
+                const hospitalName = hospitalResponse.data.name;
+
+                // Fetch all specialties
+                const specialtyResponse = await axios.get(`http://localhost:9999/specify`);
+                const specialties = specialtyResponse.data;
+
+                // Map specify IDs to specialty names
+                const specialtyNames = specify.map(specifyId => {
+                    const specialty = specialties.find(spec => spec._id === specifyId);
+                    return specialty ? specialty.name : '';
+                });
+
                 setDoctorProfile({
                     fullname,
                     email,
                     level,
-                    place,
-                    specify,
+                    place: hospitalName,
+                    specify: specialtyNames.join(', '), // Join specialties with comma
                 });
             } catch (error) {
                 console.error('Error fetching doctor profile:', error);
@@ -46,6 +61,7 @@ const DoctorProfile = () => {
         fetchDoctorProfile();
     }, [id]);
 
+    // Handlers for modal and form
     const handleCreateSchedule = () => {
         setModalVisible(true);
     };
@@ -119,6 +135,7 @@ const DoctorProfile = () => {
                 Tạo lịch làm việc
             </Button>
 
+            {/* Modal for creating schedule */}
             <Modal
                 title="Tạo lịch làm việc"
                 visible={modalVisible}
@@ -145,6 +162,7 @@ const DoctorProfile = () => {
                 </Form>
             </Modal>
 
+            {/* Display existing schedule data */}
             {scheduleData.length > 0 && (
                 <div style={{ marginTop: 20 }}>
                     <h3>Danh sách lịch làm việc:</h3>

@@ -120,7 +120,7 @@ export default function DoctorList() {
                         {filteredDoctors.map((doctor) => (
                             <DoctorListCard
                                 key={doctor._id}
-                                image={users[doctor.docProfile.doctor]?.image}
+                                img={users[doctor.docProfile.doctor]?.img}
                                 name={users[doctor.docProfile.doctor]?.fullname}
                                 specialties={doctor.docProfile.specify.map(id => specialties.find(specialty => specialty._id === id)?.name)}
                                 address={hospitals.find(hospital => hospital._id === doctor.docProfile.place)?.address}

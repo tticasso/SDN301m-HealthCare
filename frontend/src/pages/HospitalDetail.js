@@ -7,6 +7,8 @@ import axios from 'axios';
 export default function HospitalDetail() {
     const { id } = useParams();
     const [hospital, setHospital] = useState(null);
+    const [doctors, setDoctors] = useState([]);
+    const [specialties, setSpecialties] = useState({});
 
     useEffect(() => {
         axios.get(`http://localhost:9999/hospital/${id}`)
@@ -15,6 +17,27 @@ export default function HospitalDetail() {
             })
             .catch(error => {
                 console.error('Error fetching hospital:', error);
+            });
+
+        axios.get('http://localhost:9999/doctor')
+            .then(response => {
+                const filteredDoctors = response.data.filter(doctor => doctor.docProfile.place === id);
+                setDoctors(filteredDoctors);
+            })
+            .catch(error => {
+                console.error('Error fetching doctors:', error);
+            });
+
+        axios.get('http://localhost:9999/specify')
+            .then(response => {
+                const specialtyMap = {};
+                response.data.forEach(specialty => {
+                    specialtyMap[specialty._id] = specialty.name;
+                });
+                setSpecialties(specialtyMap);
+            })
+            .catch(error => {
+                console.error('Error fetching specialties:', error);
             });
     }, [id]);
 
@@ -63,6 +86,28 @@ export default function HospitalDetail() {
                         <div className="mt-[20px] px-[30px]">
                             <p className="text-[20px] font-semibold">Giới thiệu</p>
                             <p className="font-light text-[16] mt-[10px]">{hospital.info}</p>
+                        </div>
+                        <div className="mt-[20px] px-[30px]">
+                            <p className="text-[20px] font-semibold">Danh sách bác sĩ</p>
+                            <div className="mt-[10px] grid grid-cols-3 gap-4">
+                                {doctors.map((doctor) => (
+                                    <div key={doctor.docProfile._id} className="border rounded-lg p-4">
+                                        <img 
+                                            src={doctor.doctor.img} 
+                                            alt={doctor.doctor.fullname} 
+                                            className="w-24 h-24 rounded-full mx-auto mb-2"
+                                        />
+                                        <p className="text-center font-semibold">Bác sĩ: {doctor.doctor.fullname}</p>
+                                        <p className="text-center text-sm">Bằng cấp: {doctor.docProfile.level}</p>
+                                        <p className="text-center text-sm mt-2">Chuyên khoa:</p>
+                                        <ul className="text-center text-sm">
+                                            {doctor.docProfile.specify.map((specifyId) => (
+                                                <li key={specifyId}>{specialties[specifyId]}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
