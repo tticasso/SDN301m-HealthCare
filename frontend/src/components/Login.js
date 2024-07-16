@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { UilLock, UilEnvelopeAlt } from "@iconscout/react-unicons";
-import { Link } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,10 +7,9 @@ export default function Login() {
 
   const validateForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+$/;
-    const gmailRegex = /^[^\s@]+@gmail\.com$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
-    if (!emailRegex.test(email) || !gmailRegex.test(email)) {
+    if (!emailRegex.test(email) ) {
       return "Please enter a valid email address.";
     }
     if (!passwordRegex.test(password)) {

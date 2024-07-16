@@ -11,6 +11,7 @@ export default function PrescriptionDetail() {
     const [prescriptions, setPrescriptions] = useState([]);
     const [filteredPrescriptions, setFilteredPrescriptions] = useState([]);
     const userRole = localStorage.getItem("role");
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');
@@ -23,16 +24,37 @@ export default function PrescriptionDetail() {
                 .catch(error => {
                     console.error('Error fetching current user:', error);
                 });
-    
-            // Fetch appointments for the current user
-            axios.get('http://localhost:9999/appointment/list')
-                .then(response => {
-                    setAppointments(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching appointments:', error);
-                });
-    
+                console.log(userRole);
+            // Fetch all appointments
+            if (userRole === "PATIENT") {
+                axios.get('http://localhost:9999/appointment/list')
+                    .then(response => {
+                        // Filter appointments for the current user based on userId
+                        const userAppointments = response.data.filter(appointment =>
+                            appointment.patient_id[0][0] === userId
+                        );
+                        setAppointments(userAppointments);
+                        console.log("đệp trai: ");
+                    })
+                    .catch(error => {
+                        console.error('Error fetching appointments:', error);
+                    });
+            }
+            if (userRole === "DOCTOR") {
+                axios.get('http://localhost:9999/appointment/list')
+                    .then(response => {
+                        // Filter appointments for the current user based on userId
+                        const userAppointments = response.data.filter(appointment =>
+                            appointment.doctor_id[0][0] === userId
+                        );
+                        setAppointments(userAppointments);
+                        console.log("userAppointments: ", userAppointments);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching appointments:', error);
+                    });
+            }
+
             // Fetch specialties
             axios.get('http://localhost:9999/specify')
                 .then(response => {
@@ -41,7 +63,7 @@ export default function PrescriptionDetail() {
                 .catch(error => {
                     console.error('Error fetching specialties:', error);
                 });
-    
+
             // Determine user role and fetch prescriptions accordingly
             if (userRole === "DOCTOR") {
                 // Fetch prescriptions for the doctor
@@ -63,7 +85,7 @@ export default function PrescriptionDetail() {
                     });
             }
         }
-    }, [userRole]);
+    }, [userId, userRole]);
 
     const handleBookingClick = async (booking) => {
         setSelectedBookingId(booking._id);
@@ -92,7 +114,6 @@ export default function PrescriptionDetail() {
                 prescription.appointment === booking._id
             );
             setFilteredPrescriptions(filteredPrescriptions);
-            console.log("filteredPrescriptions:", filteredPrescriptions);
 
             // Fetch patient information for the selected booking
             const patientId = booking.patient_id[0][0];
@@ -124,10 +145,12 @@ export default function PrescriptionDetail() {
         }
     };
 
-    const filteredBookings = appointments.filter(booking =>
-        booking.doctor_id[0][1].toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.appointment_time.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredBookings = appointments
+        .filter(booking =>
+            booking.doctor_id[0][1].toLowerCase().includes(searchTerm.toLowerCase()) ||
+            booking.appointment_time.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => new Date(b.appointment_date) - new Date(a.appointment_date));
 
     const selectedBooking = appointments.find(booking => booking._id === selectedBookingId);
     const isDoctor = userRole === "DOCTOR";
@@ -157,10 +180,6 @@ export default function PrescriptionDetail() {
                                 <p className="text-[16px] font-bold ">{booking.patient_id[0][1]}</p>
                             )}
                             <p className="text-[13px] mt-[5px] ">{booking.appointment_time}</p>
-                            <p className={`mt-[5px] w-[100px] h-[20px] flex items-center justify-center rounded-[10px] font-bold text-[12px] ${booking.status === 'Pending' ? 'bg-gray-400 text-gray-900' : 'bg-[#F0FDF4] text-[#2FCAAB]'
-                                }`}>
-                                {booking.status}
-                            </p>
                         </div>
                     ))}
                 </div>
@@ -242,8 +261,6 @@ export default function PrescriptionDetail() {
                     )}
                 </div>
             </div>
-
         </div>
-
     );
 }

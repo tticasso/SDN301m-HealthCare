@@ -62,7 +62,7 @@ const createUser = async (user) => {
     if (user.role == "DOCTOR"){
         user.status = false;
     } 
-    if (user.role == "PAITENT"){
+    if (user.role == "PATIENT"){
         user.status = true;
     }
     const newUser = new User({

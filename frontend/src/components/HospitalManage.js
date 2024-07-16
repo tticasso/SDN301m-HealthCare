@@ -119,7 +119,7 @@ const HospitalManage = () => {
             ellipsis: true,
         },
         {
-            title: 'Điện thoại',
+            title: 'Điện thoại (+84)',
             width: 120,
             dataIndex: 'phone',
             key: 'phone',
@@ -249,7 +249,7 @@ const HospitalManage = () => {
                     </Form.Item>
                     <Form.Item
                         name="phone"
-                        label="Số điện thoại"
+                        label="(+84) Số điện thoại"
                         rules={[{ required: true, message: 'Please enter the phone number' }]}
                     >
                         <Input />

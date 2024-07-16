@@ -94,10 +94,14 @@ export default function BookingHistory() {
         }
     };
 
-    const filteredBookings = appointments.filter(booking =>
+    const filteredBookings = appointments
+    .filter(booking =>
         booking.doctor_id[0][1].toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.appointment_time.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    )
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    .reverse();
+
 
     const handleConfirmClick = async () => {
         if (selectedBookingId) {
@@ -258,7 +262,7 @@ export default function BookingHistory() {
                 {selectedBooking ? (
                     <div className="p-5 border rounded-lg">
                         <div className="flex items-center mb-4">
-                            <img src={currentUser ? currentUser.image : ''} alt="User" className="rounded-full mr-4" />
+                            <img src={currentUser ? currentUser.img : ''} alt="User" className="rounded-full mr-4" style={{width: "150px"}}/>
                             <div>
                                 <p className="text-lg font-semibold">{selectedBooking.doctor && selectedBooking.doctor.fullname}</p>
                                 <p className="text-sm text-gray-500">{selectedBooking.doctor && selectedBooking.doctor.address}</p>
@@ -284,7 +288,7 @@ export default function BookingHistory() {
                             </div>
                             <div>
                                 <p className="text-sm font-bold">Ngày khám</p>
-                                <p className="text-sm">{selectedBooking.appointment_date}</p>
+                                <p className="text-sm">{selectedBooking?.appointment_date?.split('T')[0]}</p>
                             </div>
                             <div>
                                 <p className="text-sm font-bold">Chuyên khoa</p>
@@ -295,7 +299,7 @@ export default function BookingHistory() {
                             <p className="text-sm font-bold">Thông tin bệnh nhân</p>
                             <p className="text-sm">Mã bệnh nhân: {selectedBooking.patient_id[0][0]}</p>
                             <p className="text-sm">Họ và tên: {selectedBooking.patient_id[0][1]}</p>
-                            <p className="text-sm">Năm sinh: {currentUser?.dob}</p>
+                            <p className="text-sm">Ngày sinh: {currentUser?.dob?.split('T')[0]}</p>
                             <p className="text-sm">Số điện thoại: {currentUser?.phone}</p>
                             <p className="text-sm">Giới tính: {currentUser?.gender}</p>
                             <p className="text-sm">Địa chỉ: {currentUser?.address}</p>

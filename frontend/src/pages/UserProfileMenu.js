@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Headers from "../components/Header";
 import {
-  UserOutlined,
-  PayCircleOutlined,
   ProfileOutlined,
-  LogoutOutlined,
   EyeOutlined,
+  AuditOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useLocation } from "react-router-dom";
@@ -18,7 +16,7 @@ const { Content, Sider } = Layout;
 
 const items2 = [
   { key: "lichKham", icon: <EyeOutlined />, label: "Lịch khám" },
-  { key: "lichSuThanhToan", icon: <PayCircleOutlined />, label: "Lịch sử thanh toán" },
+  { key: "docthuoc", icon: <AuditOutlined />, label: "Thông tin đơn thuốc" },
   { key: "taiKhoan", icon: <ProfileOutlined />, label: "Tài khoản" },
 ];
 
@@ -36,7 +34,7 @@ const UserProfileMenu: React.FC = () => {
     switch (selectedMenu) {
       case "lichKham":
         return <BookingHistory />;
-      case "lichSuThanhToan":
+      case "docthuoc":
         return <PrescriptionDetail/>;
       case "taiKhoan":
         return <UserProfile />;

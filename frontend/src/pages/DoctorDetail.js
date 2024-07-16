@@ -60,7 +60,7 @@ export default function DoctorDetail() {
                             <div className="flex">
                                 <div className="w-[150px] h-[150px] flex justify-center items-center rounded-[150px] bg-[#DBF2F8]">
                                     <img
-                                        src={doctor?.doctor.image}
+                                        src={doctor?.doctor.img}
                                         alt="doctor"
                                         className="w-full h-full object-cover rounded-[100px]"
                                     />
