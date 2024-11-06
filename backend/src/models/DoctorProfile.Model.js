@@ -11,7 +11,7 @@ const docProfileSchema = new mongoose.Schema({
         type: String,
         required: [true, "Level is required"]
     },
-    // nơi công tác
+   
     place:{
         type: Schema.Types.ObjectId,
         ref: "Hospital"
